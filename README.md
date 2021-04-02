@@ -12,7 +12,8 @@
 
 ## 0. Change Log
 
-Coming Soon
+* 02/04: Removed line "There is no lowered expectations for students working on their own - you will be assessed the same as the pairs"
+* 02/04: Increaseing 2.1, 2.2, 2.3, 2.4 secion worths to match marking criteria
 
 ## 1. Background & Motivation
 
@@ -36,7 +37,7 @@ Navigate to the `frontend` folder and run `yarn install` to install all of the d
 
 A series of features below need to be implemented in your ReactJS app to operate in conjunction with the backend (section 3).
 
-### 2.1. Feature 1. Admin Auth (10% for solo, 8% for pairs)
+### 2.1. Feature 1. Admin Auth (12% for solo, 10% for pairs)
 
 #### 2.1.1. Login Screen
  * A unique route must exist for this screen
@@ -53,7 +54,7 @@ A series of features below need to be implemented in your ReactJS app to operate
  * On all screens that require an authorised user, a logout button exists.
  * This logout button, when clicked, returns you to the login screen.
 
-### 2.2. Feature 2. Admin Creating & Editing a Game (20% for solo, 16% for pairs)
+### 2.2. Feature 2. Admin Creating & Editing a Game (24% for solo, 20% for pairs)
 
 #### 2.2.1. Dashboard
  * A unique route must exist for this screen
@@ -77,7 +78,7 @@ A series of features below need to be implemented in your ReactJS app to operate
    * The ability to optionally attach a URL to a youtube video, or upload a photo, to enhance the question being asked).
    * Anywhere between 2 and 6 answers, that each contain the answer as a string
 
-### 2.3. Feature 3. Admin Start, Stop, Results of game (10% for solo, 8% for pairs)
+### 2.3. Feature 3. Admin Start, Stop, Results of game (12% for solo, 10% for pairs)
 
 #### 2.3.1. Starting a game
  * On the dashboard page, add the ability to start a stopped game
@@ -96,7 +97,7 @@ A series of features below need to be implemented in your ReactJS app to operate
    * Some chart showing the average response/answer time for each question
    * Any other interesting information you see fit
 
-### 2.4. Feature 4. Player able to join and play game (10% for solo, 8% for pairs)
+### 2.4. Feature 4. Player able to join and play game (12% for solo, 10% for pairs)
 
 #### 2.4.1. Play Join
  * A unique route must exist for this screen
@@ -202,7 +203,6 @@ The port that the backend runs on (and that the frontend can use) is specified i
 ## 5. Teamwork
 
 This assignment may be completed in a team of two (pair). However, you are also welcome to complete it on your own, if you choose. Please note:
- * There is no lowered expectations for students working on their own - you will be assessed the same as the pairs
  * You are able to pair with any student in the course, they aren't required to be in your tutorial slot
 
 Once you form a team, you will be unable to leave your team. You will be assessed together for the assignment.

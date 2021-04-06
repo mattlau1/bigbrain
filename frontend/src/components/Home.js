@@ -2,9 +2,13 @@ import React from 'react';
 
 const Home = () => {
   return (
-    <div>
-      This is a home page
-    </div>
+    <>
+      This is a landing page
+      Welcome to Big Brain!
+      Learn any topics in minutes by playing the quizzes with your peers!
+
+      Add sign up button here
+    </>
   )
 }
 

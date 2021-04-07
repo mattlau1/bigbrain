@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -10,8 +9,7 @@ function App () {
   return (
     <Router>
       <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/login" exact component={Login} />
+        <Route path="/" exact component={Login} />
         <Route path="/register" exact component={Register} />
         <Route path="/dashboard" exact component={Dashboard} />
       </Switch>

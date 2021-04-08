@@ -25,10 +25,9 @@ const Navigation = () => {
 
   const logOut = async () => {
     try {
-      const token = localStorage.getItem('token');
-
       // we want users to be logged out on the client side
       // even if the server side request fails
+      const token = localStorage.getItem('token');
       localStorage.removeItem('token');
       history.push('/');
       createAlert('SUCCESS', 'Successfully logged out')
@@ -36,10 +35,7 @@ const Navigation = () => {
       // server side log out
       const res = await api.postAPIRequestToken('admin/auth/logout', token)
       const data = await res.json();
-      if (res.ok) {
-        localStorage.removeItem('token');
-        history.push('/');
-      } else {
+      if (!res.ok) {
         console.warn(data.message);
       }
     } catch (e) {

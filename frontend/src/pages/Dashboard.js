@@ -5,7 +5,7 @@ const Dashboard = () => {
   return (
     <>
       <Navigation />
-      This is a dashboard
+      <p>This is a dashboard</p>
     </>
   )
 }

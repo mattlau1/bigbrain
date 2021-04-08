@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link, useHistory } from 'react-router-dom';
 import CenteredRow from '../components/CenteredRow';
+import { useAlert } from '../contexts/AlertProvider';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -14,22 +15,30 @@ const Register = () => {
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
   const history = useHistory();
+  const dispatch = useAlert();
+
+  const createAlert = (type, message) => {
+    dispatch({
+      type: type,
+      message: message,
+    })
+  }
 
   const postRegisterInfo = async () => {
     if (!email) {
-      console.log('Email cant be empty')
+      createAlert('ERROR', 'Your email cannot be empty')
       return;
     }
     if (!name) {
-      console.log('Name cant be empty');
+      createAlert('ERROR', 'Your name cannot be empty')
       return;
     }
     if (!password1 || !password2) {
-      console.log('password cant be empty');
+      createAlert('ERROR', 'Your password cannot be empty')
       return;
     }
     if (password1 !== password2) {
-      console.log('password must match');
+      createAlert('ERROR', 'Passwords must match')
       return;
     }
 
@@ -50,11 +59,12 @@ const Register = () => {
       });
       const data = await res.json();
       if (res.ok) {
+        createAlert('SUCCESS', 'Registered & logged in successfully')
         localStorage.setItem('token', data.token);
         console.log(`${name}'s token is `, data.token);
         history.push('/dashboard');
       } else {
-        console.log(data.message);
+        createAlert('ERROR', 'That email has already been registered')
       }
     } catch (e) {
       console.warn(e);

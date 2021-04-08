@@ -1,0 +1,55 @@
+.alert-container {
+    position: fixed;
+    top: 80px;
+    right: 10px;
+    width: 300px;
+    z-index: 10;
+}
+
+.alert-item {
+    box-shadow: 0 0 10px rgba(0,0,0, 0.3);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    animation: SlideLeft 0.4s;
+    animation-fill-mode: forwards;
+    width: 300px;
+    background-color: white;
+}
+
+@keyframes SlideLeft {
+    0% {
+        margin-left: 120%;
+    }
+
+    100% {
+        margin-left: 0;
+    }
+}
+
+@keyframes SlideRight {
+    0% {
+        margin-left: 0;
+    }
+
+    100% {
+        margin-left: 120%;
+    }
+}
+
+.alert-item.exit {
+    animation: SlideRight 0.4s;
+    animation-fill-mode: forwards;
+}
+
+.alert-item .bar {
+    height: 10px;
+}
+
+.alert-item.success .bar {
+    background-color: #2fff33;
+}
+
+.alert-item.error .bar {
+    background-color: rgb(255, 60, 60);
+}

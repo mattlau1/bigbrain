@@ -7,19 +7,28 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link, useHistory } from 'react-router-dom';
 import CenteredRow from '../components/CenteredRow';
+import { useAlert } from '../contexts/AlertProvider';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
+  const dispatch = useAlert();
+
+  const createAlert = (type, message) => {
+    dispatch({
+      type: type,
+      message: message,
+    })
+  }
 
   const postLoginInfo = async () => {
     if (!email) {
-      console.log('email can\'t be empty');
+      createAlert('ERROR', 'Your email cannot be empty')
       return;
     }
     if (!password) {
-      console.log('password can\'t be empty');
+      createAlert('ERROR', 'Your password cannot be empty')
       return;
     }
 
@@ -39,13 +48,15 @@ const Login = () => {
       });
       const data = await res.json();
       if (res.ok) {
+        createAlert('SUCCESS', 'Logged in successfully')
         console.log(`${email} token is `, data.token);
         localStorage.setItem('token', data.token);
         history.push('/dashboard');
       } else {
-        console.log(data.message);
+        createAlert('ERROR', 'Invalid credentials - Please try again')
       }
     } catch (e) {
+      createAlert('ERROR', 'An unexpected error has occurred')
       console.warn(e);
     }
   };

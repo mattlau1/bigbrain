@@ -8,7 +8,6 @@ import Col from 'react-bootstrap/Col';
 import { Link, useHistory } from 'react-router-dom';
 import CenteredRow from '../components/CenteredRow';
 import { useAlert } from '../contexts/AlertProvider';
-import BACKEND_PORT from '../config'
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -40,8 +39,6 @@ const Login = () => {
     };
 
     try {
-      console.log(API)
-      console.log(BACKEND_PORT.BACKEND_PORT)
       const res = await api.postAPIRequestBody('admin/auth/login', body);
       const data = await res.json();
       if (res.ok) {

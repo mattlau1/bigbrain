@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { api } from '../components/Api';
+import API from '../utils/API';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -8,12 +8,14 @@ import Col from 'react-bootstrap/Col';
 import { Link, useHistory } from 'react-router-dom';
 import CenteredRow from '../components/CenteredRow';
 import { useAlert } from '../contexts/AlertProvider';
+import BACKEND_PORT from '../config'
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
   const dispatch = useAlert();
+  const api = new API();
 
   const createAlert = (type, message) => {
     dispatch({
@@ -38,14 +40,9 @@ const Login = () => {
     };
 
     try {
-      const res = await fetch(`${api}/admin/auth/login`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
+      console.log(API)
+      console.log(BACKEND_PORT.BACKEND_PORT)
+      const res = await api.postAPIRequestBody('admin/auth/login', body);
       const data = await res.json();
       if (res.ok) {
         createAlert('SUCCESS', 'Logged in successfully')

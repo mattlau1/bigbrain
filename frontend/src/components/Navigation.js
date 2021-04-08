@@ -4,7 +4,8 @@ import Nav from 'react-bootstrap/Nav';
 import styled from 'styled-components';
 import Row from 'react-bootstrap/Row';
 import { Link, NavLink, useHistory } from 'react-router-dom';
-import { api } from './Api';
+import API from '../utils/API';
+import { useAlert } from '../contexts/AlertProvider';
 
 const Brand = styled.h4`
   font-size: 20pt;
@@ -12,27 +13,34 @@ const Brand = styled.h4`
 
 const Navigation = () => {
   const history = useHistory();
+  const dispatch = useAlert();
+  const api = new API();
+
+  const createAlert = (type, message) => {
+    dispatch({
+      type: type,
+      message: message,
+    })
+  }
 
   const logOut = async () => {
     try {
       const token = localStorage.getItem('token');
+
+      // we want users to be logged out on the client side
+      // even if the server side request fails
       localStorage.removeItem('token');
       history.push('/');
-      const res = await fetch(`${api}/admin/auth/logout`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-      });
+      createAlert('SUCCESS', 'Successfully logged out')
+
+      // server side log out
+      const res = await api.postAPIRequestToken('admin/auth/logout', token)
       const data = await res.json();
       if (res.ok) {
-        console.log('successfully logged out')
         localStorage.removeItem('token');
         history.push('/');
       } else {
-        console.log(data.message);
+        console.warn(data.message);
       }
     } catch (e) {
       console.warn(e);

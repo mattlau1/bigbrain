@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { api } from '../components/Api';
+import API from '../utils/API';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -16,6 +16,7 @@ const Register = () => {
   const [password2, setPassword2] = useState('');
   const history = useHistory();
   const dispatch = useAlert();
+  const api = new API();
 
   const createAlert = (type, message) => {
     dispatch({
@@ -49,14 +50,7 @@ const Register = () => {
     };
 
     try {
-      const res = await fetch(`${api}/admin/auth/register`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
+      const res = await api.postAPIRequestBody('admin/auth/register', body);
       const data = await res.json();
       if (res.ok) {
         createAlert('SUCCESS', 'Registered & logged in successfully')
@@ -67,6 +61,7 @@ const Register = () => {
         createAlert('ERROR', 'That email has already been registered')
       }
     } catch (e) {
+      createAlert('ERROR', 'An unexpected error has occurred')
       console.warn(e);
     }
   };

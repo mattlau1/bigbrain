@@ -14,6 +14,7 @@
 
 * 02/04: Removed line "There is no lowered expectations for students working on their own - you will be assessed the same as the pairs"
 * 02/04: Increaseing 2.1, 2.2, 2.3, 2.4 secion worths to match marking criteria
+* 03/04: Due date extend to 22/04 (24 hours)
 
 ## 1. Background & Motivation
 
@@ -172,7 +173,7 @@ Tests must be run from inside the `frontend` folder by running `yarn test`.
 
 The backend server exists in your individual repository. After you clone this repo, you must run `yarn install` in `backend` directory once.
 
-To run the backend server, simply run `yarn backend` in the `backend` directory. This will start the backend.
+To run the backend server, simply run `yarn start` in the `backend` directory. This will start the backend.
 
 Your backend is persistent in terms of data storage. That means the data will remain even after your express server process stops running. If you want to reset the data in the backend, you can run `yarn reset` in the backend directory. If you want to make a copy of the backend data (e.g. for a backup) then simply copy `database.json`.
 
@@ -321,7 +322,7 @@ knowledge.
 
 ## 8. Submission
 
-This assignment is due *Wednesday 21st April, 19:59:59*.
+This assignment is due *Thursday 22nd April, 19:59:59*.
 
 Our systems automatically record the most recent push you make to your `master` branch. Therefore,
 to "submit" your code you simply need to make sure that your `master` branch (on the gitlab website)

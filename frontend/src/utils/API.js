@@ -138,4 +138,17 @@ export default class API {
       },
     });
   }
+
+  /** @param {String} path */
+  /** @param {String} token */
+  getAPIRequestQuiz (path, token) {
+    return fetch(`${this.url}/${path}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 }

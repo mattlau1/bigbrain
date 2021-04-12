@@ -1,81 +1,87 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navigation from '../components/Navigation';
-import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import API from '../utils/API';
 import Button from 'react-bootstrap/Button';
+import { useAlert } from '../contexts/AlertProvider';
+import { Col, Row, Card, Container } from 'react-bootstrap';
+import CreateGameModal from '../components/CreateGameModal';
 
 const Dashboard = () => {
   const [gameList, setGameList] = useState([]);
-  console.log(gameList);
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const api = new API();
+  const [show, setShow] = useState(false);
 
+  const dispatch = useAlert();
+
+  const createAlert = (type, message) => {
+    dispatch({
+      type: type,
+      message: message,
+    })
+  }
+
+  const handleClose = () => setShow(false);
+
+  const handleShow = () => setShow(true);
+
+  useEffect(() => {
     const loadGames = async () => {
-      try {
-        const res = await api.getAPIRequestQuiz('admin/quiz', token);
-        const data = await res.json();
-        if (res.ok) {
-          console.log('load quiz successully');
-          console.log(data);
-          setGameList(data.quizzes);
-        } else {
-          console.log('load quiz UNsuccessully');
+      const token = localStorage.getItem('token');
+      const api = new API();
+      api.getAPIRequestToken('admin/quiz', token).then((data) => {
+        if (data.status === 403) {
+          createAlert('ERROR', 'Invalid Token');
+        } else if (data.status === 200) {
+          data.json().then((quizzes) => {
+            quizzes.quizzes.forEach((quiz) => {
+              api.getAPIRequestToken(`admin/quiz/${quiz.id}`, token).then((data) => {
+                data.json().then((quizData) => {
+                  const newGame = { ...quizData, ...quiz }
+                  setGameList(gameList => [...gameList, newGame]);
+                })
+              }).catch((e) => {
+                createAlert('ERROR', 'There was a problem getting quizzes');
+                console.warn(e)
+              })
+            })
+          })
         }
-      } catch (e) {
-        console.log('error');
-        console.warn(e);
-      }
+      }).catch((e) => {
+        createAlert('ERROR', 'There was a problem getting quizzes');
+        console.warn(e)
+      })
     }
     loadGames();
-  }, [])
-  // const getDetails = async (gameId) => {
-  //   const token = localStorage.getItem('token');
-  //   const api = new API();
-  //   try {
-  //     const res = await api.getAPIRequestQuizDetails(`admin/quiz/${gameId}`, token);
-  //     const data = await res.json();
-  //     if (res.ok) {
-  //       console.log('load details successully');
-  //       console.log(data);
-  //     } else {
-  //       console.log('load details UNsuccessully');
-  //     }
-  //   } catch (e) {
-  //     console.log('error');
-  //     console.warn(e);
-  //   }
-  // }
+  }, []);
 
   return (
     <>
       <Navigation />
-        <Container fluid>
-          <Row md={12}>
-            {gameList.map((game, key) => (
-              <Col className='mt-5' md={4} key={key}>
-                {/* {getDetails(game.id)} */}
-                <Card>
-                  <Card.Header><h2>{game.id}, {game.name}</h2></Card.Header>
-                  <Card.Img src='https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg' />
-                    <Card.Body>
-                      <Card.Text>
-                      X questions
-                      Y minutes
-                      </Card.Text>
-                      <Button className='mx-1' variant="primary">Start</Button>
-                      <Button className='mx-1' variant="primary">Stop</Button>
-                      <Button className='mx-1' variant="primary">Edit</Button>
-                      <Button className='mx-1' variant="primary">Delete</Button>
-                    </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Container>
+      <Container fluid>
+        <Row md={12} className="d-flex justify-content-center align-items-center text-center">
+          <Button className='mt-2' variant="primary" onClick={() => handleShow()}>Create New Game</Button>
+        </Row>
+        <Row md={12}>
+          {gameList.map((game, key) => (
+            <Col className='mt-4' md={3} key={key}>
+              <Card>
+                <Card.Header><h2>{game.id}, {game.name}</h2></Card.Header>
+                <Card.Img src='https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg' />
+                  <Card.Body>
+                    <Card.Text>
+                    {game.questions.length} questions
+                    Y minutes
+                    </Card.Text>
+                    <Button className='mx-1' variant="primary">Start</Button>
+                    <Button className='mx-1' variant="primary">Stop</Button>
+                    <Button className='mx-1' variant="primary">Edit</Button>
+                    <Button className='mx-1' variant="primary">Delete</Button>
+                  </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+      <CreateGameModal setShow={setShow} show={show} handleShow={handleShow} handleClose={handleClose}/>
     </>
   )
 }

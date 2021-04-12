@@ -151,4 +151,32 @@ export default class API {
       },
     });
   }
+
+  /** @param {String} path */
+  /** @param {String} token */
+  getAPIRequestQuizDetails (path, token) {
+    return fetch(`${this.url}/${path}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  /** @param {String} path */
+  /** @param {Object} body */
+  /** @param {String} token */
+  postAPICreateQuiz (path, body, token) {
+    return fetch(`${this.url}/${path}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+  }
 }

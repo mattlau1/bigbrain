@@ -31,7 +31,24 @@ const Dashboard = () => {
       }
     }
     loadGames();
-  }, []);
+  }, [])
+  // const getDetails = async (gameId) => {
+  //   const token = localStorage.getItem('token');
+  //   const api = new API();
+  //   try {
+  //     const res = await api.getAPIRequestQuizDetails(`admin/quiz/${gameId}`, token);
+  //     const data = await res.json();
+  //     if (res.ok) {
+  //       console.log('load details successully');
+  //       console.log(data);
+  //     } else {
+  //       console.log('load details UNsuccessully');
+  //     }
+  //   } catch (e) {
+  //     console.log('error');
+  //     console.warn(e);
+  //   }
+  // }
 
   return (
     <>
@@ -40,8 +57,9 @@ const Dashboard = () => {
           <Row md={12}>
             {gameList.map((game, key) => (
               <Col className='mt-5' md={4} key={key}>
+                {/* {getDetails(game.id)} */}
                 <Card>
-                  <Card.Header><h2>{game.name}</h2></Card.Header>
+                  <Card.Header><h2>{game.id}, {game.name}</h2></Card.Header>
                   <Card.Img src='https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg' />
                     <Card.Body>
                       <Card.Text>

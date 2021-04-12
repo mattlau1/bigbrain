@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { useAlert } from '../contexts/AlertProvider';
 import { Col, Row, Card, Container } from 'react-bootstrap';
 import CreateGameModal from '../components/CreateGameModal';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const [gameList, setGameList] = useState([]);
@@ -73,7 +74,11 @@ const Dashboard = () => {
                     </Card.Text>
                     <Button className='mx-1' variant="primary">Start</Button>
                     <Button className='mx-1' variant="primary">Stop</Button>
-                    <Button className='mx-1' variant="primary">Edit</Button>
+                    <Link to={`/edit/${game.id}`}>
+                      <Button className='mx-1' variant="primary">
+                        Edit
+                      </Button>
+                    </Link>
                     <Button className='mx-1' variant="primary">Delete</Button>
                   </Card.Body>
               </Card>

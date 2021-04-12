@@ -32,6 +32,7 @@ const CreateGameModal = ({ setShow, show, handleClose, handleShow, gameList, set
       const res = await api.postAPIRequestBodyToken('admin/quiz/new', body, token);
       if (res.ok) {
         handleClose();
+        createAlert('SUCCESS', 'Successfully created a new quiz!');
       } else {
         createAlert('ERROR', 'There was a problem creating a new quiz');
       }

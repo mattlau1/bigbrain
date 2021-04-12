@@ -50,10 +50,7 @@ const Dashboard = () => {
         console.warn(e)
       })
     }
-    const a = setInterval(loadGames(), 5000)
-    clearInterval(a);
-
-    // loadGames();
+    loadGames();
   }, []);
 
   return (

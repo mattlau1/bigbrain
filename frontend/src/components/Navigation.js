@@ -44,33 +44,35 @@ const Navigation = () => {
   }
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-      <Navbar.Brand as={Link} to="/dashboard" className="mr-auto">
-        <Row>
-          <Brand className="display-1 pl-2">BigBrain</Brand>
-        </Row>
-      </Navbar.Brand>
+    <>
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Brand as={Link} to="/dashboard" className="mr-auto">
+          <Row>
+            <Brand className="display-1 pl-2">BigBrain</Brand>
+          </Row>
+        </Navbar.Brand>
 
-      <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-      <Navbar.Collapse id="responsive-navbar-nav">
-        <Nav variant="pills" className="ml-auto" defaultActiveKey="/creategame">
-          <Nav.Link as={NavLink} to="/creategame" className="mx-2">
-            Create Game
-          </Nav.Link>
-          <Nav.Link
-            as={NavLink}
-            className="mx-2"
-            exact
-            to="/"
-            onClick={() => {
-              logOut();
-            }}
-          >
-            Sign Out
-          </Nav.Link>
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav variant="pills" className="ml-auto" defaultActiveKey="/creategame">
+            <Nav.Link as={NavLink} to="/dashboard" className="mx-2">
+              Dashboard
+            </Nav.Link>
+            <Nav.Link
+              as={NavLink}
+              className="mx-2"
+              exact
+              to="/"
+              onClick={() => {
+                logOut();
+              }}
+            >
+              Sign Out
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+    </>
   );
 }
 

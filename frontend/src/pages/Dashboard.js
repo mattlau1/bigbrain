@@ -50,7 +50,10 @@ const Dashboard = () => {
         console.warn(e)
       })
     }
-    loadGames();
+    const a = setInterval(loadGames(), 5000)
+    clearInterval(a);
+
+    // loadGames();
   }, []);
 
   return (
@@ -81,7 +84,14 @@ const Dashboard = () => {
           ))}
         </Row>
       </Container>
-      <CreateGameModal setShow={setShow} show={show} handleShow={handleShow} handleClose={handleClose}/>
+      <CreateGameModal
+        setShow={setShow}
+        show={show}
+        handleShow={handleShow}
+        handleClose={handleClose}
+        gameList={gameList}
+        setGameList={setGameList}
+      />
     </>
   )
 }

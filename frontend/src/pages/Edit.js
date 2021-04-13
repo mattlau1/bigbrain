@@ -5,6 +5,7 @@ import Navigation from '../components/Navigation';
 import Button from 'react-bootstrap/Button';
 import { Col, Row, Container, Card } from 'react-bootstrap';
 import API from '../utils/API';
+import { v4 as uuidv4 } from 'uuid'
 
 const Edit = () => {
   const [questionDetail, setQuestionDetail] = useState([])
@@ -14,8 +15,12 @@ const Edit = () => {
 
   const addQuestion = () => {
     setQuestions(prevQuestion => {
-      return [...prevQuestion, { id: 69, text: 'blank question', time_limit: 10 }]
+      return [...prevQuestion, { id: uuidv4(), text: 'blank question', time_limit: 10 }]
     })
+  }
+
+  const removeQuestion = (qId) => {
+    setQuestions(questions.filter(question => question.id !== qId))
   }
 
   useEffect(() => {
@@ -80,7 +85,7 @@ const Edit = () => {
                   <Col md={9}>{index + 1}. {question.text}</Col>
                   <Col md={3}>
                     <Button className='mx-1' variant="primary">Edit</Button>
-                    <Button className='mx-1' variant="primary">Delete</Button>
+                    <Button className='mx-1' variant="primary" onClick={() => removeQuestion(question.id)}>Delete</Button>
                   </Col>
                 </Row>
               </Card.Body>

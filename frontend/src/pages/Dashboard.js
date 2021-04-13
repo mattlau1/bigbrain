@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [gameList, setGameList] = useState([]);
   const [show, setShow] = useState(false);
 
+  // let time = 0;
   const dispatch = useAlert();
 
   const createAlert = (type, message) => {
@@ -23,6 +24,31 @@ const Dashboard = () => {
   const handleClose = () => setShow(false);
 
   const handleShow = () => setShow(true);
+
+  const deleteGame = async (id) => {
+    const token = localStorage.getItem('token');
+    const api = new API();
+    try {
+      const res = await api.deleteAPIRequestToken(`admin/quiz/${id}`, token);
+      if (res.ok) {
+        createAlert('SUCCESS', 'Removed successfully')
+      } else {
+        createAlert('ERROR', 'Removing game was not successful')
+      }
+    } catch (e) {
+      createAlert('ERROR', 'An unexpected error has occurred')
+      console.warn(e);
+    }
+    setGameList(gameList.filter(game => game.id !== id))
+  }
+
+  // const timeSum = (question) => {
+  //   const sum = question.reduce((prev, current) => {
+  //     return prev + current.time_limit;
+  //   }, 0);
+  //   console.log(sum)
+  //   time = sum;
+  // }
 
   useEffect(() => {
     const loadGames = async () => {
@@ -65,12 +91,15 @@ const Dashboard = () => {
           {gameList.map((game, key) => (
             <Col className='mt-4' md={3} key={key}>
               <Card>
-                <Card.Header><h2>{game.id}, {game.name}</h2></Card.Header>
+                <Card.Header><h2>{game.name}</h2></Card.Header>
                 <Card.Img src='https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg' />
                   <Card.Body>
                     <Card.Text>
                     {game.questions.length} questions
-                    Y minutes
+                    {' '}{game.questions.reduce((prev, current) => {
+                      return prev + current.time_limit;
+                    }, 0)}
+                    {' '}seconds
                     </Card.Text>
                     <Button className='mx-1' variant="primary">Start</Button>
                     <Button className='mx-1' variant="primary">Stop</Button>
@@ -79,7 +108,7 @@ const Dashboard = () => {
                         Edit
                       </Button>
                     </Link>
-                    <Button className='mx-1' variant="primary">Delete</Button>
+                    <Button className='mx-1' variant="primary" onClick={() => deleteGame(game.id)}>Delete</Button>
                   </Card.Body>
               </Card>
             </Col>

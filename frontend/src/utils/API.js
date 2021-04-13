@@ -126,10 +126,9 @@ export default class API {
   }
 
   /** @param {String} path */
-  /** @param {Object} query */
   /** @param {String} token */
-  deleteAPIRequestTokenQuery (path, query, token) {
-    return fetch(`${this.url}/${path}/?` + new URLSearchParams(query), {
+  deleteAPIRequestToken (path, token) {
+    return fetch(`${this.url}/${path}/`, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',

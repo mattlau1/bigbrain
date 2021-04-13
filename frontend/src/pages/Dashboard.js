@@ -38,6 +38,7 @@ const Dashboard = () => {
       createAlert('ERROR', 'An unexpected error has occurred')
       console.warn(e);
     }
+    setGameList(gameList.filter(game => game.id !== id))
   }
 
   useEffect(() => {

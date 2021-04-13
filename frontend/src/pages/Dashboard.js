@@ -84,6 +84,7 @@ const Dashboard = () => {
     <>
       <Navigation />
       <Container fluid>
+      {console.log(gameList)}
         <Row md={12} className="d-flex justify-content-center align-items-center text-center">
           <Button className='mt-2' variant="primary" onClick={() => handleShow()}>Create New Game</Button>
         </Row>
@@ -92,7 +93,7 @@ const Dashboard = () => {
             <Col className='mt-4' md={3} key={key}>
               <Card>
                 <Card.Header><h2>{game.name}</h2></Card.Header>
-                <Card.Img src='https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg' />
+                <Card.Img src={game.thumbnail || 'https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg'} />
                   <Card.Body>
                     <Card.Text>
                     {game.questions.length} questions

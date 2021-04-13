@@ -77,26 +77,6 @@ const Edit = () => {
       }
     }
     loadQuestion()
-    // const getQuestions = async () => {
-    //   setQuestions([
-    //     {
-    //       id: 1,
-    //       text: 'red or blue?',
-    //       time_limit: 10,
-    //     },
-    //     {
-    //       id: 2,
-    //       text: 'can you answer this question?',
-    //       time_limit: 10,
-    //     },
-    //     {
-    //       id: 3,
-    //       text: '1 + 1?',
-    //       time_limit: 10,
-    //     },
-    //   ])
-    // }
-    // getQuestions()
   }, [])
 
   return (

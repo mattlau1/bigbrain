@@ -6,12 +6,21 @@ import Button from 'react-bootstrap/Button';
 import { Col, Row, Container, Card } from 'react-bootstrap';
 import API from '../utils/API';
 import { v4 as uuidv4 } from 'uuid'
+import { useAlert } from '../contexts/AlertProvider';
 
 const Edit = () => {
   const [questionDetail, setQuestionDetail] = useState([])
   const [questions, setQuestions] = useState([])
-  console.log(questions)
   const { id } = useParams();
+
+  const dispatch = useAlert();
+
+  const createAlert = (type, message) => {
+    dispatch({
+      type: type,
+      message: message,
+    })
+  }
 
   const addQuestion = () => {
     setQuestions(prevQuestion => {
@@ -21,6 +30,29 @@ const Edit = () => {
 
   const removeQuestion = (qId) => {
     setQuestions(questions.filter(question => question.id !== qId))
+  }
+
+  const confirmChanges = async () => {
+    const token = localStorage.getItem('token');
+    const api = new API();
+    const body = {
+      questions: questions,
+    };
+
+    try {
+      const res = await api.putAPIRequestTokenBody(`admin/quiz/${id}`, body, token);
+      const data = await res.json();
+      if (res.ok) {
+        console.log('changed successully');
+        console.log(data);
+        createAlert('SUCCESS', 'Changes have been made');
+      } else {
+        console.log('changed UNsuccessully');
+      }
+    } catch (e) {
+      console.log('error');
+      console.warn(e);
+    }
   }
 
   useEffect(() => {
@@ -35,6 +67,7 @@ const Edit = () => {
           console.log('load questions successully');
           console.log(data);
           setQuestionDetail(data);
+          setQuestions(data.questions);
         } else {
           console.log('load questions UNsuccessully');
         }
@@ -44,26 +77,26 @@ const Edit = () => {
       }
     }
     loadQuestion()
-    const getQuestions = async () => {
-      setQuestions([
-        {
-          id: 1,
-          text: 'red or blue?',
-          time_limit: 10,
-        },
-        {
-          id: 2,
-          text: 'can you answer this question?',
-          time_limit: 10,
-        },
-        {
-          id: 3,
-          text: '1 + 1?',
-          time_limit: 10,
-        },
-      ])
-    }
-    getQuestions()
+    // const getQuestions = async () => {
+    //   setQuestions([
+    //     {
+    //       id: 1,
+    //       text: 'red or blue?',
+    //       time_limit: 10,
+    //     },
+    //     {
+    //       id: 2,
+    //       text: 'can you answer this question?',
+    //       time_limit: 10,
+    //     },
+    //     {
+    //       id: 3,
+    //       text: '1 + 1?',
+    //       time_limit: 10,
+    //     },
+    //   ])
+    // }
+    // getQuestions()
   }, [])
 
   return (
@@ -97,7 +130,7 @@ const Edit = () => {
         <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
           <Col>
           <Button className='mx-1' variant="primary" onClick={addQuestion}>Add a new question</Button>
-          <Button className='mx-1' variant="primary">Confirm Changes</Button>
+          <Button className='mx-1' variant="primary" onClick={confirmChanges}>Confirm Changes</Button>
           </Col>
         </Row>
       </Container>

@@ -82,10 +82,9 @@ const Edit = () => {
   return (
     <>
       <Navigation />
-      You are editing game called with id {id && id}
       <Container>
-        <Row className="d-flex justify-content-center align-items-center text-center">
-        <h2>{questionDetail.name}</h2>
+        <Row className="d-flex justify-content-center align-items-center text-center mt-2">
+          <h2>{questionDetail.name}</h2>
         </Row>
 
         <Col md={{ span: 8, offset: 2 }}>
@@ -98,7 +97,7 @@ const Edit = () => {
                   <Col md={9}>{index + 1}. {question.text}</Col>
                   <Col md={3}>
                     <Button className='mx-1' variant="primary">Edit</Button>
-                    <Button className='mx-1' variant="primary" onClick={() => removeQuestion(question.id)}>Delete</Button>
+                    <Button className='mx-1' variant="danger" onClick={() => removeQuestion(question.id)}>Delete</Button>
                   </Col>
                 </Row>
               </Card.Body>

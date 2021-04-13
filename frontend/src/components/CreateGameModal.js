@@ -33,6 +33,30 @@ const CreateGameModal = ({ setShow, show, handleClose, handleShow, gameList, set
       if (res.ok) {
         handleClose();
         createAlert('SUCCESS', 'Successfully created a new quiz!');
+
+        api.getAPIRequestToken('admin/quiz', token).then((data) => {
+          if (data.status === 403) {
+            createAlert('ERROR', 'Invalid Token');
+          } else if (data.status === 200) {
+            setGameList([]);
+            data.json().then((quizzes) => {
+              quizzes.quizzes.forEach((quiz) => {
+                api.getAPIRequestToken(`admin/quiz/${quiz.id}`, token).then((data) => {
+                  data.json().then((quizData) => {
+                    const newGame = { ...quizData, ...quiz }
+                    setGameList(gameList => [...gameList, newGame]);
+                  })
+                }).catch((e) => {
+                  createAlert('ERROR', 'There was a problem getting quizzes');
+                  console.warn(e)
+                })
+              })
+            })
+          }
+        }).catch((e) => {
+          createAlert('ERROR', 'There was a problem getting quizzes');
+          console.warn(e)
+        })
       } else {
         createAlert('ERROR', 'There was a problem creating a new quiz');
       }

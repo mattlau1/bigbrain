@@ -108,7 +108,7 @@ const Dashboard = () => {
                         Edit
                       </Button>
                     </Link>
-                    <Button className='mx-1' variant="primary" onClick={() => deleteGame(game.id)}>Delete</Button>
+                    <Button className='mx-1' variant="danger" onClick={() => deleteGame(game.id)}>Delete</Button>
                   </Card.Body>
               </Card>
             </Col>

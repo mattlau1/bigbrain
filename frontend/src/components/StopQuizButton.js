@@ -4,7 +4,7 @@ import { useAlert } from '../contexts/AlertProvider';
 import API from '../utils/API';
 import PropTypes from 'prop-types'
 
-const StopQuizButton = ({ game, gameList, setGameList }) => {
+const StopQuizButton = ({ game, gameList, setGameList, handleShowStop, id }) => {
   const dispatch = useAlert();
   const createAlert = (type, message) => {
     dispatch({
@@ -13,13 +13,13 @@ const StopQuizButton = ({ game, gameList, setGameList }) => {
     })
   }
 
-  const startGame = async () => {
+  const stopGame = async () => {
     const token = localStorage.getItem('token');
     const api = new API();
     try {
-      const res = await api.postAPIRequestToken(`admin/quiz/${game.id}/start`, token);
+      const res = await api.postAPIRequestToken(`admin/quiz/${game.id}/end`, token);
       if (res.ok) {
-        createAlert('SUCCESS', 'Successfully started game!')
+        createAlert('SUCCESS', 'Successfully ended game!')
 
         // refresh games
         api.getAPIRequestToken('admin/quiz', token).then((data) => {
@@ -56,14 +56,16 @@ const StopQuizButton = ({ game, gameList, setGameList }) => {
     }
   }
   return (
-    <Button className='mx-0 w-100' variant="primary" onClick={() => startGame()}>Start</Button>
+    <Button className='mx-0 w-100' variant="danger" onClick={() => { stopGame(); handleShowStop(id); }}>Stop</Button>
   )
 }
 
 StopQuizButton.propTypes = {
   game: PropTypes.object,
   gameList: PropTypes.array,
-  setGameList: PropTypes.func
+  setGameList: PropTypes.func,
+  handleShowStop: PropTypes.func,
+  id: PropTypes.number
 }
 
 export default StopQuizButton

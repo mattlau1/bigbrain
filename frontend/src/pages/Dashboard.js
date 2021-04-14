@@ -29,8 +29,8 @@ const Dashboard = () => {
   }
 
   const handleCopy = (text) => {
-    createAlert('SUCCESS', 'Session ID copied to clipboard');
-    navigator.clipboard.writeText(text);
+    createAlert('SUCCESS', 'URL copied to clipboard');
+    navigator.clipboard.writeText(`${window.location.origin}/play/${text}`);
   }
 
   useEffect(() => {

@@ -120,7 +120,6 @@ const Dashboard = () => {
                               </Button>
                             : <StartQuizButton
                                 game={game}
-                                gameList={gameList}
                                 setGameList={setGameList}
                               />}
                         </Col>

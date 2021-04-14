@@ -7,10 +7,13 @@ import DeleteQuizButton from '../components/DeleteQuizButton';
 import { Link } from 'react-router-dom';
 import API from '../utils/API';
 import StartQuizButton from '../components/StartQuizButton';
+import StartGameModal from '../components/StartGameModal';
 
 const Dashboard = () => {
   const [gameList, setGameList] = useState([]);
-  const [show, setShow] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
+  const [showStart, setShowStart] = useState(false);
+  const [currId, setCurrId] = useState('')
 
   const dispatch = useAlert();
   const createAlert = (type, message) => {
@@ -20,17 +23,18 @@ const Dashboard = () => {
     })
   }
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseCreate = () => setShowCreate(false);
+  const handleShowCreate = () => setShowCreate(true);
+  const handleCloseStart = () => setShowStart(false);
+  const handleShowStart = (activeId) => {
+    setCurrId(activeId)
+    setShowStart(true);
+  }
+
   const getCompletionTime = (questions) => {
     return questions.reduce((prev, current) => {
       return prev + current.time_limit;
     }, 0)
-  }
-
-  const handleCopy = (text) => {
-    createAlert('SUCCESS', 'URL copied to clipboard');
-    navigator.clipboard.writeText(`${window.location.origin}/play/${text}`);
   }
 
   useEffect(() => {
@@ -70,7 +74,7 @@ const Dashboard = () => {
       <Container>
       {console.log(gameList)}
         <Row md={12} className="justify-content-center align-items-center text-center">
-          <Button className='mt-2' variant="primary" onClick={() => handleShow()}>Create New Game</Button>
+          <Button className='mt-2' variant="primary" onClick={() => handleShowCreate()}>Create New Game</Button>
         </Row>
         <Row md={12}>
           {gameList.map((game, key) => (
@@ -83,7 +87,7 @@ const Dashboard = () => {
                     </Col>
                     <Col md={4} className="d-flex justify-content-end align-items-center px-1">
                       {game.active &&
-                        <Button onClick={() => { handleCopy(game.active) }}>
+                        <Button onClick={() => { handleShowStart(game.active) }}>
                           Share
                         </Button>
                       }
@@ -142,12 +146,21 @@ const Dashboard = () => {
         </Row>
       </Container>
       <CreateGameModal
-        setShow={setShow}
-        show={show}
-        handleShow={handleShow}
-        handleClose={handleClose}
+        setShow={setShowCreate}
+        show={showCreate}
+        handleShow={handleShowCreate}
+        handleClose={handleCloseCreate}
         gameList={gameList}
         setGameList={setGameList}
+      />
+      <StartGameModal
+        setShow={setShowStart}
+        show={showStart}
+        handleShow={handleShowStart}
+        handleClose={handleCloseStart}
+        gameList={gameList}
+        setGameList={setGameList}
+        id={currId}
       />
     </>
   )

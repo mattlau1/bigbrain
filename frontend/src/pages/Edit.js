@@ -11,6 +11,7 @@ import { useAlert } from '../contexts/AlertProvider';
 const Edit = () => {
   const [questionDetail, setQuestionDetail] = useState([])
   const [questions, setQuestions] = useState([])
+  const [baseImage, setBaseImage] = useState('');
   const { id } = useParams();
 
   const dispatch = useAlert();
@@ -32,11 +33,33 @@ const Edit = () => {
     setQuestions(questions.filter(question => question.id !== qId))
   }
 
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setBaseImage(base64);
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
   const confirmChanges = async () => {
     const token = localStorage.getItem('token');
     const api = new API();
     const body = {
       questions: questions,
+      thumbnail: baseImage,
     };
 
     try {
@@ -68,6 +91,7 @@ const Edit = () => {
           console.log(data);
           setQuestionDetail(data);
           setQuestions(data.questions);
+          setBaseImage(data.thumbnail);
         } else {
           console.log('load questions UNsuccessully');
         }
@@ -85,6 +109,18 @@ const Edit = () => {
       <Container>
         <Row className="d-flex justify-content-center align-items-center text-center mt-2">
           <h2>{questionDetail.name}</h2>
+        </Row>
+
+        <Col md={{ span: 4, offset: 4 }}>
+          <Card.Img src={baseImage || 'https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg'} />
+        </Col>
+        <Row className="d-flex justify-content-center align-items-center text-center mt-2">
+          <input className='mb-2 formContainer rounded border border-dark p-1'
+            type="file"
+            onChange={(e) => {
+              uploadImage(e);
+            }}
+          />
         </Row>
 
         <Col md={{ span: 8, offset: 2 }}>

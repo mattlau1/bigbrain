@@ -54,6 +54,11 @@ const Edit = () => {
     });
   };
 
+  const removeImage = async () => {
+    setBaseImage('https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg');
+    console.log(baseImage);
+  }
+
   const confirmChanges = async () => {
     const token = localStorage.getItem('token');
     const api = new API();
@@ -121,6 +126,7 @@ const Edit = () => {
               uploadImage(e);
             }}
           />
+          <Button className='mx-1 mb-2' variant="danger" onClick={removeImage}>Remove Thumbnail</Button>
         </Row>
 
         <Col md={{ span: 8, offset: 2 }}>

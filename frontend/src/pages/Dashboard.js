@@ -8,11 +8,14 @@ import { Link } from 'react-router-dom';
 import API from '../utils/API';
 import StartQuizButton from '../components/StartQuizButton';
 import StartGameModal from '../components/StartGameModal';
+import StopQuizButton from '../components/StopQuizButton';
+import StopGameModal from '../components/StopGameModal';
 
 const Dashboard = () => {
   const [gameList, setGameList] = useState([]);
   const [showCreate, setShowCreate] = useState(false);
   const [showStart, setShowStart] = useState(false);
+  const [showStop, setShowStop] = useState(false);
   const [currId, setCurrId] = useState('')
 
   const dispatch = useAlert();
@@ -25,9 +28,14 @@ const Dashboard = () => {
 
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
+  const handleShowStop = (id) => {
+    setCurrId(id);
+    setShowStop(true);
+  };
+  const handleCloseStop = () => setShowStop(false);
   const handleCloseStart = () => setShowStart(false);
   const handleShowStart = (activeId) => {
-    setCurrId(activeId)
+    setCurrId(activeId);
     setShowStart(true);
   }
 
@@ -112,12 +120,14 @@ const Dashboard = () => {
                     </Container>
                     <Container>
                       <Row className="justify-content-between px-0">
-                        <Col md={3} className="px-0 my-1">
+                        <Col md={4} className="px-0 my-1">
                           {game.active
-                            ? <Button
-                                className='mx-0 w-100'
-                                variant="danger">Stop
-                              </Button>
+                            ? <StopQuizButton
+                                game={game}
+                                setGameList={setGameList}
+                                handleShowStop={handleShowStop}
+                                id={game.active}
+                              />
                             : <StartQuizButton
                                 game={game}
                                 setGameList={setGameList}
@@ -128,7 +138,7 @@ const Dashboard = () => {
                             <Button className='mx-0 w-100' variant="primary">Edit</Button>
                           </Link>
                         </Col>
-                        <Col md={3} className="px-0 my-1">
+                        <Col md={4} className="px-0 my-1">
                           <DeleteQuizButton
                             gameList={gameList}
                             setGameList={setGameList}
@@ -153,12 +163,13 @@ const Dashboard = () => {
         setGameList={setGameList}
       />
       <StartGameModal
-        setShow={setShowStart}
         show={showStart}
-        handleShow={handleShowStart}
         handleClose={handleCloseStart}
-        gameList={gameList}
-        setGameList={setGameList}
+        id={currId}
+      />
+      <StopGameModal
+        show={showStop}
+        handleClose={handleCloseStop}
         id={currId}
       />
     </>

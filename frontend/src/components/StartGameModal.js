@@ -1,10 +1,9 @@
 import React from 'react'
 import { Button, Form, Modal } from 'react-bootstrap'
-// import API from '../utils/API';
 import PropTypes from 'prop-types';
 import { useAlert } from '../contexts/AlertProvider';
 
-const StartGameModal = ({ setShow, show, handleClose, handleShow, gameList, setGameList, id }) => {
+const StartGameModal = ({ show, handleClose, id }) => {
   const dispatch = useAlert();
 
   const createAlert = (type, message) => {

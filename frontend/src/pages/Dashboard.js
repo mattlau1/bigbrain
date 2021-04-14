@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import Navigation from '../components/Navigation';
-import API from '../utils/API';
-import Button from 'react-bootstrap/Button';
 import { useAlert } from '../contexts/AlertProvider';
-import { Col, Row, Card, Container } from 'react-bootstrap';
+import { Col, Row, Card, Container, Button } from 'react-bootstrap';
+import Navigation from '../components/Navigation';
 import CreateGameModal from '../components/CreateGameModal';
+import DeleteQuizButton from '../components/DeleteQuizButton';
 import { Link } from 'react-router-dom';
+import API from '../utils/API';
 
 const Dashboard = () => {
   const [gameList, setGameList] = useState([]);
   const [show, setShow] = useState(false);
 
-  // let time = 0;
   const dispatch = useAlert();
-
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -22,33 +20,12 @@ const Dashboard = () => {
   }
 
   const handleClose = () => setShow(false);
-
   const handleShow = () => setShow(true);
-
-  const deleteGame = async (id) => {
-    const token = localStorage.getItem('token');
-    const api = new API();
-    try {
-      const res = await api.deleteAPIRequestToken(`admin/quiz/${id}`, token);
-      if (res.ok) {
-        createAlert('SUCCESS', 'Removed successfully')
-      } else {
-        createAlert('ERROR', 'Removing game was not successful')
-      }
-    } catch (e) {
-      createAlert('ERROR', 'An unexpected error has occurred')
-      console.warn(e);
-    }
-    setGameList(gameList.filter(game => game.id !== id))
+  const getCompletionTime = (questions) => {
+    return questions.reduce((prev, current) => {
+      return prev + current.time_limit;
+    }, 0)
   }
-
-  // const timeSum = (question) => {
-  //   const sum = question.reduce((prev, current) => {
-  //     return prev + current.time_limit;
-  //   }, 0);
-  //   console.log(sum)
-  //   time = sum;
-  // }
 
   useEffect(() => {
     const loadGames = async () => {
@@ -85,32 +62,48 @@ const Dashboard = () => {
       <Navigation />
       <Container fluid>
       {console.log(gameList)}
-        <Row md={12} className="d-flex justify-content-center align-items-center text-center">
+        <Row md={12} className="justify-content-center align-items-center text-center">
           <Button className='mt-2' variant="primary" onClick={() => handleShow()}>Create New Game</Button>
         </Row>
         <Row md={12}>
           {gameList.map((game, key) => (
-            <Col className='mt-4' md={3} key={key}>
+            <Col className='mt-4' lg={4} md={6} sm={6} key={key}>
               <Card>
                 <Card.Header><h2>{game.name}</h2></Card.Header>
                 <Card.Img src={game.thumbnail || 'https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg'} />
                   <Card.Body>
                     <Card.Text>
-                    {game.questions.length} questions
-                    {' '}{game.questions.reduce((prev, current) => {
-                      return prev + current.time_limit;
-                    }, 0)}
-                    {' '}seconds
+                      <Container>
+                        <Row className="justify-content-center align-items-center">
+                          <Col md={6} className="text-left pl-0">
+                          {game.questions.length} questions
+                          </Col>
+                          <Col md={6} className="text-right pr-0">
+                            {getCompletionTime(game.questions)} seconds
+                          </Col>
+                        </Row>
+                      </Container>
                     </Card.Text>
-                    <Button className='mx-1' variant="primary">Start</Button>
-                    <Button className='mx-1' variant="primary">Stop</Button>
-                    <Link to={`/edit/${game.id}`}>
-                      <Button className='mx-1' variant="primary">
-                        Edit
-                      </Button>
-                    </Link>
-                    <Button className='mx-1' variant="danger" onClick={() => deleteGame(game.id)}>Delete</Button>
+                    <Container>
+                      <Row className="justify-content-between px-0">
+                        <Col md={3} className="px-0 my-1">
+                          <Button className='mx-0 w-100' variant="primary">Start</Button>
+                        </Col>
+                        <Col md={3} className="px-0 my-1">
+                          <Button className='mx-0 w-100' variant="primary">Stop</Button>
+                        </Col>
+                        <Col md={3} className="px-0 my-1">
+                          <Link to={`/edit/${game.id}`}>
+                            <Button className='mx-0 w-100' variant="primary">Edit</Button>
+                          </Link>
+                        </Col>
+                        <Col md={3} className="px-0 my-1">
+                          <DeleteQuizButton gameList={gameList} setGameList={setGameList} gameId={game.id}/>
+                        </Col>
+                      </Row>
+                    </Container>
                   </Card.Body>
+
               </Card>
             </Col>
           ))}

@@ -7,6 +7,7 @@ import { Col, Row, Container, Card } from 'react-bootstrap';
 import API from '../utils/API';
 import { v4 as uuidv4 } from 'uuid'
 import { useAlert } from '../contexts/AlertProvider';
+import { Link } from 'react-router-dom';
 
 const Edit = () => {
   const [questionDetail, setQuestionDetail] = useState([])
@@ -25,7 +26,7 @@ const Edit = () => {
 
   const addQuestion = () => {
     setQuestions(prevQuestion => {
-      return [...prevQuestion, { id: uuidv4(), text: 'blank question', time_limit: 10 }]
+      return [...prevQuestion, { id: uuidv4(), text: 'blank question', time_limit: 10, type: 'single', point: 20, answers: [] }]
     })
   }
 
@@ -76,6 +77,28 @@ const Edit = () => {
         createAlert('SUCCESS', 'Changes have been made');
       } else {
         console.log('changed UNsuccessully');
+      }
+    } catch (e) {
+      console.log('error');
+      console.warn(e);
+    }
+  }
+
+  const quickSave = async () => {
+    const token = localStorage.getItem('token');
+    const api = new API();
+    const body = {
+      questions: questions,
+      thumbnail: baseImage,
+    };
+
+    try {
+      const res = await api.putAPIRequestTokenBody(`admin/quiz/${id}`, body, token);
+      const data = await res.json();
+      if (res.ok) {
+        console.log(data);
+      } else {
+        console.log('UNsuccessful');
       }
     } catch (e) {
       console.log('error');
@@ -138,7 +161,9 @@ const Edit = () => {
                 <Row>
                   <Col md={9}>{index + 1}. {question.text}</Col>
                   <Col md={3}>
-                    <Button className='mx-1' variant="primary">Edit</Button>
+                    <Link to={`/editq/${id}/${question.id}`}>
+                      <Button className='mx-1' variant="primary" onClick={quickSave}>Edit</Button>
+                    </Link>
                     <Button className='mx-1' variant="danger" onClick={() => removeQuestion(question.id)}>Delete</Button>
                   </Col>
                 </Row>

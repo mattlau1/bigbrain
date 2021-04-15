@@ -3,13 +3,8 @@ import PropTypes from 'prop-types';
 import Navigation from '../components/Navigation';
 import { useParams } from 'react-router';
 import API from '../utils/API';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Card from 'react-bootstrap/Card';
+import { Container, Form, Col, Row, Button, ButtonGroup, Card } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom';
 
 const EditQuestion = () => {
   const [questions, setQuestions] = useState([]);
@@ -21,12 +16,8 @@ const EditQuestion = () => {
   const [answer, setAnswer] = useState('');
   const [answerList, setAnswerList] = useState([]);
   const [answerId, setAnswerId] = useState(0);
-  console.log(answer)
-  console.log(time)
-  console.log(point)
-  console.log(answerList);
-
-  console.log(newText);
+  const location = useLocation();
+  const qObj = location.state?.qObj;
   // const [ansCount, setAnsCount] = useState(0)
   const { id, qid } = useParams();
   const setSingle = () => {
@@ -48,6 +39,18 @@ const EditQuestion = () => {
     setAnswerList(answerList.filter(ans => ans.id !== aId))
   }
 
+  const confirmChanges = () => {
+    const questionBody = {
+      id: qid,
+      point: point,
+      text: newText,
+      time_limit: time,
+      answers: answerList,
+      type: questionType
+    }
+    console.log(questionBody);
+  }
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     const api = new API();
@@ -57,11 +60,9 @@ const EditQuestion = () => {
         const res = await api.getAPIRequestToken(`admin/quiz/${id}`, token);
         const data = await res.json();
         if (res.ok) {
-          console.log(data.questions);
           setQuestions(data.questions);
-          setQuestionType('single');
-          console.log('zap');
-          setAnswerList(data.questions.answers);
+          setQuestionType(qObj.type);
+          setAnswerList(qObj.answers);
         } else {
           console.log('load answers UNsuccessully');
         }
@@ -80,16 +81,19 @@ const EditQuestion = () => {
       <Container>
         <Col md={{ span: 6, offset: 3 }}>
           <Form.Group>
+            Current question: {qObj.text}
             <Form.Control
               className="inputBox m-2"
               placeholder="Rename Question"
               onChange={(e) => setNewText(e.target.value)}
             />
+            Current point: {qObj.point}
             <Form.Control
               className="inputBox m-2"
               placeholder="Points"
               onChange={(e) => setPoint(e.target.value)}
             />
+            Current point: {qObj.time_limit}
             <Form.Control
               className="inputBox m-2"
               placeholder="Time Limit"
@@ -139,7 +143,7 @@ const EditQuestion = () => {
           </Row>
 
           <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
-            <Button className='mt-5' variant="primary">Confirm Changes</Button>
+            <Button className='mt-5' variant="primary" onClick={confirmChanges}>Confirm Changes</Button>
           </Row>
 
         </Col>

@@ -161,7 +161,7 @@ const Edit = () => {
                 <Row>
                   <Col md={9}>{index + 1}. {question.text}</Col>
                   <Col md={3}>
-                    <Link to={`/editq/${id}/${question.id}`}>
+                    <Link to={{ pathname: `/editq/${id}/${question.id}`, state: { qObj: question } }}>
                       <Button className='mx-1' variant="primary" onClick={quickSave}>Edit</Button>
                     </Link>
                     <Button className='mx-1' variant="danger" onClick={() => removeQuestion(question.id)}>Delete</Button>

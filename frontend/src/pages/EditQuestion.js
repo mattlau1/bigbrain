@@ -171,7 +171,7 @@ const EditQuestion = () => {
             Add Video
           </Col>
 
-          <Col md={8}>
+          <Col md={6}>
             <Form.Group>
               <Form.Control
                 className="inputBox mt-3"
@@ -199,7 +199,7 @@ const EditQuestion = () => {
             Current time: {qObj.time_limit}
             <Form.Control
               className="inputBox m-2"
-              placeholder="Time Limit"
+              placeholder="Time Limit (seconds)"
               onChange={(e) => setTime(e.target.value)}
             />
           </Form.Group>
@@ -242,7 +242,7 @@ const EditQuestion = () => {
                 />
               </Form.Group>
             </Col>
-              <Button variant="primary" onClick={addAnswer}>Add answers</Button>
+              <Button variant="primary" onClick={addAnswer}>Add option</Button>
           </Row>
 
           <Row className="d-flex justify-content-center align-items-center text-center" md={12}>

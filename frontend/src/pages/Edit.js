@@ -11,7 +11,7 @@ import { useAlert } from '../contexts/AlertProvider';
 const Edit = () => {
   const [questionDetail, setQuestionDetail] = useState([])
   const [questions, setQuestions] = useState([])
-  const { id } = useParams();
+  const { quizId } = useParams();
 
   const dispatch = useAlert();
 
@@ -40,7 +40,7 @@ const Edit = () => {
     };
 
     try {
-      const res = await api.putAPIRequestTokenBody(`admin/quiz/${id}`, body, token);
+      const res = await api.putAPIRequestTokenBody(`admin/quiz/${quizId}`, body, token);
       const data = await res.json();
       if (res.ok) {
         console.log('changed successully');
@@ -61,7 +61,7 @@ const Edit = () => {
 
     const loadQuestion = async () => {
       try {
-        const res = await api.getAPIRequestToken(`admin/quiz/${id}`, token);
+        const res = await api.getAPIRequestToken(`admin/quiz/${quizId}`, token);
         const data = await res.json();
         if (res.ok) {
           console.log('load questions successully');

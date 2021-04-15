@@ -2,11 +2,11 @@ import React from 'react'
 import { useParams } from 'react-router';
 
 const Play = () => {
-  const { id } = useParams();
+  const { sessionId } = useParams();
   return (
     <>
       <div>
-          You are playing game {id}
+          You are playing game {sessionId}
       </div>
     </>
   )

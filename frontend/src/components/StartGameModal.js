@@ -19,32 +19,32 @@ const StartGameModal = ({ show, handleClose, id }) => {
   }
 
   return (
-        <Modal show={show} onHide={handleClose}>
-        <Form>
-            <Modal.Header closeButton>
-            <Modal.Title>Share Game</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <p className="mb-1">Session id: <strong>{id}</strong></p>
-              <Form.Group controlId="inviteLink">
-                <Form.Control
-                  type="text"
-                  value={`${window.location.origin}/play/${id}`}
-                  readOnly
-                  plaintext
-                />
-                <Button onClick={() => { handleCopy(id) }}>
-                  Copy Link
-                </Button>
-              </Form.Group>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-            </Modal.Footer>
-        </Form>
-      </Modal>
+      <Modal show={show} onHide={handleClose}>
+      <Form>
+        <Modal.Header closeButton>
+        <Modal.Title>Share Game</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-1">Session id: <strong>{id}</strong></p>
+          <Form.Group controlId="inviteLink">
+            <Form.Control
+              type="text"
+              value={`${window.location.origin}/play/${id}`}
+              readOnly
+              plaintext
+            />
+            <Button onClick={() => { handleCopy(id) }}>
+              Copy Link
+            </Button>
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
   )
 }
 

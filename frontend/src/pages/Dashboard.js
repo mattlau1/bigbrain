@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAlert } from '../contexts/AlertProvider';
 import { Col, Row, Card, Container, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import API from '../utils/API';
 import Navigation from '../components/Navigation';
 import CreateGameModal from '../components/CreateGameModal';
 import DeleteQuizButton from '../components/DeleteQuizButton';
-import { Link } from 'react-router-dom';
-import API from '../utils/API';
 import StartQuizButton from '../components/StartQuizButton';
 import StartGameModal from '../components/StartGameModal';
 import StopQuizButton from '../components/StopQuizButton';
@@ -16,7 +16,7 @@ const Dashboard = () => {
   const [showCreate, setShowCreate] = useState(false);
   const [showStart, setShowStart] = useState(false);
   const [showStop, setShowStop] = useState(false);
-  const [currId, setCurrId] = useState('')
+  const [currId, setCurrId] = useState(0)
 
   const dispatch = useAlert();
   const createAlert = (type, message) => {
@@ -34,8 +34,8 @@ const Dashboard = () => {
   };
   const handleCloseStop = () => setShowStop(false);
   const handleCloseStart = () => setShowStart(false);
-  const handleShowStart = (activeId) => {
-    setCurrId(activeId);
+  const handleShowStart = (id) => {
+    setCurrId(id);
     setShowStart(true);
   }
 

@@ -15,9 +15,9 @@ function App () {
         <Route path="/" exact component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/edit/:id" component={Edit} />
-        <Route path="/play/:id" component={Play} />
-        <Route path="/results/:id" component={Results} />
+        <Route path="/edit/:quizId" component={Edit} />
+        <Route path="/play/:sessionId" component={Play} />
+        <Route path="/results/:sessionId" component={Results} />
       </Switch>
     </Router>
   );

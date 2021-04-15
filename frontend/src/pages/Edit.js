@@ -26,7 +26,7 @@ const Edit = () => {
 
   const addQuestion = () => {
     setQuestions(prevQuestion => {
-      return [...prevQuestion, { id: uuidv4(), text: 'blank question', time_limit: 10, type: 'single', point: 20, answers: [{ id: 0, answerText: 'blank' }] }]
+      return [...prevQuestion, { id: uuidv4(), text: 'blank question', time_limit: 10, type: 'single', point: 20, answers: [{ id: 0, answerText: 'blank answer' }] }]
     })
   }
 

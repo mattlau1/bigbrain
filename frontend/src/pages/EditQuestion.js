@@ -19,9 +19,10 @@ const EditQuestion = () => {
   const [answerId, setAnswerId] = useState(0);
   const [videoFile, setVideoFile] = useState();
   const [videoUrl, setVideoUrl] = useState('');
+  const [baseImage, setBaseImage] = useState('');
+  const [h, setH] = useState(0);
   const location = useLocation();
   const qObj = location.state?.qObj;
-  console.log(videoFile);
 
   const dispatch = useAlert();
 
@@ -50,12 +51,44 @@ const EditQuestion = () => {
   }
 
   const addVideo = () => {
-    setVideoFile(videoUrl)
+    if (!videoUrl) return;
+    setBaseImage('');
+    setH(360);
+    setVideoFile(videoUrl);
   }
 
   const removeAnswer = (aId) => {
     setAnswerList(answerList.filter(ans => ans.id !== aId))
   }
+
+  const uploadImage = async (e) => {
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setVideoFile('');
+    setH(0);
+    setBaseImage(base64);
+  };
+
+  const uploadVideo = async (e) => {
+    setBaseImage('');
+    setH(360);
+    setVideoFile(URL.createObjectURL(e.target.files[0]));
+  }
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   const confirmChanges = () => {
     if (answerList.length < 2) {
@@ -69,7 +102,9 @@ const EditQuestion = () => {
       text: (!newText) ? qObj.text : newText,
       time_limit: (!time) ? qObj.time_limit : time,
       answers: answerList,
-      type: questionType
+      type: questionType,
+      thumbnail: baseImage,
+      video: videoFile
     }
     console.log(questionBody);
   }
@@ -103,11 +138,39 @@ const EditQuestion = () => {
       <Navigation />
       This is the edit page with game id {id} and {qid}!
       <Container>
-
-        <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
+        <Col className="d-flex justify-content-center align-items-center text-center"md={12}>
           <ReactPlayer
+            playing={true}
+            loop={true}
+            height={h}
             url={videoFile}
           />
+        </Col>
+        <Col md={{ span: 4, offset: 4 }}>
+          <Card.Img src={baseImage} />
+        </Col>
+        <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
+
+          <Col className="d-flex justify-content-center align-items-center text-center mt-2" md={12}>
+            <input className='mb-2 mr-2 formContainer rounded border border-dark p-1'
+              type="file"
+              onChange={(e) => {
+                uploadImage(e);
+              }}
+            />
+            Add Thumbnail
+          </Col>
+
+          <Col className="d-flex justify-content-center align-items-center text-center mt-2" md={12}>
+            <input className='mb-2 mr-2 formContainer rounded border border-dark p-1'
+              type="file"
+              onChange={(e) => {
+                uploadVideo(e);
+              }}
+            />
+            Add Video
+          </Col>
+
           <Col md={8}>
             <Form.Group>
               <Form.Control
@@ -117,7 +180,7 @@ const EditQuestion = () => {
               />
             </Form.Group>
           </Col>
-          <Button variant="primary" onClick={addVideo}>Display video</Button>
+          <Button variant="primary" onClick={addVideo}>Display video URL</Button>
         </Row>
         <Col md={{ span: 6, offset: 3 }}>
           <Form.Group>

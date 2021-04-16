@@ -33,9 +33,10 @@ const Edit = () => {
           time_limit: 10,
           type: 'single',
           point: 20,
-          answers: [{ id: 0, answerText: 'blank answer' }],
+          answers: [],
           thumbnail: null,
-          video: null
+          video: null,
+          correctAnswers: []
         }]
     })
   }

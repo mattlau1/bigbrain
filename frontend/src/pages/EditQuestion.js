@@ -20,11 +20,11 @@ const EditQuestion = () => {
   const [videoFile, setVideoFile] = useState();
   const [videoUrl, setVideoUrl] = useState('');
   const [baseImage, setBaseImage] = useState('');
+  const [correctAnswers, setCorrectAnswers] = useState([]);
   const [h, setH] = useState(0);
   const location = useLocation();
   const qObj = location.state?.qObj;
   const history = useHistory();
-  console.log(questions)
 
   const dispatch = useAlert();
 
@@ -77,6 +77,13 @@ const EditQuestion = () => {
     setVideoFile(URL.createObjectURL(e.target.files[0]));
   }
 
+  const displayVideo = (src) => {
+    if (!src) return;
+    setH(360);
+    console.log(src);
+    setVideoFile(src);
+  }
+
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -92,6 +99,21 @@ const EditQuestion = () => {
     });
   };
 
+  const changeCorrectAnswer = (optionId) => {
+    if (!correctAnswers.includes(optionId)) {
+      console.log('adding id is' + optionId)
+      correctAnswers.push(optionId)
+    } else {
+      const newAnswers = correctAnswers;
+      console.log('removing' + optionId)
+      newAnswers.splice(newAnswers.indexOf(optionId), 1)
+      setCorrectAnswers([...newAnswers]);
+      console.log(correctAnswers);
+    }
+    console.log('correct answers are:');
+    console.log(correctAnswers);
+  }
+
   const confirmChanges = async () => {
     if (answerList.length < 2) {
       createAlert('ERROR', 'Need at least 2 answers to make changes');
@@ -106,7 +128,8 @@ const EditQuestion = () => {
       answers: answerList,
       type: questionType,
       thumbnail: baseImage,
-      video: videoFile
+      video: videoFile,
+      correctAnswers: correctAnswers
     }
     console.log(questionBody);
     let index;
@@ -159,8 +182,11 @@ const EditQuestion = () => {
           console.log('zap')
           setQuestionType(qObj.type);
           setAnswerList(qObj.answers);
-          setVideoFile(qObj.video);
+          setAnswerId(qObj.answers.length);
+          displayVideo(qObj.video);
           setBaseImage(qObj.thumbnail);
+          setCorrectAnswers(qObj.correctAnswers);
+          console.log('current correct is' + correctAnswers);
         } else {
           console.log('load answers UNsuccessully');
         }
@@ -260,7 +286,7 @@ const EditQuestion = () => {
                 <Card>
                 <Card.Body>
                   <Row>
-                    <Col md={9}>{index + 1}. {ans.answerText}</Col>
+                    <Col md={9}><Form.Check type="checkbox" checked={correctAnswers.includes(ans.id)} onChange={() => changeCorrectAnswer(ans.id)}/>{index + 1}. {ans.answerText}</Col>
                     <Col md={3}>
                       <Button className='mx-1' variant="danger" onClick={() => removeAnswer(ans.id)}>Delete</Button>
                     </Col>

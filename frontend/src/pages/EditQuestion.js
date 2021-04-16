@@ -21,7 +21,7 @@ const EditQuestion = () => {
   const [videoUrl, setVideoUrl] = useState('');
   const [baseImage, setBaseImage] = useState('');
   const [correctAnswers, setCorrectAnswers] = useState([]);
-  const [h, setH] = useState(0);
+  const [height, setHeight] = useState(0);
   const location = useLocation();
   const qObj = location.state?.qObj;
   const history = useHistory();
@@ -48,14 +48,14 @@ const EditQuestion = () => {
     if (answerList.length >= 6) return;
     setAnswerId(answerId + 1)
     setAnswerList(prevAnswer => {
-      return [...prevAnswer, { id: answerId, answerText: answer }]
+      return [...prevAnswer, { id: answerId, answerText: answer, check: false }]
     })
   }
 
   const addVideo = () => {
     if (!videoUrl) return;
     setBaseImage('');
-    setH(360);
+    setHeight(360);
     setVideoFile(videoUrl);
   }
 
@@ -67,19 +67,19 @@ const EditQuestion = () => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
     setVideoFile('');
-    setH(0);
+    setHeight(0);
     setBaseImage(base64);
   };
 
   const uploadVideo = async (e) => {
     setBaseImage('');
-    setH(360);
+    setHeight(360);
     setVideoFile(URL.createObjectURL(e.target.files[0]));
   }
 
   const displayVideo = (src) => {
     if (!src) return;
-    setH(360);
+    setHeight(360);
     console.log(src);
     setVideoFile(src);
   }
@@ -99,29 +99,44 @@ const EditQuestion = () => {
     });
   };
 
-  const changeCorrectAnswer = (optionId) => {
-    if (!correctAnswers.includes(optionId)) {
-      console.log('adding id is' + optionId)
-      correctAnswers.push(optionId)
+  const changeCorrectAnswer = (option) => {
+    console.log(option)
+    if (!correctAnswers.includes(option.id)) {
+      correctAnswers.push(option.id)
     } else {
       const newAnswers = correctAnswers;
-      console.log('removing' + optionId)
-      newAnswers.splice(newAnswers.indexOf(optionId), 1)
+      newAnswers.splice(newAnswers.indexOf(option.id), 1)
       setCorrectAnswers([...newAnswers]);
       console.log(correctAnswers);
     }
-    console.log('correct answers are:');
     console.log(correctAnswers);
+    let index;
+    let i = 0;
+    answerList.forEach((item) => {
+      if (item.id === option.id) {
+        index = i;
+      }
+      i++;
+    })
+    const clone = [...answerList];
+    if (option.check) {
+      clone[index].check = false;
+    } else {
+      clone[index].check = true;
+    }
+
+    setAnswerList(clone);
   }
 
   const confirmChanges = async () => {
+    console.log(answerList);
     if (answerList.length < 2) {
       createAlert('ERROR', 'Need at least 2 answers to make changes');
       return;
     }
     if (questionType === 'single') {
       if (correctAnswers.length > 1) {
-        createAlert('ERROR', 'This is a single choice question. Must have 1 correct answers only');
+        createAlert('ERROR', 'This is a single choice question. Must have 1 correct answer only');
         return;
       }
     } else if (questionType === 'multiple') {
@@ -144,8 +159,8 @@ const EditQuestion = () => {
     }
     console.log(questionBody);
     let index;
+    let i = 0;
     questions.forEach((question) => {
-      let i = 0;
       if (question.id === qid) {
         index = i;
       }
@@ -158,9 +173,6 @@ const EditQuestion = () => {
     const body = {
       questions: clone,
     };
-
-    console.log('WORD');
-    console.log(questions);
 
     try {
       const res = await api.putAPIRequestTokenBody(`admin/quiz/${id}`, body, token);
@@ -188,14 +200,12 @@ const EditQuestion = () => {
         const data = await res.json();
         if (res.ok) {
           setQuestions(data.questions);
-          console.log('zap')
           setQuestionType(qObj.type);
           setAnswerList(qObj.answers);
           setAnswerId(qObj.answers.length);
           displayVideo(qObj.video);
           setBaseImage(qObj.thumbnail);
           setCorrectAnswers(qObj.correctAnswers);
-          console.log('current correct is' + correctAnswers);
         } else {
           console.log('load answers UNsuccessully');
         }
@@ -212,11 +222,11 @@ const EditQuestion = () => {
       <Navigation />
       This is the edit page with game id {id} and {qid}!
       <Container>
-        <Col className="d-flex justify-content-center align-items-center text-center"md={12}>
+        <Col md={12}>
           <ReactPlayer
             playing={true}
             loop={true}
-            height={h}
+            height={height}
             url={videoFile}
           />
         </Col>
@@ -295,7 +305,7 @@ const EditQuestion = () => {
                 <Card>
                 <Card.Body>
                   <Row>
-                    <Col md={9}><Form.Check type="checkbox" checked={correctAnswers.includes(ans.id)} onChange={() => changeCorrectAnswer(ans.id)}/>{index + 1}. {ans.answerText}</Col>
+                    <Col md={9}><Form.Check type="checkbox" checked={ans.check} onChange={() => changeCorrectAnswer(ans)}/>{index + 1}. {ans.answerText}</Col>
                     <Col md={3}>
                       <Button className='mx-1' variant="danger" onClick={() => removeAnswer(ans.id)}>Delete</Button>
                     </Col>

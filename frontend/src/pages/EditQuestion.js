@@ -4,9 +4,9 @@ import Navigation from '../components/Navigation';
 import { useParams } from 'react-router';
 import API from '../utils/API';
 import { Container, Form, Col, Row, Button, ButtonGroup, Card } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
-import { useAlert } from '../contexts/AlertProvider';
+import { useLocation, useHistory } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import { useAlert } from '../contexts/AlertProvider';
 
 const EditQuestion = () => {
   const [questions, setQuestions] = useState([]);
@@ -23,6 +23,8 @@ const EditQuestion = () => {
   const [h, setH] = useState(0);
   const location = useLocation();
   const qObj = location.state?.qObj;
+  const history = useHistory();
+  console.log(questions)
 
   const dispatch = useAlert();
 
@@ -90,7 +92,7 @@ const EditQuestion = () => {
     });
   };
 
-  const confirmChanges = () => {
+  const confirmChanges = async () => {
     if (answerList.length < 2) {
       createAlert('ERROR', 'Need at least 2 answers to make changes');
       return;
@@ -98,15 +100,50 @@ const EditQuestion = () => {
     createAlert('SUCCESS', 'Changes has been made');
     const questionBody = {
       id: qid,
-      point: (!point) ? qObj.point : point,
+      point: (!point) ? qObj.point : parseInt(point, 10),
       text: (!newText) ? qObj.text : newText,
-      time_limit: (!time) ? qObj.time_limit : time,
+      time_limit: (!time) ? qObj.time_limit : parseInt(time, 10),
       answers: answerList,
       type: questionType,
       thumbnail: baseImage,
       video: videoFile
     }
     console.log(questionBody);
+    let index;
+    questions.forEach((question) => {
+      let i = 0;
+      if (question.id === qid) {
+        console.log('made you look')
+        console.log(question)
+        index = i;
+      }
+      i++;
+    })
+    const clone = [...questions]
+    clone[index] = questionBody
+    const token = localStorage.getItem('token');
+    const api = new API();
+    const body = {
+      questions: clone,
+    };
+
+    console.log('WORD');
+    console.log(questions);
+
+    try {
+      const res = await api.putAPIRequestTokenBody(`admin/quiz/${id}`, body, token);
+      const data = await res.json();
+      if (res.ok) {
+        console.log('changed successully');
+        console.log(data);
+        history.push(`/edit/${id}`);
+      } else {
+        console.log('changed UNsuccessully');
+      }
+    } catch (e) {
+      console.log('error');
+      console.warn(e);
+    }
   }
 
   useEffect(() => {
@@ -119,9 +156,11 @@ const EditQuestion = () => {
         const data = await res.json();
         if (res.ok) {
           setQuestions(data.questions);
-          console.log(questions);
+          console.log('zap')
           setQuestionType(qObj.type);
           setAnswerList(qObj.answers);
+          setVideoFile(qObj.video);
+          setBaseImage(qObj.thumbnail);
         } else {
           console.log('load answers UNsuccessully');
         }

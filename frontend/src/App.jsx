@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Edit from './pages/Edit';
+import EditQuestion from './pages/EditQuestion';
 import Play from './pages/Play';
 import Results from './pages/Results';
 
@@ -15,6 +16,7 @@ function App () {
         <Route path="/" exact component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/editq/:id/:qid" component={EditQuestion} />
         <Route path="/edit/:quizId" component={Edit} />
         <Route path="/play/:sessionId" component={Play} />
         <Route path="/results/:sessionId" component={Results} />

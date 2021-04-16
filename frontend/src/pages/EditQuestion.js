@@ -109,23 +109,16 @@ const EditQuestion = () => {
       setCorrectAnswers([...newAnswers]);
       console.log(correctAnswers);
     }
-    console.log(correctAnswers);
+
     let index;
     let i = 0;
     answerList.forEach((item) => {
-      if (item.id === option.id) {
-        index = i;
-      }
+      (item.id === option.id) && (index = i);
       i++;
     })
+    
     const clone = [...answerList];
-    // if (option.check) {
-    //   clone[index].check = false;
-    // } else {
-    //   clone[index].check = true;
-    // }
     (option.check) ? clone[index].check = false : clone[index].check = true;
-
     setAnswerList(clone);
   }
 
@@ -162,9 +155,7 @@ const EditQuestion = () => {
     let index;
     let i = 0;
     questions.forEach((question) => {
-      if (question.id === qid) {
-        index = i;
-      }
+      (question.id === qid) && (index = i);
       i++;
     })
     const clone = [...questions]

@@ -160,7 +160,13 @@ const Edit = () => {
               uploadImage(e);
             }}
           />
-          <Button className='mx-1 mb-2' variant="danger" onClick={removeImage}>Remove Thumbnail</Button>
+          <Button
+            className='mx-1 mb-2'
+            variant="danger"
+            onClick={removeImage}
+          >
+            Remove Thumbnail
+          </Button>
         </Row>
 
         <Col md={{ span: 8, offset: 2 }}>
@@ -172,10 +178,18 @@ const Edit = () => {
                 <Row>
                   <Col md={9}>{index + 1}. {question.text}</Col>
                   <Col md={3}>
-                    <Link to={{ pathname: `/editq/${quizId}/${question.id}`, state: { qObj: question } }}>
+                    <Link
+                      to={{ pathname: `/editq/${quizId}/${question.id}`, state: { qObj: question } }}
+                    >
                       <Button className='mx-1' variant="primary" onClick={quickSave}>Edit</Button>
                     </Link>
-                    <Button className='mx-1' variant="danger" onClick={() => removeQuestion(question.id)}>Delete</Button>
+                    <Button
+                      className='mx-1'
+                      variant="danger"
+                      onClick={() => removeQuestion(question.id)}
+                    >
+                      Delete
+                    </Button>
                   </Col>
                 </Row>
               </Card.Body>
@@ -186,8 +200,20 @@ const Edit = () => {
 
         <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
           <Col>
-          <Button className='mx-1' variant="primary" onClick={addQuestion}>Add a new question</Button>
-          <Button className='mx-1' variant="primary" onClick={confirmChanges}>Confirm Changes</Button>
+            <Button
+              className='mx-1'
+              variant="primary"
+              onClick={addQuestion}
+            >
+              Add a new question
+            </Button>
+            <Button
+            className='mx-1'
+            variant="primary"
+            onClick={confirmChanges}
+            >
+              Confirm Changes
+            </Button>
           </Col>
         </Row>
       </Container>

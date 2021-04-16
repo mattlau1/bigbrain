@@ -213,7 +213,8 @@ const EditQuestion = () => {
     <>
       <Navigation />
       <Container>
-        <Col md={12}>
+        <Col className="d-flex justify-content-center align-items-center text-center"
+          md={12}>
           <ReactPlayer
             playing={true}
             loop={true}

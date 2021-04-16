@@ -119,11 +119,12 @@ const EditQuestion = () => {
       i++;
     })
     const clone = [...answerList];
-    if (option.check) {
-      clone[index].check = false;
-    } else {
-      clone[index].check = true;
-    }
+    // if (option.check) {
+    //   clone[index].check = false;
+    // } else {
+    //   clone[index].check = true;
+    // }
+    (option.check) ? clone[index].check = false : clone[index].check = true;
 
     setAnswerList(clone);
   }
@@ -135,7 +136,7 @@ const EditQuestion = () => {
       return;
     }
     if (questionType === 'single') {
-      if (correctAnswers.length > 1) {
+      if (correctAnswers.length > 1 || correctAnswers.length < 1) {
         createAlert('ERROR', 'This is a single choice question. Must have 1 correct answer only');
         return;
       }

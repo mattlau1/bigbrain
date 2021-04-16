@@ -119,6 +119,17 @@ const EditQuestion = () => {
       createAlert('ERROR', 'Need at least 2 answers to make changes');
       return;
     }
+    if (questionType === 'single') {
+      if (correctAnswers.length > 1) {
+        createAlert('ERROR', 'This is a single choice question. Must have 1 correct answers only');
+        return;
+      }
+    } else if (questionType === 'multiple') {
+      if (correctAnswers.length < 2) {
+        createAlert('ERROR', 'This is a multiple choice question. Must have at least 2 correct answers');
+        return;
+      }
+    }
     createAlert('SUCCESS', 'Changes has been made');
     const questionBody = {
       id: qid,
@@ -136,8 +147,6 @@ const EditQuestion = () => {
     questions.forEach((question) => {
       let i = 0;
       if (question.id === qid) {
-        console.log('made you look')
-        console.log(question)
         index = i;
       }
       i++;

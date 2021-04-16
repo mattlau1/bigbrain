@@ -13,7 +13,7 @@ const Edit = () => {
   const [questionDetail, setQuestionDetail] = useState([])
   const [questions, setQuestions] = useState([])
   const [baseImage, setBaseImage] = useState('');
-  const { id } = useParams();
+  const { quizId } = useParams();
 
   const dispatch = useAlert();
 
@@ -80,7 +80,7 @@ const Edit = () => {
     };
 
     try {
-      const res = await api.putAPIRequestTokenBody(`admin/quiz/${id}`, body, token);
+      const res = await api.putAPIRequestTokenBody(`admin/quiz/${quizId}`, body, token);
       const data = await res.json();
       if (res.ok) {
         console.log('changed successully');
@@ -104,7 +104,7 @@ const Edit = () => {
     };
 
     try {
-      const res = await api.putAPIRequestTokenBody(`admin/quiz/${id}`, body, token);
+      const res = await api.putAPIRequestTokenBody(`admin/quiz/${quizId}`, body, token);
       const data = await res.json();
       if (res.ok) {
         console.log(data);
@@ -123,7 +123,7 @@ const Edit = () => {
 
     const loadQuestion = async () => {
       try {
-        const res = await api.getAPIRequestToken(`admin/quiz/${id}`, token);
+        const res = await api.getAPIRequestToken(`admin/quiz/${quizId}`, token);
         const data = await res.json();
         if (res.ok) {
           console.log('load questions successully');
@@ -172,7 +172,7 @@ const Edit = () => {
                 <Row>
                   <Col md={9}>{index + 1}. {question.text}</Col>
                   <Col md={3}>
-                    <Link to={{ pathname: `/editq/${id}/${question.id}`, state: { qObj: question } }}>
+                    <Link to={{ pathname: `/editq/${quizId}/${question.id}`, state: { qObj: question } }}>
                       <Button className='mx-1' variant="primary" onClick={quickSave}>Edit</Button>
                     </Link>
                     <Button className='mx-1' variant="danger" onClick={() => removeQuestion(question.id)}>Delete</Button>

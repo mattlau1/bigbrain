@@ -80,7 +80,6 @@ const EditQuestion = () => {
   const displayVideo = (src) => {
     if (!src) return;
     setHeight(360);
-    console.log(src);
     setVideoFile(src);
   }
 
@@ -100,14 +99,12 @@ const EditQuestion = () => {
   };
 
   const changeCorrectAnswer = (option) => {
-    console.log(option)
     if (!correctAnswers.includes(option.id)) {
       correctAnswers.push(option.id)
     } else {
       const newAnswers = correctAnswers;
       newAnswers.splice(newAnswers.indexOf(option.id), 1)
       setCorrectAnswers([...newAnswers]);
-      console.log(correctAnswers);
     }
 
     let index;
@@ -115,15 +112,13 @@ const EditQuestion = () => {
     answerList.forEach((item) => {
       (item.id === option.id) && (index = i);
       i++;
-    })
-    
+    });
     const clone = [...answerList];
     (option.check) ? clone[index].check = false : clone[index].check = true;
     setAnswerList(clone);
   }
 
   const confirmChanges = async () => {
-    console.log(answerList);
     if (answerList.length < 2) {
       createAlert('ERROR', 'Need at least 2 answers to make changes');
       return;
@@ -140,6 +135,10 @@ const EditQuestion = () => {
       }
     }
     createAlert('SUCCESS', 'Changes has been made');
+    createBody();
+  }
+
+  const createBody = () => {
     const questionBody = {
       id: qid,
       point: (!point) ? qObj.point : parseInt(point, 10),
@@ -151,7 +150,6 @@ const EditQuestion = () => {
       video: videoFile,
       correctAnswers: correctAnswers
     }
-    console.log(questionBody);
     let index;
     let i = 0;
     questions.forEach((question) => {
@@ -160,18 +158,20 @@ const EditQuestion = () => {
     })
     const clone = [...questions]
     clone[index] = questionBody
+    saveChanges(clone);
+  }
+
+  const saveChanges = async (newBody) => {
     const token = localStorage.getItem('token');
     const api = new API();
     const body = {
-      questions: clone,
+      questions: newBody,
     };
 
     try {
       const res = await api.putAPIRequestTokenBody(`admin/quiz/${id}`, body, token);
-      const data = await res.json();
       if (res.ok) {
         console.log('changed successully');
-        console.log(data);
         history.push(`/edit/${id}`);
       } else {
         console.log('changed UNsuccessully');
@@ -212,7 +212,6 @@ const EditQuestion = () => {
   return (
     <>
       <Navigation />
-      This is the edit page with game id {id} and {qid}!
       <Container>
         <Col md={12}>
           <ReactPlayer

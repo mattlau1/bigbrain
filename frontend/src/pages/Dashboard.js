@@ -170,6 +170,8 @@ const Dashboard = () => {
         handleClose={handleCloseStart}
         sessionId={currSessionId}
         gameId={currGameId}
+        handleShowStop={handleShowStop}
+        setGameList={setGameList}
       />
       <StopGameModal
         show={showStop}

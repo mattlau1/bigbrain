@@ -29,7 +29,7 @@ const Edit = () => {
       return [...prevQuestion,
         {
           id: uuidv4(),
-          text: 'blank question',
+          text: 'Empty Question',
           time_limit: 10,
           type: 'single',
           point: 20,
@@ -47,8 +47,16 @@ const Edit = () => {
 
   const uploadImage = async (e) => {
     const file = e.target.files[0];
-    const base64 = await convertBase64(file);
-    setBaseImage(base64);
+    if (file) {
+      const ext = file.name.substring(file.name.lastIndexOf('.') + 1);
+
+      if (ext === 'jpg' || ext === 'jpeg' || ext === 'png') {
+        const base64 = await convertBase64(file);
+        setBaseImage(base64);
+      } else {
+        createAlert('ERROR', 'This file format is not supported');
+      }
+    }
   };
 
   const convertBase64 = (file) => {
@@ -159,6 +167,7 @@ const Edit = () => {
             onChange={(e) => {
               uploadImage(e);
             }}
+            accept={'.png, .jpeg, .jpg'}
           />
           <Button
             className='mx-1 mb-2'
@@ -175,23 +184,23 @@ const Edit = () => {
             <Col className='m-2 p-1' key={index} md={12}>
               <Card>
               <Card.Body>
-                <Row>
-                  <Col md={9}>{index + 1}. {question.text}</Col>
-                  <Col md={3}>
-                    <Link
-                      to={{ pathname: `/editq/${quizId}/${question.id}`, state: { qObj: question } }}
-                    >
-                      <Button className='mx-1' variant="primary" onClick={quickSave}>Edit</Button>
-                    </Link>
-                    <Button
-                      className='mx-1'
-                      variant="danger"
-                      onClick={() => removeQuestion(question.id)}
-                    >
-                      Delete
-                    </Button>
-                  </Col>
-                </Row>
+              <Row>
+                <Col md={9}>{index + 1}. {question.text}</Col>
+                <Col md={3}>
+                  <Link
+                    to={{ pathname: `/editq/${quizId}/${question.id}`, state: { qObj: question } }}
+                  >
+                    <Button className='mx-1' variant="primary" onClick={quickSave}>Edit</Button>
+                  </Link>
+                  <Button
+                    className='mx-1'
+                    variant="danger"
+                    onClick={() => removeQuestion(question.id)}
+                  >
+                    Delete
+                  </Button>
+                </Col>
+              </Row>
               </Card.Body>
               </Card>
             </Col>
@@ -209,7 +218,7 @@ const Edit = () => {
             </Button>
             <Button
             className='mx-1'
-            variant="primary"
+            variant="success"
             onClick={confirmChanges}
             >
               Confirm Changes

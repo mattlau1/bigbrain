@@ -10,10 +10,10 @@ import { useAlert } from '../contexts/AlertProvider';
 
 const EditQuestion = () => {
   const [questions, setQuestions] = useState([]);
-  const [newText, setNewText] = useState('');
+  const [question, setQuestion] = useState('');
   const [questionType, setQuestionType] = useState('');
-  const [point, setPoint] = useState(0);
-  const [time, setTime] = useState(0);
+  const [points, setPoints] = useState(0);
+  const [timeLimit, setTimeLimit] = useState(0);
   const [answer, setAnswer] = useState('');
   const [answerList, setAnswerList] = useState([]);
   const [answerId, setAnswerId] = useState(0);
@@ -25,6 +25,7 @@ const EditQuestion = () => {
   const location = useLocation();
   const qObj = location.state?.qObj;
   const history = useHistory();
+  const maxQuestions = 6;
 
   const dispatch = useAlert();
 
@@ -45,7 +46,10 @@ const EditQuestion = () => {
   }
 
   const addAnswer = () => {
-    if (answerList.length >= 6) return;
+    if (answerList.length >= maxQuestions) {
+      createAlert('ERROR', `You cannot have more than ${maxQuestions} questions`);
+      return;
+    }
     setAnswerId(answerId + 1)
     setAnswerList(prevAnswer => {
       return [...prevAnswer, { id: answerId, answerText: answer, check: false }]
@@ -63,19 +67,25 @@ const EditQuestion = () => {
     setAnswerList(answerList.filter(ans => ans.id !== aId))
   }
 
-  const uploadImage = async (e) => {
+  const uploadFile = async (e) => {
     const file = e.target.files[0];
-    const base64 = await convertBase64(file);
-    setVideoFile('');
-    setHeight(0);
-    setBaseImage(base64);
-  };
+    if (file) {
+      const ext = file.name.substring(file.name.lastIndexOf('.') + 1);
 
-  const uploadVideo = async (e) => {
-    setBaseImage('');
-    setHeight(360);
-    setVideoFile(URL.createObjectURL(e.target.files[0]));
-  }
+      if (ext === 'jpg' || ext === 'jpeg' || ext === 'png') {
+        const base64 = await convertBase64(file);
+        setVideoFile('');
+        setHeight(0);
+        setBaseImage(base64);
+      } else if (ext === 'mp4' || ext === 'mov') {
+        setBaseImage('');
+        setHeight(360);
+        setVideoFile(URL.createObjectURL(e.target.files[0]));
+      } else {
+        createAlert('ERROR', 'This file type is not supported');
+      }
+    }
+  };
 
   const displayVideo = (src) => {
     if (!src) return;
@@ -94,6 +104,7 @@ const EditQuestion = () => {
 
       fileReader.onerror = (error) => {
         reject(error);
+        createAlert('ERROR', 'File could not be read');
       };
     });
   };
@@ -119,20 +130,27 @@ const EditQuestion = () => {
   }
 
   const confirmChanges = async () => {
-    if (answerList.length < 2) {
-      createAlert('ERROR', 'Need at least 2 answers to make changes');
+    if (isNaN(points)) {
+      createAlert('ERROR', 'Awarded points must be a number');
       return;
     }
-    if (questionType === 'single') {
-      if (correctAnswers.length > 1 || correctAnswers.length < 1) {
-        createAlert('ERROR', 'This is a single choice question. Must have 1 correct answer only');
-        return;
-      }
-    } else if (questionType === 'multiple') {
-      if (correctAnswers.length < 2) {
-        createAlert('ERROR', 'This is a multiple choice question. Must have at least 2 correct answers');
-        return;
-      }
+
+    if (isNaN(timeLimit)) {
+      createAlert('ERROR', 'Time limit must be a number');
+      return;
+    }
+
+    if (answerList.length < 2) {
+      createAlert('ERROR', 'The question must have at least 2 choices');
+      return;
+    }
+
+    if (questionType === 'single' && correctAnswers.length !== 1) {
+      createAlert('ERROR', 'A single choice question must have 1 correct answer only');
+      return;
+    } else if (questionType === 'multiple' && correctAnswers.length < 2) {
+      createAlert('ERROR', 'A multiple choice question must have at least 2 correct answers');
+      return;
     }
     createAlert('SUCCESS', 'Changes has been made');
     createBody();
@@ -141,15 +159,16 @@ const EditQuestion = () => {
   const createBody = () => {
     const questionBody = {
       id: qid,
-      point: (!point) ? qObj.point : parseInt(point, 10),
-      text: (!newText) ? qObj.text : newText,
-      time_limit: (!time) ? qObj.time_limit : parseInt(time, 10),
+      point: (!points) ? qObj.point : parseInt(points, 10),
+      text: (!question) ? qObj.text : question,
+      time_limit: (!timeLimit) ? qObj.time_limit : parseInt(timeLimit, 10),
       answers: answerList,
       type: questionType,
       thumbnail: baseImage,
       video: videoFile,
       correctAnswers: correctAnswers
     }
+
     let index;
     let i = 0;
     questions.forEach((question) => {
@@ -171,13 +190,12 @@ const EditQuestion = () => {
     try {
       const res = await api.putAPIRequestTokenBody(`admin/quiz/${id}`, body, token);
       if (res.ok) {
-        console.log('changed successully');
         history.push(`/edit/${id}`);
       } else {
-        console.log('changed UNsuccessully');
+        createAlert('ERROR', 'There was a problem updating the questions');
       }
     } catch (e) {
-      console.log('error');
+      createAlert('ERROR', 'An unexpected error has occurred');
       console.warn(e);
     }
   }
@@ -198,11 +216,15 @@ const EditQuestion = () => {
           displayVideo(qObj.video);
           setBaseImage(qObj.thumbnail);
           setCorrectAnswers(qObj.correctAnswers);
+          setPoints(qObj.point);
+          setQuestion(qObj.text)
+          setTimeLimit(qObj.time_limit)
         } else {
-          console.log('load answers UNsuccessully');
+          createAlert('ERROR', 'There was a problem loading questions');
+          console.warn(data)
         }
       } catch (e) {
-        console.log('error');
+        createAlert('ERROR', 'An unexpected error has occurred');
         console.warn(e);
       }
     }
@@ -213,78 +235,80 @@ const EditQuestion = () => {
     <>
       <Navigation />
       <Container>
+        <Row md={12}>
+          <Form.Control
+            size="lg"
+            className="inputBox mt-4"
+            placeholder="Question"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
+        </Row>
         <Col className="d-flex justify-content-center align-items-center text-center"
           md={12}>
           <ReactPlayer
-            playing={true}
+            controls={true}
             loop={true}
             height={height}
             url={videoFile}
           />
         </Col>
-        <Col md={{ span: 4, offset: 4 }}>
-          <Card.Img src={baseImage} />
+        <Col md={12} className="d-flex justify-content-center align-items-center text-center">
+          <Card.Img style={{ maxHeight: 400, maxWidth: 400 }} src={baseImage} />
         </Col>
         <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
-
-          <Col className="d-flex justify-content-center align-items-center text-center mt-2" md={12}>
+          <Col className="d-flex justify-content-start align-items-center text-center mt-2" md={4}>
             <input className='mb-2 mr-2 formContainer rounded border border-dark p-1'
               type="file"
               onChange={(e) => {
-                uploadImage(e);
+                uploadFile(e);
               }}
+              accept={'.png, .jpeg, .jpg, .mov, .mp4'}
             />
-            Add Thumbnail
           </Col>
-
-          <Col className="d-flex justify-content-center align-items-center text-center mt-2" md={12}>
-            <input className='mb-2 mr-2 formContainer rounded border border-dark p-1'
-              type="file"
-              onChange={(e) => {
-                uploadVideo(e);
-              }}
-            />
-            Add Video
-          </Col>
-
-          <Col md={6}>
+          <Col md={4}>
             <Form.Group>
               <Form.Control
                 className="inputBox mt-3"
-                placeholder="Add video"
+                placeholder="Youtube Video URL"
                 onChange={(e) => setVideoUrl(e.target.value)}
               />
             </Form.Group>
           </Col>
-          <Button variant="primary" onClick={addVideo}>Display video URL</Button>
+          <Col md={2}>
+            <Button variant="primary" onClick={addVideo}>Display Video</Button>
+          </Col>
         </Row>
-        <Col md={{ span: 6, offset: 3 }}>
+        <Col md={12} className="mx-0 px-0">
           <Form.Group>
-            Current question: {qObj.text}
+            <Form.Label>Awarded Points</Form.Label>
             <Form.Control
               className="inputBox m-2"
-              placeholder="Rename Question"
-              onChange={(e) => setNewText(e.target.value)}
+              value={points}
+              placeholder={10}
+              onChange={(e) => setPoints(e.target.value)}
             />
-            Current point: {qObj.point}
+            <Form.Label>Time Limit (seconds)</Form.Label>
             <Form.Control
               className="inputBox m-2"
-              placeholder="Points"
-              onChange={(e) => setPoint(e.target.value)}
-            />
-            Current time: {qObj.time_limit}
-            <Form.Control
-              className="inputBox m-2"
-              placeholder="Time Limit (seconds)"
-              onChange={(e) => setTime(e.target.value)}
+              value={timeLimit}
+              placeholder={20}
+              onChange={(e) => setTimeLimit(e.target.value)}
             />
           </Form.Group>
-          <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
-            The question type is {questionType}
+
+          <Row className="d-flex justify-content-start align-items-center text-left" md={12}>
+            <Col md={12}>
+              <h3>Choices</h3>
+            </Col>
           </Row>
 
           <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
-            <ButtonGroup aria-label="Basic example">
+            Question Type: {questionType.charAt(0).toUpperCase() + questionType.slice(1)} Choice
+          </Row>
+
+          <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
+            <ButtonGroup>
               <Button className='mx-1 mb-2' variant="primary" onClick={setSingle}>Single Choice</Button>
               <Button className='mx-1 mb-2' variant="primary" onClick={setMultiple}>Multiple Choice</Button>
             </ButtonGroup>
@@ -297,8 +321,17 @@ const EditQuestion = () => {
                 <Card>
                 <Card.Body>
                   <Row>
-                    <Col md={9}><Form.Check type="checkbox" checked={ans.check} onChange={() => changeCorrectAnswer(ans)}/>{index + 1}. {ans.answerText}</Col>
-                    <Col md={3}>
+                    <Col md={10}>
+                      <span>Correct Answer: </span>
+                      <Form.Check
+                        className="d-inline my-0 py-0"
+                        type="checkbox"
+                        checked={ans.check}
+                        onChange={() => changeCorrectAnswer(ans)}
+                      />
+                      <p className="m-0" style={{ fontSize: 20 }}>{ans.answerText}</p>
+                    </Col>
+                    <Col md={2} className="d-flex justify-content-end align-items-center">
                       <Button className='mx-1' variant="danger" onClick={() => removeAnswer(ans.id)}>Delete</Button>
                     </Col>
                   </Row>
@@ -308,21 +341,23 @@ const EditQuestion = () => {
               ))}
           </Col>
 
-          <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
-            <Col md={8}>
+          <Row className="d-flex justify-content-start align-items-center text-center" md={12}>
+            <Col md={10}>
               <Form.Group>
                 <Form.Control
                   className="inputBox mt-3"
-                  placeholder="Make Answers"
+                  placeholder="Answer Text"
                   onChange={(e) => setAnswer(e.target.value)}
                 />
               </Form.Group>
             </Col>
-              <Button variant="primary" onClick={addAnswer}>Add option</Button>
+            <Col md={2}>
+              <Button variant="primary w-100" onClick={addAnswer}>Add option</Button>
+            </Col>
           </Row>
 
           <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
-            <Button className='my-5' variant="primary" onClick={confirmChanges}>Confirm Changes</Button>
+            <Button className='my-5 w-100' variant="success" onClick={confirmChanges}>Confirm Changes</Button>
           </Row>
 
         </Col>

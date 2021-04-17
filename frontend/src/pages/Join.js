@@ -40,7 +40,9 @@ const Join = () => {
 
     try {
       const res = await api.postAPIRequestBody(`play/join/${sessionId}`, body);
+      const data = await res.json();
       if (res.ok) {
+        console.log(data);
         history.push(`/play/${sessionId}`);
       } else {
         createAlert('ERROR', 'Invalid session ID - Please try again')

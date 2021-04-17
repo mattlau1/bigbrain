@@ -253,8 +253,9 @@ const EditQuestion = () => {
             url={videoFile}
           />
         </Col>
-        <Col md={12} className="d-flex justify-content-center align-items-center text-center">
+        <Col md={12} className={baseImage ? 'd-flex justify-content-center' : 'd-none'}>
           <Card.Img style={{ maxHeight: 400, maxWidth: 400 }} src={baseImage} />
+
         </Col>
         <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
           <Col className="d-flex justify-content-start align-items-center text-center mt-2" md={4}>

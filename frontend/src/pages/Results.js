@@ -10,6 +10,9 @@ const Results = () => {
       <div>
         You are viewing the results of game {sessionId}
       </div>
+      <div>
+        your token is {localStorage.getItem('token')}
+      </div>
     </>
   )
 }

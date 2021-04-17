@@ -163,4 +163,15 @@ export default class API {
       },
     });
   }
+
+  /** @param {String} path */
+  getAPIRequest (path) {
+    return fetch(`${this.url}/${path}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+  }
 }

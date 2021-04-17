@@ -33,6 +33,19 @@ const Play = () => {
         (quiz.active === parseInt(sessionId, 10)) && setQuizId(quiz.id)
       })
     }
+    const advanced = async () => {
+      try {
+        const res = await api.postAPIRequestToken(`admin/quiz/${quizId}/advance`, token);
+        if (res.ok) {
+          console.log('advanced successful');
+        } else {
+          console.log('advanced UNsuccessully');
+        }
+      } catch (e) {
+        console.log('error');
+        console.warn(e);
+      }
+    };
     const loadQuestion = async () => {
       try {
         const res = await api.getAPIRequestToken('admin/quiz', token);
@@ -48,6 +61,7 @@ const Play = () => {
       }
     }
     loadQuestion();
+    advanced();
     getQuestionDetail();
   })
   return (

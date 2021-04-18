@@ -6,18 +6,14 @@
 export const quizQuestionPublicReturn = question => {
   // /play/{playerid}/question
   const filtered_question = question;
-  delete filtered_question.correctAnswers
-  delete filtered_question.thumbnail
-  filtered_question.answers.map((answer) => {
-    delete answer.check
-  })
-  delete filtered_question.video
-  delete filtered_question.id
-  delete filtered_question.point
-  // delete filtered_question.text
-  // delete filtered_question.time_limit
-  // delete filtered_question.type
-
+  delete filtered_question.correctAnswers;
+  delete filtered_question.thumbnail;
+  delete filtered_question.video;
+  delete filtered_question.id;
+  delete filtered_question.point;
+  // delete filtered_question.text;
+  // delete filtered_question.time_limit;
+  // delete filtered_question.type;
   return filtered_question;
 };
 
@@ -26,8 +22,12 @@ export const quizQuestionPublicReturn = question => {
  the correct answers (minimum 1).
 */
 export const quizQuestionGetCorrectAnswers = question => {
-  console.log(question.correctAnswers)
-  return question.correctAnswers;
+  const filtered = question.answers.filter(answer => answer.check === true)
+  const filteredArr = []
+  filtered.map((questionObjects) => {
+    filteredArr.push(questionObjects.id)
+  })
+  return filteredArr;
 };
 
 /*
@@ -48,6 +48,5 @@ export const quizQuestionGetAnswers = question => {
  of the question once it starts. (Seconds)
 */
 export const quizQuestionGetDuration = question => {
-  console.log('zzzzzzzzzzzzzzzzzzzzzzz')
   return question.time_limit;
 };

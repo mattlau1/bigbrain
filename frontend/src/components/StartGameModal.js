@@ -108,7 +108,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
         </Modal.Header>
         <Modal.Body>
           <p className="mb-1">Your Session ID is...</p>
-          <h1 className="text-center session-id">{sessionId}</h1>
+          <h2 className="text-center session-id">{sessionId}</h2>
           <Form.Group controlId="inviteLink">
             <Button onClick={() => { handleCopy(sessionId) }}>
               Copy Session ID
@@ -117,12 +117,12 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
           <p>Join now at <a href={`${window.location.origin}/play/`}>{window.location.origin}/play/</a></p>
           <hr></hr>
           <h2 className="text-center">Control Panel</h2>
-          <div className="d-flex justify-content-center align-items-center">
+          {position > -1 && <h4>Question {position}/{totalQuestions}</h4>}
+          <div className="d-flex justify-content-start align-items-center">
             <Button variant="success" onClick={() => { handleAdvance() }}>
               {position === -1 ? 'Start Game' : 'Next Question'}
             </Button>
           </div>
-          {position > -1 && <h1>{position}/{totalQuestions}</h1>}
 
         </Modal.Body>
         <Modal.Footer>

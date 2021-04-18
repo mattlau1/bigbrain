@@ -25,6 +25,7 @@ const Results = () => {
   const { sessionId } = useParams();
   const [results, setResults] = useState([])
   const [chartData, setChartData] = useState([]);
+  const maxWinners = 5;
 
   useEffect(() => {
     const loadResults = async () => {
@@ -41,6 +42,7 @@ const Results = () => {
           const numPlayers = data.results.length;
           const correctAnswersObj = {};
           const responseTimesObj = {};
+
           // check how many people got the question right/wrong
           for (let i = 0; i < questionLength; i++) {
             let correctAnswersNum = 0;
@@ -52,10 +54,10 @@ const Results = () => {
               const startTime = moment(result.answers[i].questionStartedAt);
               const endTime = moment(result.answers[i].answeredAt);
               if (!isNaN(startTime) && startTime && !isNaN(endTime) && endTime) {
-                responseTimes.push(endTime.diff(startTime, 'seconds'))
+                responseTimes.push(endTime.diff(startTime, 'milliseconds') / 1000)
               }
             })
-            console.log(i, responseTimes)
+
             const responseTimeSum = responseTimes.reduce((res, item) => {
               return res + item
             }, 0);
@@ -67,11 +69,9 @@ const Results = () => {
             const newChartData = {
               question: `Question ${i + 1}`,
               'Correct %': correctAnswersObj[i],
-              'Average Response Time (s)': responseTimesObj[i]
+              'Average Response Time (s)': !isNaN(responseTimesObj[i]) ? responseTimesObj[i] : 0
             }
-            console.log('adding', newChartData)
             setChartData(chartData => [...chartData, newChartData]);
-            console.log('added', chartData)
           }
         }
       } catch (e) {
@@ -89,7 +89,7 @@ const Results = () => {
         </Row>
         <Row md={12} className="d-flex justify-content-center text-center">
           <Col md={4} className="rounded my-2">
-            {results.map((result, key) => key < 5 && (
+            {results && results.slice(0, maxWinners).map((result, key) => (
               <WinnerDiv key={key} className="py-3 my-1 rounded">
                 {key + 1}. {result.name}
               </WinnerDiv>

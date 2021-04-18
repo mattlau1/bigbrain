@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import { useParams } from 'react-router';
-import Chart from '../components/ResultsChart';
 import Navigation from '../components/Navigation';
 import API from '../utils/API';
 import styled from 'styled-components';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
+import moment from 'moment';
 
-const WinnersContainer = styled(Col)`
-  background-color: #C3EBEF;
-`
 const WinnerDiv = styled.div`
   background-color: #007bff;
   color: white;
@@ -16,7 +23,8 @@ const WinnerDiv = styled.div`
 
 const Results = () => {
   const { sessionId } = useParams();
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const loadResults = async () => {
@@ -27,7 +35,40 @@ const Results = () => {
         const data = await res.json();
 
         if (res.ok) {
-          setResults(data);
+          console.log(data.results);
+          setResults(data.results);
+          const questionLength = data.results.length > 0 ? data.results[0].answers.length : 0;
+          // const numPlayers = data.results.length;
+          const correctAnswersObj = {};
+          const responseTimesObj = {};
+          // check how many people got the question right/wrong
+          for (let i = 0; i < questionLength; i++) {
+            let correctAnswers = 0;
+            const responseTimes = []
+            data.results.forEach((result) => {
+              if (result.answers[i].correct === true) {
+                correctAnswers++;
+              }
+              const startTime = moment(result.answers[i].questionStartedAt);
+              const endTime = moment(result.answers[i].answeredAt);
+              if (!isNaN(startTime) && startTime && !isNaN(endTime) && endTime) {
+                responseTimes.push(endTime.diff(startTime, 'seconds'))
+              }
+            })
+            console.log(i, responseTimes)
+            const responseTimeSum = responseTimes.reduce((res, item) => {
+              return res + item
+            }, 0);
+            responseTimesObj[i] = responseTimes ? responseTimeSum / responseTimes.length : 0;
+            correctAnswersObj[i] = correctAnswers;
+
+            // console.log(`question ${i} has ${correctAnswers} right`)
+          }
+
+          console.log(correctAnswersObj);
+          console.log(responseTimesObj);
+
+          setData(0)
         }
       } catch (e) {
         console.warn(e);
@@ -40,29 +81,39 @@ const Results = () => {
       <Navigation />
       <Container md={12}>
         <Row md={12} className="d-flex justify-content-center text-center">
-          <WinnersContainer md={4} className="border border-primary rounded my-2">
-            <h1>Winners</h1>
-            <WinnerDiv className="py-3 my-1 rounded">
-              1. Steven2 (2000 points)
-            </WinnerDiv>
-            <WinnerDiv className="py-3 my-1 rounded">
-              2. Steven2 (2000 points)
-            </WinnerDiv>
-            <WinnerDiv className="py-3 my-1 rounded">
-              3. Steven3 (1000 points)
-            </WinnerDiv>
-            <WinnerDiv className="py-3 my-1 rounded">
-              4. Steven3 (1000 points)
-            </WinnerDiv>
-            <WinnerDiv className="py-3 my-1 rounded">
-              5. Steven3 (1000 points)
-            </WinnerDiv>
-            {console.log(results)}
-          </WinnersContainer>
+          <h1 className="mb-0">Results</h1>
+        </Row>
+        <Row md={12} className="d-flex justify-content-center text-center">
+          <Col md={4} className="rounded my-2">
+            {results.map((result, key) => key < 5 && (
+              <WinnerDiv key={key} className="py-3 my-1 rounded">
+                {key + 1}. {result.name}
+              </WinnerDiv>
+            ))}
+          </Col>
         </Row>
         <Row md={12}>
           <Col md={12}>
-            <Chart />
+            <ResponsiveContainer width="99%" aspect={3}>
+              <BarChart
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="question" />
+                <YAxis yAxisId="left" orientation="left" stroke="#0069c0" />
+                <YAxis yAxisId="right" orientation="right" stroke="#00a9b5" />
+                <Tooltip />
+                <Legend />
+                <Bar yAxisId="left" dataKey="Correct %" fill="#0069c0" />
+                <Bar yAxisId="right" dataKey="Average Response Time (s)" fill="#00a9b5" />
+              </BarChart>
+            </ResponsiveContainer>
           </Col>
         </Row>
         <Row>

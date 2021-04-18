@@ -97,19 +97,17 @@ const Play = () => {
         const res = await api.getAPIRequest(`play/${playerId}/question`);
         const data = await res.json();
         if (res.ok) {
-          if (over || !start) {
-            if (data.question.text !== questionText) {
-              displayVideo(data.question.video);
-              setBaseImage(data.question.thumbnail);
-              setQuestionText(data.question.text);
-              setQuestionType(data.question.type);
-              setOptions(data.question.answers);
-              !timeLimit && setTimeLimit(data.question.time_limit);
-              setOver(false);
-              setStart(true);
-              setPolling(0);
-              setInLobby(false);
-            }
+          if ((over || !start) && (data.question.text !== questionText)) {
+            displayVideo(data.question.video);
+            setBaseImage(data.question.thumbnail);
+            setQuestionText(data.question.text);
+            setQuestionType(data.question.type);
+            setOptions(data.question.answers);
+            !timeLimit && setTimeLimit(data.question.time_limit);
+            setOver(false);
+            setStart(true);
+            setPolling(0);
+            setInLobby(false);
           }
         } else {
           if (!inLobby) {

@@ -23,8 +23,8 @@ const WinnerDiv = styled.div`
 
 const Results = () => {
   const { sessionId } = useParams();
-  const [results, setResults] = useState([]);
-  const [data, setData] = useState([]);
+  const [results, setResults] = useState([])
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const loadResults = async () => {
@@ -38,16 +38,16 @@ const Results = () => {
           console.log(data.results);
           setResults(data.results);
           const questionLength = data.results.length > 0 ? data.results[0].answers.length : 0;
-          // const numPlayers = data.results.length;
+          const numPlayers = data.results.length;
           const correctAnswersObj = {};
           const responseTimesObj = {};
           // check how many people got the question right/wrong
           for (let i = 0; i < questionLength; i++) {
-            let correctAnswers = 0;
+            let correctAnswersNum = 0;
             const responseTimes = []
             data.results.forEach((result) => {
               if (result.answers[i].correct === true) {
-                correctAnswers++;
+                correctAnswersNum++;
               }
               const startTime = moment(result.answers[i].questionStartedAt);
               const endTime = moment(result.answers[i].answeredAt);
@@ -60,15 +60,19 @@ const Results = () => {
               return res + item
             }, 0);
             responseTimesObj[i] = responseTimes ? responseTimeSum / responseTimes.length : 0;
-            correctAnswersObj[i] = correctAnswers;
-
-            // console.log(`question ${i} has ${correctAnswers} right`)
+            correctAnswersObj[i] = correctAnswersNum / numPlayers * 100;
           }
 
-          console.log(correctAnswersObj);
-          console.log(responseTimesObj);
-
-          setData(0)
+          for (let i = 0; i < questionLength; i++) {
+            const newChartData = {
+              question: `Question ${i + 1}`,
+              'Correct %': correctAnswersObj[i],
+              'Average Response Time (s)': responseTimesObj[i]
+            }
+            console.log('adding', newChartData)
+            setChartData(chartData => [...chartData, newChartData]);
+            console.log('added', chartData)
+          }
         }
       } catch (e) {
         console.warn(e);
@@ -96,7 +100,7 @@ const Results = () => {
           <Col md={12}>
             <ResponsiveContainer width="99%" aspect={3}>
               <BarChart
-                data={data}
+                data={chartData}
                 margin={{
                   top: 5,
                   right: 30,

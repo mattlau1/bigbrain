@@ -21,3 +21,9 @@ p {
   font-family: -apple-system, BlinkMacSystemFont, 'Poppins', 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
 }
+
+#checkboxSize {
+  width: 40px;
+  height: 40px;
+  outline: 1px solid white;
+}

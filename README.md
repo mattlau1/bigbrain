@@ -84,7 +84,7 @@ A series of features below need to be implemented in your ReactJS app to operate
 #### 2.3.1. Starting a game
  * On the dashboard page, add the ability to start a stopped game
  * When the game is started, a popup is displayed that shows the session ID of the game as a string
- * This session idea should be able to be copied by some kind of "Copy Link" button/element. When this item is clicked, a direct URL is copied to the clipboard. When going to this URL, the users should be given play screen (described in `2.4`) with the session code already pre-populated.
+ * This session ID should be able to be copied by some kind of "Copy Link" button/element. When this item is clicked, a direct URL is copied to the clipboard. When going to this URL, the users should be given play screen (described in `2.4`) with the session code already pre-populated.
 
 #### 2.3.2. Stopping a game
  * On the dashboard page, the ability to stop a started game.

@@ -16,7 +16,8 @@ const Dashboard = () => {
   const [showCreate, setShowCreate] = useState(false);
   const [showStart, setShowStart] = useState(false);
   const [showStop, setShowStop] = useState(false);
-  const [currId, setCurrId] = useState(0)
+  const [currSessionId, setCurrSessionId] = useState(0)
+  const [currGameId, setCurrGameId] = useState(0)
 
   const dispatch = useAlert();
   const createAlert = (type, message) => {
@@ -29,13 +30,15 @@ const Dashboard = () => {
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
   const handleShowStop = (id) => {
-    setCurrId(id);
+    setCurrSessionId(id);
     setShowStop(true);
   };
+
   const handleCloseStop = () => setShowStop(false);
   const handleCloseStart = () => setShowStart(false);
-  const handleShowStart = (id) => {
-    setCurrId(id);
+  const handleShowStart = (gameId, sessionId) => {
+    setCurrSessionId(sessionId);
+    setCurrGameId(gameId)
     setShowStart(true);
   }
 
@@ -95,7 +98,7 @@ const Dashboard = () => {
                     </Col>
                     <Col md={4} className="d-flex justify-content-end align-items-center px-1">
                       {game.active &&
-                        <Button onClick={() => { handleShowStart(game.active) }}>
+                        <Button onClick={() => { handleShowStart(game.id, game.active) }}>
                           Share
                         </Button>
                       }
@@ -165,12 +168,15 @@ const Dashboard = () => {
       <StartGameModal
         show={showStart}
         handleClose={handleCloseStart}
-        id={currId}
+        sessionId={currSessionId}
+        gameId={currGameId}
+        handleShowStop={handleShowStop}
+        setGameList={setGameList}
       />
       <StopGameModal
         show={showStop}
         handleClose={handleCloseStop}
-        id={currId}
+        id={currSessionId}
       />
     </>
   )

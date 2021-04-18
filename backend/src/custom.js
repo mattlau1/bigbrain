@@ -7,13 +7,8 @@ export const quizQuestionPublicReturn = question => {
   // /play/{playerid}/question
   const filtered_question = question;
   delete filtered_question.correctAnswers;
-  // delete filtered_question.thumbnail;
-  // delete filtered_question.video;
   delete filtered_question.id;
-  delete filtered_question.point;
-  // delete filtered_question.text;
-  // delete filtered_question.time_limit;
-  // delete filtered_question.type;
+  console.log(filtered_question, 'PublicReturn')
   return filtered_question;
 };
 
@@ -35,7 +30,8 @@ export const quizQuestionGetCorrectAnswers = question => {
  all of the answers, correct or incorrect.
 */
 export const quizQuestionGetAnswers = question => {
-  console.log(question, 'AAAAAAAAAAAAAAAA')
+  console.log(question, 'quizQuestionGetAnswers was called')
+
   return [
     123,
     456,

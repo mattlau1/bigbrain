@@ -14,9 +14,9 @@ export const quizQuestionPublicReturn = question => {
   delete filtered_question.video
   delete filtered_question.id
   delete filtered_question.point
-  delete filtered_question.text
-  delete filtered_question.time_limit
-  delete filtered_question.type
+  // delete filtered_question.text
+  // delete filtered_question.time_limit
+  // delete filtered_question.type
 
   return filtered_question;
 };
@@ -48,5 +48,6 @@ export const quizQuestionGetAnswers = question => {
  of the question once it starts. (Seconds)
 */
 export const quizQuestionGetDuration = question => {
+  console.log('zzzzzzzzzzzzzzzzzzzzzzz')
   return question.time_limit;
 };

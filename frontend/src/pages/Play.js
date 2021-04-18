@@ -19,6 +19,10 @@ const Play = () => {
   const [height, setHeight] = useState(0)
   const [videoFile, setVideoFile] = useState();
   const [baseImage, setBaseImage] = useState('');
+  const [polling, setPolling] = useState(0);
+  const [start, setStart] = useState(false);
+  const [inLobby, setInLobby] = useState(true);
+  // const [initialTime, setInitialTime] = useState(0);
   const playerId = location.state?.playerId;
   const api = new API();
   console.log('player id is ' + playerId);
@@ -62,10 +66,67 @@ const Play = () => {
   }
 
   const displayVideo = (src) => {
-    if (!src) return;
+    if (!src) {
+      setHeight(0);
+      setVideoFile('');
+      return;
+    }
     setHeight(360);
     setVideoFile(src);
   }
+
+  const getCorrectAnswers = async () => {
+    try {
+      const res = await api.getAPIRequest(`play/${playerId}/answer`);
+      const data = await res.json();
+      if (res.ok) {
+        console.log('correct answers gathered')
+        setCorrectAnswerList(data.answerIds)
+      } else {
+        console.log('invalid output');
+      }
+    } catch (e) {
+      console.log('error');
+      console.warn(e);
+    }
+  }
+
+  useEffect(() => {
+    const poll = async () => {
+      try {
+        const res = await api.getAPIRequest(`play/${playerId}/question`);
+        const data = await res.json();
+        if (res.ok) {
+          if (over || !start) {
+            if (data.question.text !== questionText) {
+              displayVideo(data.question.video);
+              setBaseImage(data.question.thumbnail);
+              setQuestionText(data.question.text);
+              setQuestionType(data.question.type);
+              setOptions(data.question.answers);
+              !timeLimit && setTimeLimit(data.question.time_limit);
+              setOver(false);
+              setStart(true);
+              setPolling(0);
+              setInLobby(false);
+            }
+          }
+        } else {
+          if (!inLobby) {
+            alert('ur at the end');
+            setInLobby(true);
+          }
+
+          console.log('cannot get question details');
+        }
+      } catch (e) {
+        console.log('error');
+        console.warn(e);
+      }
+    }
+    poll()
+    polling >= 0 && setTimeout(() => setPolling(polling + 1), 1000);
+  }, [polling])
 
   useEffect(() => {
     const getQuestionDetail = async () => {
@@ -73,16 +134,20 @@ const Play = () => {
         const res = await api.getAPIRequest(`play/${playerId}/question`);
         const data = await res.json();
         if (res.ok) {
-          console.log(data);
-          setAnswerList([]);
-          setCorrectAnswerList([]);
-          displayVideo(data.question.video);
-          setBaseImage(data.question.thumbnail);
-          setQuestionText(data.question.text);
-          setQuestionType(data.question.type);
-          setOptions(data.question.answers);
-          !timeLimit && setTimeLimit(data.question.time_limit);
+          if (over) {
+            setAnswerList([]);
+            setCorrectAnswerList([]);
+            displayVideo(data.question.video);
+            setBaseImage(data.question.thumbnail);
+            setQuestionText(data.question.text);
+            setQuestionType(data.question.type);
+            setOptions(data.question.answers);
+            !timeLimit && setTimeLimit(data.question.time_limit);
+            // setInitialTime(data.question.time_limit);
+            setOver(false);
+          }
         } else {
+          if (inLobby) alert('This is a lobby!');
           console.log('cannot get question details');
         }
       } catch (e) {
@@ -94,21 +159,6 @@ const Play = () => {
   }, []);
 
   useEffect(() => {
-    const getCorrectAnswers = async () => {
-      try {
-        const res = await api.getAPIRequest(`play/${playerId}/answer`);
-        const data = await res.json();
-        if (res.ok) {
-          console.log('correct answers gathered')
-          setCorrectAnswerList(data.answerIds)
-        } else {
-          console.log('invalid output');
-        }
-      } catch (e) {
-        console.log('error');
-        console.warn(e);
-      }
-    }
     timeLimit > 0 && setTimeout(() => setTimeLimit(timeLimit - 1), 1000);
     if (timeLimit === 0) {
       setOver(true);

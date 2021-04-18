@@ -126,6 +126,19 @@ export default class API {
   }
 
   /** @param {String} path */
+  /** @param {Object} body */
+  putAPIRequestBody (path, body) {
+    return fetch(`${this.url}/${path}`, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  }
+
+  /** @param {String} path */
   /** @param {String} token */
   deleteAPIRequestToken (path, token) {
     return fetch(`${this.url}/${path}/`, {
@@ -160,6 +173,17 @@ export default class API {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
+  /** @param {String} path */
+  getAPIRequest (path) {
+    return fetch(`${this.url}/${path}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
     });
   }

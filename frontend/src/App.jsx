@@ -8,6 +8,7 @@ import Edit from './pages/Edit';
 import EditQuestion from './pages/EditQuestion';
 import Play from './pages/Play';
 import Results from './pages/Results';
+import Join from './pages/Join';
 
 function App () {
   return (
@@ -18,6 +19,7 @@ function App () {
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/editq/:id/:qid" component={EditQuestion} />
         <Route path="/edit/:quizId" component={Edit} />
+        <Route path="/play" exact component={Join} />
         <Route path="/play/:sessionId" component={Play} />
         <Route path="/results/:sessionId" component={Results} />
       </Switch>

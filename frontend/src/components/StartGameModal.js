@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
 import PropTypes from 'prop-types';
 import { useAlert } from '../contexts/AlertProvider';
 import API from '../utils/API';
@@ -114,12 +114,12 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
         <Modal.Body>
           <p className="mb-1">Your Session ID is...</p>
           <h2 className="text-center session-id">{sessionId}</h2>
-          <div>
+          <div className="d-flex justify-content-center">
             <Button className="my-1" onClick={() => { handleCopy(sessionId) }}>
               Copy Session ID
             </Button>
           </div>
-          <div>
+          <div className="d-flex justify-content-center">
             <Button
               className="my-1"
               onClick={() => openInNewTab(`${window.location.origin}/play?game=${sessionId}`)}
@@ -129,13 +129,20 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
           </div>
           <hr></hr>
           <h2 className="text-center">Control Panel</h2>
-          {position > -1 && <h4>Question {position}/{totalQuestions}</h4>}
-          <div className="d-flex justify-content-start align-items-center">
-            <Button variant="success" onClick={() => { handleAdvance() }}>
-              {position === -1 ? 'Start Game' : 'Next Question'}
-            </Button>
-          </div>
-
+          <Container md={12}>
+            <Col>
+              <Row className="justify-content-center">
+                {position > -1 && <p className="mb-1">Question {position}/{totalQuestions}</p>}
+              </Row>
+              <Row className="justify-content-center">
+                <div className="d-flex justify-content-start align-items-center">
+                  <Button variant="success" onClick={() => { handleAdvance() }}>
+                    {position === -1 ? 'Start Game' : 'Next Question'}
+                  </Button>
+                </div>
+              </Row>
+            </Col>
+          </Container>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

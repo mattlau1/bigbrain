@@ -23,13 +23,13 @@ const Play = () => {
   const [start, setStart] = useState(false);
   const [inLobby, setInLobby] = useState(true);
   const [currentUser, setCurrentUser] = useState('');
+  const [currentPoint, setCurrentPoint] = useState('');
   const [point, setPoint] = useState(0);
   const [addedPoint, setAddedPoint] = useState(0);
   const [maxPoint, setMaxPoint] = useState(0);
   const [correctQ, setCorrectQ] = useState(0);
   const [maxQ, setMaxQ] = useState(0);
   const [playerData, setPlayerData] = useState({})
-  // const [initialTime, setInitialTime] = useState(0);
   const playerId = location.state?.playerId;
   const playerName = location.state?.playerName;
   const history = useHistory();
@@ -53,6 +53,7 @@ const Play = () => {
       setAnswerList([...newAnswers]);
     }
 
+    setCurrentPoint(point);
     (answerList.length === 0) && createAlert('ERROR', 'Make sure to select an answer');
 
     const body = {
@@ -91,7 +92,7 @@ const Play = () => {
         setCorrectAnswerList(data.answerIds);
         if (data.answerIds.join() === answerList.join()) {
           console.log('you got it right!!!!');
-          setAddedPoint(addedPoint + point);
+          setAddedPoint(addedPoint + currentPoint);
           setCorrectQ(correctQ + 1);
         }
       } else {
@@ -121,6 +122,7 @@ const Play = () => {
             setPoint(data.question.point);
             setMaxPoint(maxPoint + data.question.point);
             setMaxQ(maxQ + 1);
+            setCurrentPoint(0);
             setOver(false);
             setStart(true);
             setPolling(0);
@@ -146,14 +148,15 @@ const Play = () => {
         console.warn(e);
       }
     }
-    poll()
+    poll();
     setPlayerData({
       name: currentUser,
       point: addedPoint,
       maxPoint: maxPoint,
       correctQ: correctQ,
       maxQ: maxQ,
-    })
+    });
+    (timeLimit % 2) && setPoint(point - 0.5);
     polling >= 0 && setTimeout(() => setPolling(polling + 1), 1000);
   }, [polling])
 

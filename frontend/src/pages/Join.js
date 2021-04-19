@@ -8,6 +8,17 @@ import Col from 'react-bootstrap/Col';
 import CenteredRow from '../components/CenteredRow';
 import { useAlert } from '../contexts/AlertProvider';
 import { useHistory } from 'react-router-dom';
+import styled from 'styled-components';
+
+const JoinFormContainer = styled(Container)`
+  background-color: #44A3E5;
+  color: white;
+  padding: 0;
+`
+
+const HeadingText = styled.h1`
+  font-weight: 700;
+`
 
 const Join = () => {
   const [user, setUser] = useState('');
@@ -54,17 +65,18 @@ const Join = () => {
   }
 
   return (
-    <Container md={12} className="justify-content-center align-items-center">
+    <JoinFormContainer md={12} className="justify-content-center align-items-center" fluid>
       <CenteredRow>
         <Row className="w-100 rounded justify-content-center">
           <Col md={12} className="w-100 px-0 mx-0 rounded ">
-            <Form className="formContainer rounded border border-dark p-4">
+            <Form className="formContainer rounded p-4">
               <Row className="justify-content-center" md={12}>
-                <h1 className="display-2 w-100 text-center mb-4">Join Game</h1>
+                <HeadingText className="display-2 w-100 text-center mb-4">BigBrain</HeadingText>
               </Row>
               <Row className="justify-content-center" md={12}>
-                <Form.Group className="w-75 px-4">
+                <Form.Group className="w-25 px-4">
                   <Form.Control
+                    size="lg"
                     className="inputBox"
                     placeholder="Name"
                     onChange={(e) => setUser(e.target.value)}
@@ -73,8 +85,9 @@ const Join = () => {
               </Row>
 
               <Row className="justify-content-center" md={12}>
-                <Form.Group className="w-75 px-4">
+                <Form.Group className="w-25 px-4">
                   <Form.Control
+                    size="lg"
                     className="inputBox"
                     placeholder="Session ID"
                     onChange={(e) => setSessionId(e.target.value)}
@@ -86,13 +99,14 @@ const Join = () => {
                   <Button
                     className="mt-2 mb-4"
                     variant="primary"
+                    size="lg"
                     type="submit"
                     onClick={(e) => {
                       e.preventDefault();
                       joinSession();
                     }}
                   >
-                    Join
+                    Join Game
                   </Button>
                 </div>
               </Row>
@@ -100,7 +114,7 @@ const Join = () => {
           </Col>
         </Row>
       </CenteredRow>
-    </Container>
+    </JoinFormContainer>
   )
 }
 

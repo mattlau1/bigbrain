@@ -17,6 +17,7 @@ const LobbyHeading = styled.h2`
   font-size: 72pt;
   color: #333333;
   margin-bottom: 0;
+  font-weight: 1000;
 
   @media (max-width: 992px) {
     font-size: 56pt;
@@ -70,7 +71,9 @@ const Lobby = () => {
       <Container>
         <Col>
           <Row md={12} className="d-flex justify-content-center pt-4 mb-4 px-4 mx-4">
-            <LobbyMediumText className="p-4 mx-4 text-center bg-light overflow-visible">Waiting ...</LobbyMediumText>
+            <LobbyMediumText className="p-4 mx-4 text-center bg-light overflow-visible">
+              Waiting ...
+            </LobbyMediumText>
           </Row>
           <Row className="d-flex justify-content-center" md={4}>
             <Col className="px-0" md={4}>
@@ -91,7 +94,6 @@ const Lobby = () => {
             </Col>
           </Row>
         </Col>
-
       </Container>
     </LobbyContainer>
   )

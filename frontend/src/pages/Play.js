@@ -5,9 +5,9 @@ import { useLocation } from 'react-router-dom';
 import { Container, Row, Col, Card, Form } from 'react-bootstrap'
 import ReactPlayer from 'react-player';
 import { useAlert } from '../contexts/AlertProvider';
+import Lobby from '../components/Lobby';
 
 const Play = () => {
-  // const { sessionId } = useParams();
   const location = useLocation();
   const [questionText, setQuestionText] = useState('');
   const [questionType, setQuestionType] = useState('');
@@ -22,7 +22,6 @@ const Play = () => {
   const [polling, setPolling] = useState(0);
   const [start, setStart] = useState(false);
   const [inLobby, setInLobby] = useState(true);
-  // const [initialTime, setInitialTime] = useState(0);
   const playerId = location.state?.playerId;
   const api = new API();
   console.log('player id is ' + playerId);
@@ -145,7 +144,7 @@ const Play = () => {
             setOver(false);
           }
         } else {
-          if (inLobby) alert('This is a lobby!');
+          // if (inLobby) alert('This is a lobby!');
           console.log('cannot get question details');
         }
       } catch (e) {
@@ -163,79 +162,83 @@ const Play = () => {
       getCorrectAnswers();
     }
   }, [timeLimit])
+
   return (
     <>
-      <Container>
-        <Col>
-          <Row className="justify-content-center align-items-center">
-            <h1>{questionText}</h1>
-          </Row>
-          <Row>
-            <Col className="d-flex justify-content-center align-items-center text-center"
-            md={12}>
-              <ReactPlayer
-                playing={true}
-                controls={true}
-                loop={true}
-                height={height}
-                url={videoFile}
-              />
-            </Col>
-            <Col md={12} className={baseImage ? 'd-flex justify-content-center' : 'd-none'}>
-              <Card.Img style={{ maxHeight: 400, maxWidth: 400 }} src={baseImage} />
-            </Col>
-          </Row>
-          <Row>
-            <Col md={11} className='p-1'>
-              {questionType && <h3>{questionType.charAt(0).toUpperCase() + questionType.slice(1)} choice question</h3>}
-            </Col>
-            <Col md={1} className='d-inline mx-0 px-1'>
-            <h2 className='text-right'>{timeLimit}</h2>
-            </Col>
-          </Row>
-          <Row>
-            {(!over)
-              ? options &&
-                options.map((option, index) => (
-                <Col className='p-1' key={index} md={6}>
-                  <Card>
-                  <Card.Body className="bg-primary">
-                    <Row>
-                      <Col md={10}>
-                        <p className="m-0" style={{ fontSize: 30, color: 'white' }}>{option.answerText}</p>
-                      </Col>
-                      <Col className="d-flex justify-content-end" md={2}>
-                      <Form.Check
-                          className="d-inline my-0 py-0"
-                          type="checkbox"
-                          id='checkboxSize'
-                          onChange={() => changeCorrectAnswer(option)}
-                        />
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                  </Card>
-                </Col>
-                ))
-              : options &&
-                options.map((option, index) => (
-                <Col className='p-1' key={index} md={6}>
-                  <Card>
-                  <Card.Body
-                    className={correctAnswerList.includes(option.id) ? 'bg-success' : 'bg-danger'}
-                  >
-                    <Row>
-                      <Col md={6}>
-                        <p className="m-0" style={{ fontSize: 30, color: 'white' }}>{option.answerText}</p>
-                      </Col>
-                    </Row>
-                  </Card.Body>
-                  </Card>
-                </Col>
-                ))}
-          </Row>
-        </Col>
-      </Container>
+        {inLobby && <Lobby></Lobby>}
+
+        {!inLobby &&
+        <Container>
+          <Col>
+            <Row className="justify-content-center align-items-center">
+              <h1>{questionText}</h1>
+            </Row>
+            <Row>
+              <Col className="d-flex justify-content-center align-items-center text-center"
+              md={12}>
+                <ReactPlayer
+                  playing={true}
+                  controls={true}
+                  loop={true}
+                  height={height}
+                  url={videoFile}
+                />
+              </Col>
+              <Col md={12} className={baseImage ? 'd-flex justify-content-center' : 'd-none'}>
+                <Card.Img style={{ maxHeight: 400, maxWidth: 400 }} src={baseImage} />
+              </Col>
+            </Row>
+            <Row>
+              <Col md={11} className='p-1'>
+                {questionType && <h3>{questionType.charAt(0).toUpperCase() + questionType.slice(1)} choice question</h3>}
+              </Col>
+              <Col md={1} className='d-inline mx-0 px-1'>
+              <h2 className='text-right'>{timeLimit}</h2>
+              </Col>
+            </Row>
+            <Row>
+              {(!over)
+                ? options &&
+                  options.map((option, index) => (
+                  <Col className='p-1' key={index} md={6}>
+                    <Card>
+                    <Card.Body className="bg-primary">
+                      <Row>
+                        <Col md={10}>
+                          <p className="m-0" style={{ fontSize: 30, color: 'white' }}>{option.answerText}</p>
+                        </Col>
+                        <Col className="d-flex justify-content-end" md={2}>
+                        <Form.Check
+                            className="d-inline my-0 py-0"
+                            type="checkbox"
+                            id='checkboxSize'
+                            onChange={() => changeCorrectAnswer(option)}
+                          />
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                    </Card>
+                  </Col>
+                  ))
+                : options &&
+                  options.map((option, index) => (
+                  <Col className='p-1' key={index} md={6}>
+                    <Card>
+                    <Card.Body
+                      className={correctAnswerList.includes(option.id) ? 'bg-success' : 'bg-danger'}
+                    >
+                      <Row>
+                        <Col md={6}>
+                          <p className="m-0" style={{ fontSize: 30, color: 'white' }}>{option.answerText}</p>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                    </Card>
+                  </Col>
+                  ))}
+            </Row>
+          </Col>
+        </Container>}
     </>
   )
 }

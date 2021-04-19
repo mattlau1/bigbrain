@@ -63,3 +63,7 @@
 .session-id {
     font-size: 74pt;
 }
+
+#volume-slider {
+    width: 400px;
+}

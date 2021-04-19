@@ -5,6 +5,7 @@
   "dependencies": {
     "bootstrap": "^4.6.0",
     "moment": "^2.29.1",
+    "query-string": "^7.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.5.2",
     "react-bootstrap-range-slider": "^2.0.2",

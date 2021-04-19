@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import API from '../utils/API';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -9,6 +9,7 @@ import CenteredRow from '../components/CenteredRow';
 import { useAlert } from '../contexts/AlertProvider';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import queryString from 'query-string';
 
 const JoinFormContainer = styled(Container)`
   background-color: #44A3E5;
@@ -53,7 +54,6 @@ const Join = () => {
       const res = await api.postAPIRequestBody(`play/join/${sessionId}`, body);
       const data = await res.json();
       if (res.ok) {
-        console.log('player joining is ' + data.playerId);
         history.push({ pathname: `/play/${sessionId}`, state: { playerId: data.playerId } });
       } else {
         createAlert('ERROR', 'Invalid session ID - Please try again')
@@ -64,15 +64,23 @@ const Join = () => {
     }
   }
 
+  useEffect(() => {
+    // load session id from query string if it exists
+    const parsed = queryString.parse(location.search);
+    parsed.game && setSessionId(parsed.game)
+  }, [])
+
   return (
     <JoinFormContainer md={12} className="justify-content-center align-items-center" fluid>
       <CenteredRow>
         <Row className="w-100 rounded justify-content-center">
           <Col md={12} className="w-100 px-0 mx-0 rounded ">
             <Form className="formContainer rounded p-4">
+
               <Row className="justify-content-center" md={12}>
                 <HeadingText className="display-2 w-100 text-center mb-4">BigBrain</HeadingText>
               </Row>
+
               <Row className="justify-content-center" md={12}>
                 <Form.Group className="w-25 px-4">
                   <Form.Control
@@ -91,9 +99,11 @@ const Join = () => {
                     className="inputBox"
                     placeholder="Session ID"
                     onChange={(e) => setSessionId(e.target.value)}
+                    value={sessionId}
                   />
                 </Form.Group>
               </Row>
+
               <Row className="justify-content-center" md={12}>
                 <div className="w-100 text-center">
                   <Button
@@ -110,6 +120,7 @@ const Join = () => {
                   </Button>
                 </div>
               </Row>
+
             </Form>
           </Col>
         </Row>

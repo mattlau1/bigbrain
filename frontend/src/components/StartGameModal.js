@@ -100,6 +100,11 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
     }
   }
 
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener, noreferrer')
+    if (newWindow) newWindow.opener = null
+  }
+
   return (
     <Modal show={show} onHide={handleClose} size="lg">
       <Form>
@@ -109,12 +114,19 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
         <Modal.Body>
           <p className="mb-1">Your Session ID is...</p>
           <h2 className="text-center session-id">{sessionId}</h2>
-          <Form.Group controlId="inviteLink">
-            <Button onClick={() => { handleCopy(sessionId) }}>
+          <div>
+            <Button className="my-1" onClick={() => { handleCopy(sessionId) }}>
               Copy Session ID
             </Button>
-          </Form.Group>
-          <p>Join now at <a href={`${window.location.origin}/play/`}>{window.location.origin}/play/</a></p>
+          </div>
+          <div>
+            <Button
+              className="my-1"
+              onClick={() => openInNewTab(`${window.location.origin}/play?game=${sessionId}`)}
+            >
+              Join Game
+            </Button>
+          </div>
           <hr></hr>
           <h2 className="text-center">Control Panel</h2>
           {position > -1 && <h4>Question {position}/{totalQuestions}</h4>}

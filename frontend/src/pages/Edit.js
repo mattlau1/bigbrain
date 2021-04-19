@@ -160,7 +160,7 @@ const Edit = () => {
         </Row>
 
         <Col md={{ span: 4, offset: 4 }}>
-          <Card.Img src={baseImage || 'https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg'} />
+          <Card.Img src={baseImage || DefaultThumbnail} />
         </Col>
         <Row className="d-flex justify-content-center align-items-center text-center mt-2">
           <input className='mb-2 formContainer rounded border border-dark p-1'

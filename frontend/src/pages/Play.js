@@ -3,7 +3,6 @@ import API from '../utils/API';
 import { useLocation } from 'react-router-dom';
 import { Container, Row, Col, Card, Form } from 'react-bootstrap'
 import ReactPlayer from 'react-player';
-import { useAlert } from '../contexts/AlertProvider';
 import Lobby from '../components/Lobby';
 import styled from 'styled-components';
 
@@ -45,17 +44,6 @@ const Play = () => {
   const [inLobby, setInLobby] = useState(true);
   const playerId = location.state?.playerId;
   const api = new API();
-  console.log('player id is ' + playerId);
-  console.log(answerList);
-
-  const dispatch = useAlert();
-
-  const createAlert = (type, message) => {
-    dispatch({
-      type: type,
-      message: message,
-    })
-  }
 
   const changeCorrectAnswer = async (option) => {
     if (!answerList.includes(option.id)) {
@@ -65,8 +53,6 @@ const Play = () => {
       newAnswers.splice(newAnswers.indexOf(option.id), 1)
       setAnswerList([...newAnswers]);
     }
-
-    (answerList.length === 0) && createAlert('ERROR', 'Make sure to select an answer');
 
     const body = {
       answerIds: answerList,

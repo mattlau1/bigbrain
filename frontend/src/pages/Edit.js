@@ -8,6 +8,7 @@ import API from '../utils/API';
 import { v4 as uuidv4 } from 'uuid'
 import { useAlert } from '../contexts/AlertProvider';
 import { Link } from 'react-router-dom';
+import DefaultThumbnail from '../assets/DefaultThumbnail.png';
 
 const Edit = () => {
   const [questionDetail, setQuestionDetail] = useState([])
@@ -75,7 +76,7 @@ const Edit = () => {
   };
 
   const removeImage = async () => {
-    setBaseImage('https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg');
+    setBaseImage(DefaultThumbnail);
     console.log(baseImage);
   }
 

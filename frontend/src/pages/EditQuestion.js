@@ -64,6 +64,11 @@ const EditQuestion = () => {
   }
 
   const removeAnswer = (aId) => {
+    if (correctAnswers.includes(aId)) {
+      const newAnswers = correctAnswers;
+      newAnswers.splice(newAnswers.indexOf(aId), 1)
+      setCorrectAnswers([...newAnswers]);
+    }
     setAnswerList(answerList.filter(ans => ans.id !== aId))
   }
 

@@ -112,18 +112,19 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
   }
 
   useEffect(() => {
-    const poll = async () => {
+    const loadPlayers = async () => {
+      // get all players for a given sessionId
       const token = localStorage.getItem('token');
       const api = new API();
-
       const res = await api.getAPIRequestToken(`admin/session/${sessionId}/status`, token);
       const data = await res.json();
       if (res.ok) {
-        setPlayerList(data.results.players)
-        console.log(playerList)
+        setPlayerList(data.results.players);
+      } else {
+        setPlayerList([]);
       }
     }
-    poll()
+    loadPlayers()
     polling >= 0 && setTimeout(() => setPolling(polling + 1), 1000);
   }, [polling])
 

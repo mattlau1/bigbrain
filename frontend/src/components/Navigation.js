@@ -47,7 +47,7 @@ const Navigation = () => {
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand as={Link} to="/dashboard" className="d-flex align-items-center">
+        <Navbar.Brand as={Link} to="/dashboard" className="d-flex align-items-center mx-2">
           <Image
             style={{
               width: 60,
@@ -62,12 +62,12 @@ const Navigation = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav variant="pills" className="ml-auto" defaultActiveKey="/creategame">
-            <Nav.Link as={NavLink} to="/dashboard" className="mx-2">
+            <Nav.Link as={NavLink} to="/dashboard" className="mx-2 text-center">
               Dashboard
             </Nav.Link>
             <Nav.Link
               as={NavLink}
-              className="mx-2"
+              className="mx-2 text-center"
               exact
               to="/"
               onClick={() => {

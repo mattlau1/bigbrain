@@ -27,6 +27,7 @@ const Join = () => {
   const dispatch = useAlert();
   const history = useHistory();
   const api = new API();
+  const maxNameLength = 32;
 
   const createAlert = (type, message) => {
     dispatch({
@@ -38,6 +39,11 @@ const Join = () => {
   const joinSession = async () => {
     if (!user) {
       createAlert('ERROR', 'Your name cannot be empty')
+      return;
+    }
+
+    if (user.length >= maxNameLength) {
+      createAlert('ERROR', `Your name cannot longer than ${maxNameLength} characters`)
       return;
     }
 

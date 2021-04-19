@@ -1,12 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap'
 import PropTypes from 'prop-types';
 import { useAlert } from '../contexts/AlertProvider';
 import API from '../utils/API';
+import styled from 'styled-components';
 
+const SessionIDText = styled.h2`
+  @media (max-width: 768px) {
+    font-size: 56pt;
+  }
+  @media (max-width: 576px) {
+    font-size: 36pt;
+  }
+`
 const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, setGameList }) => {
   const [position, setPosition] = useState(-1);
   const [totalQuestions, setTotalQuestions] = useState(0);
+  const [polling, setPolling] = useState(0);
+  const [playerList, setPlayerList] = useState([]);
 
   const dispatch = useAlert();
   const createAlert = (type, message) => {
@@ -100,6 +111,22 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
     }
   }
 
+  useEffect(() => {
+    const poll = async () => {
+      const token = localStorage.getItem('token');
+      const api = new API();
+
+      const res = await api.getAPIRequestToken(`admin/session/${sessionId}/status`, token);
+      const data = await res.json();
+      if (res.ok) {
+        setPlayerList(data.results.players)
+        console.log(playerList)
+      }
+    }
+    poll()
+    polling >= 0 && setTimeout(() => setPolling(polling + 1), 1000);
+  }, [polling])
+
   const openInNewTab = (url) => {
     const newWindow = window.open(url, '_blank', 'noopener, noreferrer')
     if (newWindow) newWindow.opener = null
@@ -113,7 +140,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
         </Modal.Header>
         <Modal.Body>
           <p className="mb-1">Your Session ID is...</p>
-          <h2 className="text-center session-id">{sessionId}</h2>
+          <SessionIDText className="text-center session-id">{sessionId}</SessionIDText>
           <div className="d-flex justify-content-center">
             <Button className="my-1" onClick={() => { handleCopy(sessionId) }}>
               Copy Session ID
@@ -127,7 +154,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
               Join Game
             </Button>
           </div>
-          <hr></hr>
+          <hr/>
           <h2 className="text-center">Control Panel</h2>
           <Container md={12}>
             <Col>
@@ -141,6 +168,16 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
                   </Button>
                 </div>
               </Row>
+              <hr/>
+              <h2 className="text-center">Players</h2>
+              <Row className="justify-content-center">
+                {playerList.map((player, key) => (
+                  <Col md={5} key={key} className="m-2 bg-info rounded">
+                    <p className="w-100 text-center text-light my-2">{player}</p>
+                  </Col>
+                ))}
+              </Row>
+
             </Col>
           </Container>
         </Modal.Body>

@@ -2,12 +2,13 @@ import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import styled from 'styled-components';
-import Row from 'react-bootstrap/Row';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import API from '../utils/API';
 import { useAlert } from '../contexts/AlertProvider';
+import Logo from '../assets/Logo.png';
+import { Image } from 'react-bootstrap';
 
-const Brand = styled.h4`
+const Brand = styled.span`
   font-size: 20pt;
 `
 
@@ -46,10 +47,16 @@ const Navigation = () => {
   return (
     <>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand as={Link} to="/dashboard" className="mr-auto">
-          <Row>
-            <Brand className="display-1 pl-2">BigBrain</Brand>
-          </Row>
+        <Navbar.Brand as={Link} to="/dashboard" className="d-flex align-items-center">
+          <Image
+            style={{
+              width: 60,
+              height: 60,
+            }}
+            src={Logo}
+            className="d-inline-block align-top mr-2"
+          />
+          <Brand>BigBrain</Brand>
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

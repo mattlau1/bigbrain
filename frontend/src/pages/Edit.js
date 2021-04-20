@@ -87,7 +87,7 @@ const Edit = () => {
   };
 
   const removeImage = async () => {
-    setBaseImage(defaultthumbnail);
+    setBaseImage(defaultThumbnail);
     console.log(baseImage);
   }
 
@@ -171,7 +171,7 @@ const Edit = () => {
         </Row>
 
         <Col md={{ span: 4, offset: 4 }}>
-          <Card.Img src={baseImage || defaultthumbnail} />
+          <Card.Img src={baseImage || defaultThumbnail} />
         </Col>
         <Row className="d-flex justify-content-center align-items-center text-center mt-2">
           <input className='mb-2 formContainer rounded border border-dark p-1'

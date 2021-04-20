@@ -8,7 +8,7 @@ import API from '../utils/API';
 import { v4 as uuidv4 } from 'uuid'
 import { useAlert } from '../contexts/AlertProvider';
 import { Link } from 'react-router-dom';
-import DefaultThumbnail from '../assets/DefaultThumbnail.png';
+import defaultThumbnail from '../assets/defaultThumbnail.png';
 
 const Edit = () => {
   const [questionDetail, setQuestionDetail] = useState([])
@@ -87,7 +87,7 @@ const Edit = () => {
   };
 
   const removeImage = async () => {
-    setBaseImage(DefaultThumbnail);
+    setBaseImage(defaultthumbnail);
     console.log(baseImage);
   }
 
@@ -171,7 +171,7 @@ const Edit = () => {
         </Row>
 
         <Col md={{ span: 4, offset: 4 }}>
-          <Card.Img src={baseImage || DefaultThumbnail} />
+          <Card.Img src={baseImage || defaultthumbnail} />
         </Col>
         <Row className="d-flex justify-content-center align-items-center text-center mt-2">
           <input className='mb-2 formContainer rounded border border-dark p-1'

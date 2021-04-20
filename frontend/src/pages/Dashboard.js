@@ -10,7 +10,7 @@ import StartQuizButton from '../components/StartQuizButton';
 import StartGameModal from '../components/StartGameModal';
 import StopQuizButton from '../components/StopQuizButton';
 import StopGameModal from '../components/StopGameModal';
-import DefaultThumbnail from '../assets/DefaultThumbnail.png';
+import defaultThumbnail from '../assets/defaultThumbnail.png';
 import PreviousGamesButton from '../components/PreviousGamesButton';
 
 const Dashboard = () => {
@@ -108,7 +108,7 @@ const Dashboard = () => {
                   </Row>
                 </Card.Header>
                 <Card.Img
-                  src={game.thumbnail || DefaultThumbnail}
+                  src={game.thumbnail || defaultThumbnail}
                 />
                   <Card.Body>
                     <Container>

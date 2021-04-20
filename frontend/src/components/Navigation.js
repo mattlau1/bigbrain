@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import API from '../utils/API';
 import { useAlert } from '../contexts/AlertProvider';
-import Logo from '../assets/Logo.png';
+import logo from '../assets/logo.png';
 import { Image } from 'react-bootstrap';
 
 const Brand = styled.span`
@@ -53,7 +53,7 @@ const Navigation = () => {
               width: 60,
               height: 60,
             }}
-            src={Logo}
+            src={logo}
             className="d-inline-block align-top mr-2"
           />
           <Brand>BigBrain</Brand>

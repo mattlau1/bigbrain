@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useAlert } from '../contexts/AlertProvider';
 import API from '../utils/API';
 import styled from 'styled-components';
+import { openInNewTab } from '../utils/NewTab';
 
 const SessionIDText = styled.h2`
   @media (max-width: 768px) {
@@ -127,11 +128,6 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
     loadPlayers()
     polling >= 0 && setTimeout(() => setPolling(polling + 1), 1000);
   }, [polling])
-
-  const openInNewTab = (url) => {
-    const newWindow = window.open(url, '_blank', 'noopener, noreferrer')
-    if (newWindow) newWindow.opener = null
-  }
 
   return (
     <Modal show={show} onHide={handleClose} size="lg">

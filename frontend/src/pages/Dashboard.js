@@ -91,14 +91,14 @@ const Dashboard = () => {
         </Row>
         <Row md={12}>
           {gameList.map((game, key) => (
-            <Col className='mt-4' lg={4} md={6} sm={6} key={key}>
+            <Col className='mt-4' lg={4} md={6} sm={6} xs={12} key={key}>
               <Card>
                 <Card.Header>
                   <Row>
-                    <Col md={8} className="px-2">
+                    <Col xs={8} className="px-2">
                       <h3>{game.name}</h3>
                     </Col>
-                    <Col md={4} className="d-flex justify-content-end align-items-center px-1">
+                    <Col xs={4} className="d-flex justify-content-end align-items-center px-1">
                       {game.active &&
                         <Button onClick={() => { handleShowStart(game.id, game.active) }}>
                           Share
@@ -113,10 +113,10 @@ const Dashboard = () => {
                   <Card.Body>
                     <Container>
                       <Row className="justify-content-center align-items-center">
-                        <Col md={6} className="text-left pl-0">
+                        <Col xs={6} className="text-left pl-0 py-2">
                         {game.questions.length} questions
                         </Col>
-                        <Col md={6} className="text-right pr-0">
+                        <Col xs={6} className="text-right pr-0 py-2">
                           {getCompletionTime(game.questions)} seconds
                         </Col>
                       </Row>

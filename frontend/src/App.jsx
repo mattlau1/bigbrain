@@ -9,6 +9,7 @@ import EditQuestion from './pages/EditQuestion';
 import Play from './pages/Play';
 import Results from './pages/Results';
 import Join from './pages/Join';
+import GameResult from './pages/GameResult'
 
 function App () {
   return (
@@ -22,6 +23,7 @@ function App () {
         <Route path="/play" exact component={Join} />
         <Route path="/play/:sessionId" component={Play} />
         <Route path="/results/:sessionId" component={Results} />
+        <Route path="/gameresult" component={GameResult} />
       </Switch>
     </Router>
   );

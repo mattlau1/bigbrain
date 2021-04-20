@@ -1,6 +1,5 @@
 import { React, useEffect, useState } from 'react'
 import API from '../utils/API';
-import { useLocation } from 'react-router-dom';
 import { Container, Row, Col, Card, Form } from 'react-bootstrap'
 import ReactPlayer from 'react-player';
 import Lobby from '../components/Lobby';
@@ -42,7 +41,17 @@ const Play = () => {
   const [polling, setPolling] = useState(0);
   const [start, setStart] = useState(false);
   const [inLobby, setInLobby] = useState(true);
+  const [currentUser, setCurrentUser] = useState('');
+  const [currentPoint, setCurrentPoint] = useState('');
+  const [point, setPoint] = useState(0);
+  const [addedPoint, setAddedPoint] = useState(0);
+  const [maxPoint, setMaxPoint] = useState(0);
+  const [correctQ, setCorrectQ] = useState(0);
+  const [maxQ, setMaxQ] = useState(0);
+  const [playerData, setPlayerData] = useState({})
   const playerId = location.state?.playerId;
+  const playerName = location.state?.playerName;
+  const history = useHistory();
   const api = new API();
 
   const changeCorrectAnswer = async (option) => {
@@ -53,6 +62,9 @@ const Play = () => {
       newAnswers.splice(newAnswers.indexOf(option.id), 1)
       setAnswerList([...newAnswers]);
     }
+
+    setCurrentPoint(point);
+    (answerList.length === 0) && createAlert('ERROR', 'Make sure to select an answer');
 
     const body = {
       answerIds: answerList,
@@ -86,8 +98,13 @@ const Play = () => {
       const res = await api.getAPIRequest(`play/${playerId}/answer`);
       const data = await res.json();
       if (res.ok) {
-        console.log('correct answers gathered')
-        setCorrectAnswerList(data.answerIds)
+        console.log('correct answers gathered');
+        setCorrectAnswerList(data.answerIds);
+        if (data.answerIds.join() === answerList.join()) {
+          console.log('you got it right!!!!');
+          setAddedPoint(addedPoint + currentPoint);
+          setCorrectQ(correctQ + 1);
+        }
       } else {
         console.log('invalid output');
       }
@@ -104,12 +121,18 @@ const Play = () => {
         const data = await res.json();
         if (res.ok) {
           if ((over || !start) && (data.question.text !== questionText)) {
+            setAnswerList([]);
+            setCorrectAnswerList([]);
             displayVideo(data.question.video);
             setBaseImage(data.question.thumbnail);
             setQuestionText(data.question.text);
             setQuestionType(data.question.type);
             setOptions(data.question.answers);
             !timeLimit && setTimeLimit(data.question.time_limit);
+            setPoint(data.question.point);
+            setMaxPoint(maxPoint + data.question.point);
+            setMaxQ(maxQ + 1);
+            setCurrentPoint(0);
             setOver(false);
             setStart(true);
             setPolling(0);
@@ -117,8 +140,15 @@ const Play = () => {
           }
         } else {
           if (!inLobby) {
-            alert('ur at the end');
+            console.log('ur at the end');
             setInLobby(true);
+            console.log(playerData);
+            history.push({
+              pathname: '/gameresult',
+              state: {
+                playerData: playerData,
+              }
+            })
           }
 
           console.log('cannot get question details');
@@ -128,7 +158,15 @@ const Play = () => {
         console.warn(e);
       }
     }
-    poll()
+    poll();
+    setPlayerData({
+      name: currentUser,
+      point: addedPoint,
+      maxPoint: maxPoint,
+      correctQ: correctQ,
+      maxQ: maxQ,
+    });
+    (timeLimit % 2) && setPoint(point - 0.5);
     polling >= 0 && setTimeout(() => setPolling(polling + 1), 1000);
   }, [polling])
 
@@ -139,6 +177,7 @@ const Play = () => {
         const data = await res.json();
         if (res.ok) {
           if (over) {
+            console.log('this got touched!');
             setAnswerList([]);
             setCorrectAnswerList([]);
             displayVideo(data.question.video);
@@ -151,8 +190,8 @@ const Play = () => {
             setOver(false);
           }
         } else {
-          // if (inLobby) alert('This is a lobby!');
-          console.log('cannot get question details');
+          if (inLobby) console.log('This is a lobby!');
+          setCurrentUser(playerName);
         }
       } catch (e) {
         console.log('error');

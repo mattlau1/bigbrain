@@ -34,10 +34,21 @@ const Edit = () => {
           time_limit: 10,
           type: 'single',
           point: 20,
-          answers: [],
+          answers: [
+            {
+              id: -500,
+              answerText: 'Apple',
+              check: true,
+            },
+            {
+              id: -404,
+              answerText: 'Banana',
+              check: false,
+            },
+          ],
           thumbnail: null,
           video: null,
-          correctAnswers: []
+          correctAnswers: [-500]
         }]
     })
   }

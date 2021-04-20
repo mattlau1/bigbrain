@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAlert } from '../contexts/AlertProvider';
-import { Col, Row, Card, Container, Button, Form } from 'react-bootstrap';
+import { Col, Row, Card, Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import API from '../utils/API';
 import Navigation from '../components/Navigation';
@@ -50,74 +50,6 @@ const Dashboard = () => {
     }, 0)
   }
 
-  const uploadGame = async (quiz) => {
-    try {
-      const token = localStorage.getItem('token');
-      const api = new API();
-      const res = await api.postAPIRequestBodyToken('admin/quiz/new', { name: quiz.name }, token);
-      const data = await res.json();
-      if (res.ok) {
-        try {
-          const newQuiz = quiz;
-          newQuiz.id = data.quizId;
-          await api.putAPIRequestTokenBody(`admin/quiz/${data.quizId}`, newQuiz, token);
-
-          // refresh game list
-          api.getAPIRequestToken('admin/quiz', token).then((data) => {
-            if (data.status === 403) {
-              createAlert('ERROR', 'Invalid Token');
-            } else if (data.status === 200) {
-              setGameList([]);
-              data.json().then((quizzes) => {
-                quizzes.quizzes.forEach((quiz) => {
-                  api.getAPIRequestToken(`admin/quiz/${quiz.id}`, token).then((data) => {
-                    data.json().then((quizData) => {
-                      const newGame = { ...quizData, ...quiz }
-                      setGameList(gameList => [...gameList, newGame]);
-                    })
-                  }).catch((e) => {
-                    createAlert('ERROR', 'There was a problem getting quizzes');
-                    console.warn(e)
-                  })
-                })
-              })
-            }
-          }).catch((e) => {
-            createAlert('ERROR', 'There was a problem getting quizzes');
-            console.warn(e)
-          })
-        } catch (e) {
-          createAlert('ERROR', 'An unexpected error has occurred');
-          console.warn(e);
-        }
-      }
-    } catch (e) {
-      console.warn(e);
-    }
-  }
-
-  const handleUploadGame = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const ext = file.name.substring(file.name.lastIndexOf('.') + 1);
-      if (ext === 'json') {
-        const fileReader = new FileReader();
-        fileReader.readAsText(event.target.files[0], 'UTF-8');
-        fileReader.onload = (e) => {
-          console.log(JSON.parse(e.target.result));
-
-          const parsedGame = JSON.parse(e.target.result);
-
-          uploadGame(parsedGame);
-
-          createAlert('SUCCESS', 'Game successfully uploaded');
-        };
-      } else {
-        createAlert('ERROR', 'This file format is not supported');
-      }
-    }
-  }
-
   useEffect(() => {
     const loadGames = async () => {
       const token = localStorage.getItem('token');
@@ -156,21 +88,12 @@ const Dashboard = () => {
       {console.log(gameList)}
         <Row md={12} className="justify-content-center align-items-center text-center">
           <Button
-            className='m-2'
+            className="m-2"
             variant="primary"
             onClick={() => handleShowCreate()}
           >
           Create New Game
           </Button>
-          <Form>
-            <Form.File
-              className="text-left"
-              label="Upload Game (.json file  )"
-              onChange={(e) => handleUploadGame(e)}
-              accept={'.json'}
-              custom
-            />
-          </Form>
         </Row>
         <Row md={12}>
           {gameList.map((game, key) => (

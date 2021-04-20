@@ -27,3 +27,7 @@ p {
   height: 40px;
   outline: 1px solid white;
 }
+
+.dropdown-toggle {
+  width: 100%;
+}

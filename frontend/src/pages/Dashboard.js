@@ -11,6 +11,7 @@ import StartGameModal from '../components/StartGameModal';
 import StopQuizButton from '../components/StopQuizButton';
 import StopGameModal from '../components/StopGameModal';
 import DefaultThumbnail from '../assets/DefaultThumbnail.png';
+import PreviousGamesButton from '../components/PreviousGamesButton';
 
 const Dashboard = () => {
   const [gameList, setGameList] = useState([]);
@@ -147,7 +148,11 @@ const Dashboard = () => {
                             gameId={game.id}
                           />
                         </Col>
-
+                        <Col md={12} className="px-0 my-1 w-100">
+                          <PreviousGamesButton
+                            gameId={game.id}
+                          />
+                        </Col>
                       </Row>
                     </Container>
                   </Card.Body>

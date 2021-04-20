@@ -163,11 +163,9 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
                 {position > -1 && <p className="mb-1">Question {position}/{totalQuestions}</p>}
               </Row>
               <Row className="justify-content-center">
-                <div className="d-flex justify-content-start align-items-center">
-                  <Button variant="success" onClick={() => { handleAdvance() }}>
-                    {position === -1 ? 'Start Game' : 'Next Question'}
-                  </Button>
-                </div>
+                <Button variant="success" onClick={() => { handleAdvance() }}>
+                  {position === -1 ? 'Start Game' : 'Next Question'}
+                </Button>
               </Row>
               <hr/>
               <h2 className="text-center">Players</h2>
@@ -178,7 +176,6 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
                   </Col>
                 ))}
               </Row>
-
             </Col>
           </Container>
         </Modal.Body>

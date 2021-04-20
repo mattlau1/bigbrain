@@ -16,6 +16,7 @@ const Login = () => {
   const dispatch = useAlert();
   const api = new API();
 
+  // pop up messages if errors got encountered
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -23,12 +24,15 @@ const Login = () => {
     })
   }
 
+  // collects user details from input and get authorised
   const postLoginInfo = async () => {
     if (!email) {
+      // user submitted with empty email
       createAlert('ERROR', 'Your email cannot be empty')
       return;
     }
     if (!password) {
+      // user submitted empty password
       createAlert('ERROR', 'Your password cannot be empty')
       return;
     }
@@ -39,6 +43,7 @@ const Login = () => {
     };
 
     try {
+      // user details got authorised and gets redirected to the dashboard
       const res = await api.postAPIRequestBody('admin/auth/login', body);
       const data = await res.json();
       if (res.ok) {
@@ -47,6 +52,7 @@ const Login = () => {
         localStorage.setItem('token', data.token);
         history.push('/dashboard');
       } else {
+        // either invalid username, password or unregistered account
         createAlert('ERROR', 'Invalid credentials - Please try again')
       }
     } catch (e) {
@@ -65,6 +71,7 @@ const Login = () => {
                 <h1 className="display-2 w-100 text-center mb-4">BigBrain</h1>
               </Row>
               <Row className="justify-content-center" md={12}>
+                {/* Input email */}
                 <Form.Group className="w-75 px-4" controlId="formBasicemail">
                   <Form.Control
                     className="inputBox"
@@ -76,6 +83,7 @@ const Login = () => {
               </Row>
 
               <Row className="justify-content-center" md={12}>
+                {/* Input password */}
                 <Form.Group className="w-75 px-4" controlId="formBasicPassword">
                   <Form.Control
                     className="inputBox"
@@ -86,6 +94,7 @@ const Login = () => {
                 </Form.Group>
               </Row>
               <Row className="justify-content-center" md={12}>
+                {/* Submits user details */}
                 <div className="w-100 text-center">
                   <Button
                     className="mt-2 mb-4"
@@ -104,6 +113,7 @@ const Login = () => {
                 <p className="w-100 text-center mt-2 mb-1">Need an account?</p>
               </Row>
               <Row md={12} className="justify-content-center">
+                {/* Change to register screen */}
                 <div className="w-100 text-center">
                   <Link to="/register" id="loginBtn" className="btn btn-primary">
                     Register

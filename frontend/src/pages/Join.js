@@ -29,6 +29,7 @@ const Join = () => {
   const api = new API();
   const maxNameLength = 32;
 
+  // pop up messages if errors got encountered
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -36,18 +37,22 @@ const Join = () => {
     })
   }
 
+  // User submit details to join the game session
   const joinSession = async () => {
     if (!user) {
+      // user submitted with empty name
       createAlert('ERROR', 'Your name cannot be empty')
       return;
     }
 
     if (user.length >= maxNameLength) {
+      // user cannot have very long names
       createAlert('ERROR', `Your name cannot longer than ${maxNameLength} characters`)
       return;
     }
 
     if (!sessionId) {
+      // user submitted with empty session id
       createAlert('ERROR', 'Your session ID cannot be empty')
       return;
     }
@@ -57,12 +62,14 @@ const Join = () => {
     };
 
     try {
+      // routing for user to join the game session
       const res = await api.postAPIRequestBody(`play/join/${sessionId}`, body);
       const data = await res.json();
       if (res.ok) {
-        console.log('player joining is ' + data.playerId);
+        // user has successfully joined and will be redirected to play screen
         history.push({ pathname: `/play/${sessionId}`, state: { playerId: data.playerId, playerName: user } });
       } else {
+        // user could not join the game session
         createAlert('ERROR', 'Invalid session ID - Please try again')
       }
     } catch (e) {
@@ -89,6 +96,7 @@ const Join = () => {
               </Row>
 
               <Row className="justify-content-center" md={12}>
+                {/* Input name */}
                 <Form.Group className="w-25 px-4">
                   <Form.Control
                     size="lg"
@@ -100,6 +108,7 @@ const Join = () => {
               </Row>
 
               <Row className="justify-content-center" md={12}>
+                {/* Input session ID */}
                 <Form.Group className="w-25 px-4">
                   <Form.Control
                     size="lg"
@@ -111,6 +120,7 @@ const Join = () => {
               </Row>
 
               <Row className="justify-content-center" md={12}>
+                {/* Button to join session */}
                 <div className="w-100 text-center">
                   <Button
                     className="mt-2 mb-4"

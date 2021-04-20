@@ -7,7 +7,6 @@ export const quizQuestionPublicReturn = question => {
   // /play/{playerid}/question
   const filtered_question = question;
   delete filtered_question.correctAnswers;
-  delete filtered_question.id;
   console.log(filtered_question, 'PublicReturn')
   return filtered_question;
 };

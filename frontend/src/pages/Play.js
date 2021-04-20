@@ -48,6 +48,7 @@ const Play = () => {
   const [addedPoint, setAddedPoint] = useState(0);
   const [maxPoint, setMaxPoint] = useState(0);
   const [correctQ, setCorrectQ] = useState(0);
+  const [questionId, setQuestionId] = useState('');
   const [maxQ, setMaxQ] = useState(0);
   const [playerData, setPlayerData] = useState({})
   const playerId = location.state?.playerId;
@@ -108,9 +109,8 @@ const Play = () => {
       try {
         const res = await api.getAPIRequest(`play/${playerId}/question`);
         const data = await res.json();
-        console.log('sfofkafofk')
         if (res.ok) {
-          if ((over || !start) && (data.question.text !== questionText)) {
+          if ((over || !start) && (data.question.id !== questionId)) {
             setAnswerList([]);
             setCorrectAnswerList([]);
             displayVideo(data.question.video);
@@ -118,6 +118,7 @@ const Play = () => {
             setQuestionText(data.question.text);
             setQuestionType(data.question.type);
             setOptions(data.question.answers);
+            setQuestionId(data.question.id);
             !timeLimit && setTimeLimit(data.question.time_limit);
             setPoint(data.question.point);
             setMaxPoint(maxPoint + data.question.point);
@@ -166,6 +167,7 @@ const Play = () => {
             setCorrectAnswerList([]);
             displayVideo(data.question.video);
             setBaseImage(data.question.thumbnail);
+            setQuestionId(data.question.id);
             setQuestionText(data.question.text);
             setQuestionType(data.question.type);
             setOptions(data.question.answers);

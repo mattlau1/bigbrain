@@ -71,14 +71,8 @@ const Play = () => {
     }
 
     try {
-      const res = await api.putAPIRequestBody(`play/${playerId}/answer`, body);
-      if (res.ok) {
-        console.log('answers submitted')
-      } else {
-        console.log('invalid output');
-      }
+      await api.putAPIRequestBody(`play/${playerId}/answer`, body);
     } catch (e) {
-      console.log('error');
       console.warn(e);
     }
   }
@@ -98,18 +92,13 @@ const Play = () => {
       const res = await api.getAPIRequest(`play/${playerId}/answer`);
       const data = await res.json();
       if (res.ok) {
-        console.log('correct answers gathered');
         setCorrectAnswerList(data.answerIds);
         if (data.answerIds.join() === answerList.join()) {
-          console.log('you got it right!!!!');
           setAddedPoint(addedPoint + currentPoint);
           setCorrectQ(correctQ + 1);
         }
-      } else {
-        console.log('invalid output');
       }
     } catch (e) {
-      console.log('error');
       console.warn(e);
     }
   }
@@ -119,6 +108,7 @@ const Play = () => {
       try {
         const res = await api.getAPIRequest(`play/${playerId}/question`);
         const data = await res.json();
+        console.log('sfofkafofk')
         if (res.ok) {
           if ((over || !start) && (data.question.text !== questionText)) {
             setAnswerList([]);
@@ -140,9 +130,7 @@ const Play = () => {
           }
         } else {
           if (!inLobby) {
-            console.log('ur at the end');
             setInLobby(true);
-            console.log(playerData);
             history.push({
               pathname: '/gameresult',
               state: {
@@ -150,11 +138,8 @@ const Play = () => {
               }
             })
           }
-
-          console.log('cannot get question details');
         }
       } catch (e) {
-        console.log('error');
         console.warn(e);
       }
     }
@@ -185,14 +170,12 @@ const Play = () => {
             setQuestionType(data.question.type);
             setOptions(data.question.answers);
             !timeLimit && setTimeLimit(data.question.time_limit);
-            // setInitialTime(data.question.time_limit);
             setOver(false);
           }
         } else {
           setCurrentUser(playerName);
         }
       } catch (e) {
-        console.log('error');
         console.warn(e);
       }
     }
@@ -209,82 +192,82 @@ const Play = () => {
 
   return (
     <>
-        {inLobby && <Lobby></Lobby>}
+      {inLobby && <Lobby></Lobby>}
 
-        {!inLobby &&
-        <Container style={{ backgroundColor: '#44A3E5', height: '100vh' }} fluid>
-          <Container>
-            <Col>
-              <Row className="justify-content-center align-items-center">
-                <WhiteH1 className="mt-4">{questionText}</WhiteH1>
-              </Row>
-              <Row>
-                <Col className="d-flex justify-content-center align-items-center text-center"
-                md={12}>
-                  <ReactPlayer
-                    playing={true}
-                    controls={true}
-                    loop={true}
-                    height={height}
-                    url={videoFile}
-                  />
-                </Col>
-                <Col md={12} className={baseImage ? 'd-flex justify-content-center' : 'd-none'}>
-                  <Card.Img style={{ maxHeight: 400, maxWidth: 400 }} src={baseImage} />
-                </Col>
-              </Row>
-              <Row>
-                <Col md={10} className='p-1'>
-                  {questionType && <WhiteH3>{questionType.charAt(0).toUpperCase() + questionType.slice(1)} choice question</WhiteH3>}
-                </Col>
-                <Col md={2} className='d-inline mx-0 px-1'>
-                <WhiteH2 className='text-right'>{timeLimit}</WhiteH2>
-                </Col>
-              </Row>
-              <Row>
-                {(!over)
-                  ? options &&
-                    options.map((option, index) => (
-                    <Col className='p-1' key={index} md={6}>
-                      <Card>
-                      <Card.Body className="bg-primary">
-                        <Row>
-                          <Col md={10}>
-                            <QuestionText className="m-0">{option.answerText}</QuestionText>
-                          </Col>
-                          <Col className="d-flex justify-content-end" md={2}>
-                          <Form.Check
-                              className="d-inline my-0 py-0"
-                              type="checkbox"
-                              id="big-checkbox"
-                              onChange={() => changeCorrectAnswer(option)}
-                            />
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                      </Card>
-                    </Col>
-                    ))
-                  : options &&
-                    options.map((option, index) => (
-                    <Col className='p-1' key={index} md={6}>
-                      <Card>
-                      <Card.Body
-                        className={correctAnswerList.includes(option.id) ? 'bg-success' : 'bg-danger'}
-                      >
-                        <Row>
-                          <Col md={6}>
-                            <p className="m-0" style={{ fontSize: 30, color: 'white' }}>{option.answerText}</p>
-                          </Col>
-                        </Row>
-                      </Card.Body>
-                      </Card>
-                    </Col>
-                    ))}
-              </Row>
-            </Col>
-          </Container>
-        </Container>}
+      {!inLobby &&
+      <Container style={{ backgroundColor: '#44A3E5', height: '100vh' }} fluid>
+        <Container>
+          <Col>
+            <Row className="justify-content-center align-items-center">
+              <WhiteH1 className="mt-4">{questionText}</WhiteH1>
+            </Row>
+            <Row>
+              <Col className="d-flex justify-content-center align-items-center text-center"
+              md={12}>
+                <ReactPlayer
+                  playing={true}
+                  controls={true}
+                  loop={false}
+                  height={height}
+                  url={videoFile}
+                />
+              </Col>
+              <Col md={12} className={baseImage ? 'd-flex justify-content-center' : 'd-none'}>
+                <Card.Img style={{ maxHeight: 400, maxWidth: 400 }} src={baseImage} />
+              </Col>
+            </Row>
+            <Row>
+              <Col md={10} className='p-1'>
+                {questionType && <WhiteH3>{questionType.charAt(0).toUpperCase() + questionType.slice(1)} choice question</WhiteH3>}
+              </Col>
+              <Col md={2} className='d-inline mx-0 px-1'>
+              <WhiteH2 className='text-right'>{timeLimit}</WhiteH2>
+              </Col>
+            </Row>
+            <Row>
+              {(!over)
+                ? options &&
+                  options.map((option, index) => (
+                  <Col className='p-1' key={index} md={6}>
+                    <Card>
+                    <Card.Body className="bg-primary">
+                      <Row>
+                        <Col md={10}>
+                          <QuestionText className="m-0">{option.answerText}</QuestionText>
+                        </Col>
+                        <Col className="d-flex justify-content-end" md={2}>
+                        <Form.Check
+                            className="d-inline my-0 py-0"
+                            type="checkbox"
+                            id="big-checkbox"
+                            onChange={() => changeCorrectAnswer(option)}
+                          />
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                    </Card>
+                  </Col>
+                  ))
+                : options &&
+                  options.map((option, index) => (
+                  <Col className='p-1' key={index} md={6}>
+                    <Card>
+                    <Card.Body
+                      className={correctAnswerList.includes(option.id) ? 'bg-success' : 'bg-danger'}
+                    >
+                      <Row>
+                        <Col md={6}>
+                          <p className="m-0" style={{ fontSize: 30, color: 'white' }}>{option.answerText}</p>
+                        </Col>
+                      </Row>
+                    </Card.Body>
+                    </Card>
+                  </Col>
+                  ))}
+            </Row>
+          </Col>
+        </Container>
+      </Container>}
     </>
   )
 }

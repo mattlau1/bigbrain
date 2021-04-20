@@ -92,7 +92,7 @@ const Join = () => {
                 <Form.Group className="w-25 px-4">
                   <Form.Control
                     size="lg"
-                    className="inputBox"
+                    type="text"
                     placeholder="Name"
                     onChange={(e) => setUser(e.target.value)}
                   />
@@ -103,7 +103,6 @@ const Join = () => {
                 <Form.Group className="w-25 px-4">
                   <Form.Control
                     size="lg"
-                    className="inputBox"
                     placeholder="Session ID"
                     onChange={(e) => setSessionId(e.target.value)}
                     value={sessionId}

@@ -6,8 +6,6 @@ import ReactPlayer from 'react-player';
 import RangeSlider from 'react-bootstrap-range-slider';
 import cat from '../assets/cat.gif';
 import wiiresort from '../assets/wiiresort.mp3';
-import miichannel from '../assets/miichannel.mp3'
-import wiishop from '../assets/wiishop.mp3'
 
 const LobbyContainer = styled(Container)`
   background-color: #44A3E5;
@@ -49,17 +47,13 @@ const Lobby = () => {
   // default volume
   const [volume, setVolume] = useState(10);
 
-  // background music playlist
-  const songs = [
-    wiiresort,
-    miichannel,
-    wiishop
-  ]
+  // background music
+  const song = [wiiresort]
 
   return (
     <LobbyContainer className="p-2" fluid>
       <ReactPlayer
-        url={songs}
+        url={song}
         playing={true}
         controls={false}
         loop={true}
@@ -73,7 +67,6 @@ const Lobby = () => {
         <Row md={8} className="d-flex justify-content-center">
           <LobbyHeading className="p-4 text-center bg-light overflow-visible">{sessionId}</LobbyHeading>
         </Row>
-
       </Container>
       <Container>
         <Col>

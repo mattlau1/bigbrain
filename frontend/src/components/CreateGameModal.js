@@ -160,7 +160,7 @@ const CreateGameModal = ({ show, handleClose, setGameList }) => {
           />
           <Form.File
             className="text-left"
-            label="Upload Quiz JSON"
+            label="Upload Quiz"
             onChange={(e) => handleUploadGame(e)}
             accept={'.json'}
             custom

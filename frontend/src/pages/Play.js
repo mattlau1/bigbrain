@@ -157,31 +157,17 @@ const Play = () => {
   }, [polling])
 
   useEffect(() => {
-    const getQuestionDetail = async () => {
+    const getPlayerName = async () => {
       try {
         const res = await api.getAPIRequest(`play/${playerId}/question`);
-        const data = await res.json();
-        if (res.ok) {
-          if (over) {
-            setAnswerList([]);
-            setCorrectAnswerList([]);
-            displayVideo(data.question.video);
-            setBaseImage(data.question.thumbnail);
-            setQuestionId(data.question.id);
-            setQuestionText(data.question.text);
-            setQuestionType(data.question.type);
-            setOptions(data.question.answers);
-            !timeLimit && setTimeLimit(data.question.time_limit);
-            setOver(false);
-          }
-        } else {
+        if (!res.ok) {
           setCurrentUser(playerName);
         }
       } catch (e) {
         console.warn(e);
       }
     }
-    getQuestionDetail();
+    getPlayerName();
   }, []);
 
   useEffect(() => {

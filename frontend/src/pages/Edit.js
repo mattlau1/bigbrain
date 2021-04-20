@@ -26,6 +26,7 @@ const Edit = () => {
   }
 
   const addQuestion = () => {
+    // set default question
     setQuestions(prevQuestion => {
       return [...prevQuestion,
         {
@@ -174,7 +175,7 @@ const Edit = () => {
           <Card.Img src={baseImage || defaultThumbnail} />
         </Col>
         <Row className="d-flex justify-content-center align-items-center text-center mt-2">
-          <input className='mb-2 formContainer rounded border border-dark p-1'
+          <input className="mb-2 formContainer rounded border border-dark p-1"
             type="file"
             onChange={(e) => {
               uploadImage(e);
@@ -182,7 +183,7 @@ const Edit = () => {
             accept={'.png, .jpeg, .jpg'}
           />
           <Button
-            className='mx-1 mb-2'
+            className="ml-1 mr-0 mb-2"
             variant="danger"
             onClick={removeImage}
           >
@@ -226,12 +227,12 @@ const Edit = () => {
               variant="primary"
               onClick={addQuestion}
             >
-              Add a new question
+              Add New Question
             </Button>
             <Button
-            className='mx-1'
-            variant="success"
-            onClick={confirmChanges}
+              className='mx-1'
+              variant="success"
+              onClick={confirmChanges}
             >
               Confirm Changes
             </Button>

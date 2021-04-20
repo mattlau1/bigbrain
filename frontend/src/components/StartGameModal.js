@@ -125,7 +125,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
         setPlayerList([]);
       }
     }
-    loadPlayers()
+    sessionId !== 0 && loadPlayers();
     polling >= 0 && setTimeout(() => setPolling(polling + 1), 1000);
   }, [polling])
 

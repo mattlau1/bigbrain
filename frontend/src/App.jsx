@@ -20,7 +20,7 @@ function App () {
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/editquestion/:id/:qid" component={EditQuestion} />
         <Route path="/edit/:quizId" component={Edit} />
-        <Route path="/play" exact component={Join} />
+        <Route path="/join" component={Join} />
         <Route path="/play/:sessionId" component={Play} />
         <Route path="/results/:sessionId" component={Results} />
         <Route path="/gameresult" component={GameResult} />

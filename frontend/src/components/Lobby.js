@@ -4,7 +4,10 @@ import { useParams } from 'react-router';
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
 import RangeSlider from 'react-bootstrap-range-slider';
-import cat from '../assets/cat.gif'
+import cat from '../assets/cat.gif';
+import wiiresort from '../assets/wiiresort.mp3';
+import miichannel from '../assets/miichannel.mp3'
+import wiishop from '../assets/wiishop.mp3'
 
 const LobbyContainer = styled(Container)`
   background-color: #44A3E5;
@@ -40,6 +43,7 @@ const LobbySmallText = styled(LobbyHeading)`
 `
 
 const Lobby = () => {
+  // get session id from params/url
   const { sessionId } = useParams();
 
   // default volume
@@ -47,13 +51,15 @@ const Lobby = () => {
 
   // background music playlist
   const songs = [
-    'https://www.youtube.com/watch?v=u1HyZ2hmxnc',
-    'https://www.youtube.com/watch?v=HbbGCld47mA'
+    wiiresort,
+    miichannel,
+    wiishop
   ]
 
   return (
     <LobbyContainer className="p-2" fluid>
-      <ReactPlayer url={songs}
+      <ReactPlayer
+        url={songs}
         playing={true}
         controls={false}
         loop={true}

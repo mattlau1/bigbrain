@@ -146,7 +146,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
           <div className="d-flex justify-content-center">
             <Button
               className="my-1"
-              onClick={() => openInNewTab(`${window.location.origin}/play?game=${sessionId}`)}
+              onClick={() => openInNewTab(`${window.location.origin}/join?game=${sessionId}`)}
             >
               Join Game
             </Button>

@@ -18,6 +18,7 @@ const Register = () => {
   const dispatch = useAlert();
   const api = new API();
 
+  // pop up messages if errors got encountered
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -25,20 +26,25 @@ const Register = () => {
     })
   }
 
+  // collects user details from input and register an account
   const postRegisterInfo = async () => {
     if (!email) {
+      // user submitted with empty email
       createAlert('ERROR', 'Your email cannot be empty')
       return;
     }
     if (!name) {
+      // user submitted with empty name
       createAlert('ERROR', 'Your name cannot be empty')
       return;
     }
     if (!password1 || !password2) {
+      // user submitted empty passwords
       createAlert('ERROR', 'Your password cannot be empty')
       return;
     }
     if (password1 !== password2) {
+      // two passwords don't match
       createAlert('ERROR', 'Passwords must match')
       return;
     }
@@ -50,14 +56,17 @@ const Register = () => {
     };
 
     try {
+      // routing to create an account with given details
       const res = await api.postAPIRequestBody('admin/auth/register', body);
       const data = await res.json();
       if (res.ok) {
+        // redirect to the dashboard page when registered
         createAlert('SUCCESS', 'Registered & logged in successfully')
         localStorage.setItem('token', data.token);
         console.log(`${name}'s token is `, data.token);
         history.push('/dashboard');
       } else {
+        // register failed
         createAlert('ERROR', 'That email has already been registered')
       }
     } catch (e) {
@@ -76,6 +85,7 @@ const Register = () => {
                 <h1 className="display-2 w-100 text-center mb-4">BigBrain</h1>
               </Row>
               <Row className="justify-content-center" md={12}>
+                {/* Input name */}
                 <Form.Group className="w-75 px-4" controlId="formBasicName">
                   <Form.Control
                     className="inputBox"
@@ -86,6 +96,7 @@ const Register = () => {
                 </Form.Group>
               </Row>
               <Row className="justify-content-center" md={12}>
+                {/* Input email */}
                 <Form.Group className="w-75 px-4" controlId="formBasicEmail">
                   <Form.Control
                     className="inputBox"
@@ -96,6 +107,7 @@ const Register = () => {
                 </Form.Group>
               </Row>
               <Row className="justify-content-center" md={12}>
+                {/* Input password */}
                 <Form.Group className="w-75 px-4" controlId="formBasicPassword">
                   <Form.Control
                     className="inputBox"
@@ -106,6 +118,7 @@ const Register = () => {
                 </Form.Group>
               </Row>
               <Row className="justify-content-center" md={12}>
+                {/* Ensure the password matches */}
                 <Form.Group className="w-75 px-4" controlId="formBasicConfirmPassword">
                   <Form.Control
                     className="inputBox"
@@ -116,6 +129,7 @@ const Register = () => {
                 </Form.Group>
               </Row>
               <Row className="justify-content-center" md={12}>
+                {/* Submit user details */}
                 <div className="w-75 text-center">
                   <Button
                     className="mt-2 mb-4"
@@ -134,6 +148,7 @@ const Register = () => {
                 <p className="w-100 text-center mt-2 mb-1">Already have an account?</p>
               </Row>
               <Row md={12} className="justify-content-center">
+                {/* Change to login screens */}
                 <div className="w-100 text-center">
                   <Link to="/" id="loginBtn" className="btn btn-primary">
                     Login

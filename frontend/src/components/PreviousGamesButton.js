@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Dropdown, DropdownButton } from 'react-bootstrap';
 import { useAlert } from '../contexts/AlertProvider';
 import API from '../utils/API';
-import { openInNewTab } from '../utils/NewTab';
+import { openInNewTab } from '../utils/openInNewTab';
 import PropTypes from 'prop-types';
 
 const PreviousGamesButton = ({ gameId }) => {
@@ -29,8 +29,6 @@ const PreviousGamesButton = ({ gameId }) => {
         })
 
         currQuiz && currQuiz[0] && setPreviousGames(currQuiz[0].oldSessions);
-      } else {
-        console.warn('xd')
       }
     } catch (e) {
       createAlert('ERROR', 'There was a problem getting previous games')

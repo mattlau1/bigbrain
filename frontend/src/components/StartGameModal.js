@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useAlert } from '../contexts/AlertProvider';
 import API from '../utils/API';
 import styled from 'styled-components';
-import { openInNewTab } from '../utils/NewTab';
+import { openInNewTab } from '../utils/openInNewTab';
 
 const SessionIDText = styled.h2`
   @media (max-width: 768px) {

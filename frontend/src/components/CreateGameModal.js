@@ -32,6 +32,7 @@ const CreateGameModal = ({ show, handleClose, setGameList }) => {
           // put new data into the empty quiz we just made
           await api.putAPIRequestTokenBody(`admin/quiz/${data.quizId}`, newQuiz, token);
 
+          createAlert('SUCCESS', 'Successfully created a new quiz!');
           // refresh game list
           api.getAPIRequestToken('admin/quiz', token).then((data) => {
             if (data.status === 403) {
@@ -60,6 +61,8 @@ const CreateGameModal = ({ show, handleClose, setGameList }) => {
           createAlert('ERROR', 'An unexpected error has occurred');
           console.warn(e);
         }
+      } else {
+        createAlert('ERROR', 'The file was not in the correct format');
       }
     } catch (e) {
       console.warn(e);
@@ -81,7 +84,6 @@ const CreateGameModal = ({ show, handleClose, setGameList }) => {
         fileReader.onload = (e) => {
           const parsedGame = JSON.parse(e.target.result);
           uploadGame(parsedGame);
-          createAlert('SUCCESS', 'Successfully created a new quiz!');
           handleClose();
         };
       } else {

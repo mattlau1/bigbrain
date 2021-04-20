@@ -29,7 +29,7 @@ const SmallText = styled(MediumText)`
     font-size: 20pt;
   }
 `
-
+// display game result to show user's performances
 const GameResult = () => {
   // get props from the previous components using locations
   const location = useLocation();
@@ -51,12 +51,15 @@ const GameResult = () => {
               </Card.Header>
               <Card.Body className="p-4">
                 <Row className="justify-content-center align-items-center">
+                  {/* display number of questions answered correctly */}
                   <SmallText>You got {playerData.correctQ} out of {playerData.maxQ} questions correct!</SmallText>
                 </Row>
                 <Row className="justify-content-center align-items-center">
+                  {/* display accumulated score throughout the game */}
                   <SmallText>You scored {playerData.point} / {playerData.maxPoint} points!</SmallText>
                 </Row>
                 <Row className="justify-content-end align-items-center">
+                  {/* pop up window to explain the point system */}
                   <Button className="mr-3" onClick={handleShow}>
                     How do points work?
                   </Button>
@@ -86,6 +89,7 @@ const GameResult = () => {
           </Row>
         </Modal.Body>
         <Modal.Footer>
+          {/* Hide the modal */}
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>

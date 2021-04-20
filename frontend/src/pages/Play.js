@@ -6,6 +6,7 @@ import Lobby from '../components/Lobby';
 import styled from 'styled-components';
 import { useHistory, useLocation } from 'react-router';
 
+// premade style for this component
 const WhiteH1 = styled.h1`
   color: white;
   font-family: 'Montserrat', sans-serif;
@@ -26,7 +27,7 @@ const QuestionText = styled.p`
   font-family: 'Montserrat', sans-serif;
   color: white;
 `
-
+// main code for the component
 const Play = () => {
   const location = useLocation();
   const [questionText, setQuestionText] = useState('');
@@ -56,15 +57,18 @@ const Play = () => {
   const history = useHistory();
   const api = new API();
 
+  // automatically update user's answer when they select an option
   const changeCorrectAnswer = async (option) => {
     if (!answerList.includes(option.id)) {
+      // user may have multiple correct answers
       answerList.push(option.id)
     } else {
+      // user deselect answers
       const newAnswers = answerList;
       newAnswers.splice(newAnswers.indexOf(option.id), 1)
       setAnswerList([...newAnswers]);
     }
-
+    // update the user's point based on the countdown
     setCurrentPoint(point);
 
     const body = {
@@ -72,12 +76,14 @@ const Play = () => {
     }
 
     try {
+      // routing to update user's answer
       await api.putAPIRequestBody(`play/${playerId}/answer`, body);
     } catch (e) {
       console.warn(e);
     }
   }
 
+  // question contains a video otherwise show picture or none
   const displayVideo = (src) => {
     if (!src) {
       setHeight(0);
@@ -88,6 +94,7 @@ const Play = () => {
     setVideoFile(src);
   }
 
+  // determine point gain by comparing correct answers
   const getCorrectAnswers = async () => {
     try {
       const res = await api.getAPIRequest(`play/${playerId}/answer`);
@@ -104,6 +111,7 @@ const Play = () => {
     }
   }
 
+  // polling and will automatically update questions after advancing
   useEffect(() => {
     const poll = async () => {
       try {
@@ -111,6 +119,7 @@ const Play = () => {
         const data = await res.json();
         if (res.ok) {
           if ((over || !start) && (data.question.id !== questionId)) {
+            // update the question detail and reset current timer and allocated points
             setAnswerList([]);
             setCorrectAnswerList([]);
             displayVideo(data.question.video);
@@ -131,6 +140,7 @@ const Play = () => {
           }
         } else {
           if (!inLobby) {
+            // when there are no more questions, go to result page
             setInLobby(true);
             history.push({
               pathname: '/gameresult',
@@ -145,6 +155,7 @@ const Play = () => {
       }
     }
     poll();
+    // continuosly update player's stat
     setPlayerData({
       name: currentUser,
       point: addedPoint,
@@ -152,10 +163,12 @@ const Play = () => {
       correctQ: correctQ,
       maxQ: maxQ,
     });
+    // deduct points every 2 seconds
     (timeLimit % 2) && setPoint(point - 0.5);
     polling >= 0 && setTimeout(() => setPolling(polling + 1), 2000);
   }, [polling])
 
+  // get the username when stage is at -1
   useEffect(() => {
     const getPlayerName = async () => {
       try {
@@ -170,9 +183,11 @@ const Play = () => {
     getPlayerName();
   }, []);
 
+  // countdown with time dependency
   useEffect(() => {
     timeLimit > 0 && setTimeout(() => setTimeLimit(timeLimit - 1), 1000);
     if (timeLimit === 0) {
+      // once the countdown is over, move on to next stage
       setOver(true);
       getCorrectAnswers();
     }
@@ -183,6 +198,7 @@ const Play = () => {
       {inLobby && <Lobby></Lobby>}
 
       {!inLobby &&
+      // display question details after advanced out of lobby screen
       <Container style={{ backgroundColor: '#44A3E5', height: '100vh' }} fluid>
         <Container>
           <Col>
@@ -201,7 +217,7 @@ const Play = () => {
                 />
               </Col>
               <Col md={12} className={baseImage ? 'd-flex justify-content-center' : 'd-none'}>
-                <Card.Img style={{ maxHeight: 400, maxWidth: 400 }} src={baseImage} />
+                <Card.Img style={{ maxHeight: 400, maxWidth: 400 }} src={baseImage} alt='Question Thumbnail'/>
               </Col>
             </Row>
             <Row>
@@ -214,6 +230,7 @@ const Play = () => {
             </Row>
             <Row>
               {(!over)
+                // while the time is on countdown, user can select any options
                 ? options &&
                   options.map((option, index) => (
                   <Col className='p-1' key={index} md={6}>
@@ -236,6 +253,7 @@ const Play = () => {
                     </Card>
                   </Col>
                   ))
+                // after the countdown is over, show correct answers
                 : options &&
                   options.map((option, index) => (
                   <Col className='p-1' key={index} md={6}>

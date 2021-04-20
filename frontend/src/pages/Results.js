@@ -25,9 +25,11 @@ const Results = () => {
   const { sessionId } = useParams();
   const [results, setResults] = useState([])
   const [chartData, setChartData] = useState([]);
+  // display top 5 users in the game
   const maxWinners = 5;
 
   useEffect(() => {
+    // routing to get statistics in regards to the recently active game
     const loadResults = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -36,7 +38,7 @@ const Results = () => {
         const data = await res.json();
 
         if (res.ok) {
-          console.log(data.results);
+          // game statistics has been retrieved
           setResults(data.results);
           const questionLength = data.results.length > 0 ? data.results[0].answers.length : 0;
           const numPlayers = data.results.length;
@@ -51,6 +53,7 @@ const Results = () => {
               if (result.answers[i].correct === true) {
                 correctAnswersNum++;
               }
+              // calculate response time
               const startTime = moment(result.answers[i].questionStartedAt);
               const endTime = moment(result.answers[i].answeredAt);
               if (!isNaN(startTime) && startTime && !isNaN(endTime) && endTime) {
@@ -58,6 +61,7 @@ const Results = () => {
               }
             })
 
+            // calculate average response time for each questions
             const responseTimeSum = responseTimes.reduce((res, item) => {
               return res + item
             }, 0);
@@ -65,6 +69,7 @@ const Results = () => {
             correctAnswersObj[i] = correctAnswersNum / numPlayers * 100;
           }
 
+          // show percentage of users getting correct answer
           for (let i = 0; i < questionLength; i++) {
             const newChartData = {
               question: `Question ${i + 1}`,
@@ -89,6 +94,7 @@ const Results = () => {
         </Row>
         <Row md={12} className="d-flex justify-content-center text-center">
           <Col md={4} className="rounded my-2">
+            {/* Display top 5 users in the game */}
             {results && results.slice(0, maxWinners).map((result, key) => (
               <WinnerDiv key={key} className="py-3 my-1 rounded">
                 {key + 1}. {result.name}
@@ -99,6 +105,7 @@ const Results = () => {
         <Row md={12}>
           <Col md={12}>
             <ResponsiveContainer width="99%" aspect={3}>
+              {/* Display statistics of the game using bar graphs */}
               <BarChart
                 data={chartData}
                 margin={{

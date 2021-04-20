@@ -21,6 +21,7 @@ const Dashboard = () => {
   const [currSessionId, setCurrSessionId] = useState(0)
   const [currGameId, setCurrGameId] = useState(0)
 
+  // pop up messages if errors got encountered
   const dispatch = useAlert();
   const createAlert = (type, message) => {
     dispatch({
@@ -29,13 +30,16 @@ const Dashboard = () => {
     })
   }
 
+  // create game modal pops up if user clicks on create new game
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
   const handleShowStop = (id) => {
+    // display stop button after starting a game
     setCurrSessionId(id);
     setShowStop(true);
   };
 
+  // display various button based on user's action with hooks
   const handleCloseStop = () => setShowStop(false);
   const handleCloseStart = () => setShowStart(false);
   const handleShowStart = (gameId, sessionId) => {
@@ -44,13 +48,16 @@ const Dashboard = () => {
     setShowStart(true);
   }
 
+  // calculate total length of time to complete the game
   const getCompletionTime = (questions) => {
     return questions.reduce((prev, current) => {
       return prev + current.time_limit;
     }, 0)
   }
 
+  // display all games associated with the account including the game details
   useEffect(() => {
+    // routing to retrieve list of games
     const loadGames = async () => {
       const token = localStorage.getItem('token');
       const api = new API();
@@ -58,14 +65,17 @@ const Dashboard = () => {
         if (data.status === 403) {
           createAlert('ERROR', 'Invalid Token');
         } else if (data.status === 200) {
+          // the main game information has been retrieved
           data.json().then((quizzes) => {
             quizzes.quizzes.forEach((quiz) => {
               api.getAPIRequestToken(`admin/quiz/${quiz.id}`, token).then((data) => {
+                // get further details of the game including total points, time and questions
                 data.json().then((quizData) => {
                   const newGame = { ...quizData, ...quiz }
                   setGameList(gameList => [...gameList, newGame]);
                 })
               }).catch((e) => {
+                // routing failed
                 createAlert('ERROR', 'There was a problem getting quizzes');
                 console.warn(e)
               })
@@ -73,6 +83,7 @@ const Dashboard = () => {
           })
         }
       }).catch((e) => {
+        // routing failed
         createAlert('ERROR', 'There was a problem getting quizzes');
         console.warn(e)
       })
@@ -87,6 +98,7 @@ const Dashboard = () => {
       <Container>
       {console.log(gameList)}
         <Row md={12} className="justify-content-center align-items-center text-center">
+          {/* Button to create a new game */}
           <Button
             className="m-2"
             variant="primary"
@@ -97,6 +109,7 @@ const Dashboard = () => {
         </Row>
         <Row md={12}>
           {gameList.map((game, key) => (
+            // display each game with style
             <Col className='mt-4' lg={4} md={6} sm={6} xs={12} key={key}>
               <Card>
                 <Card.Header>
@@ -105,6 +118,7 @@ const Dashboard = () => {
                       <h3>{game.name}</h3>
                     </Col>
                     <Col xs={4} className="d-flex justify-content-end align-items-center px-1">
+                      {/* display share button if the game is active */}
                       {game.active &&
                         <Button onClick={() => { handleShowStart(game.id, game.active) }}>
                           Share
@@ -113,16 +127,19 @@ const Dashboard = () => {
                     </Col>
                   </Row>
                 </Card.Header>
+                {/* display image that is associated with the game */}
                 <Card.Img
-                  src={game.thumbnail || defaultThumbnail}
+                  src={game.thumbnail || defaultThumbnail} alt='Game Thumbnail'
                 />
                   <Card.Body>
                     <Container>
                       <Row className="justify-content-center align-items-center">
+                        {/* number of questions the game contains */}
                         <Col xs={6} className="text-left pl-0 py-2">
                         {game.questions.length} questions
                         </Col>
                         <Col xs={6} className="text-right pr-0 py-2">
+                          {/* total length of the game */}
                           {getCompletionTime(game.questions)} seconds
                         </Col>
                       </Row>
@@ -131,18 +148,21 @@ const Dashboard = () => {
                       <Row className="justify-content-between px-0">
                         <Col md={4} className="px-0 my-1">
                           {game.active
+                            // stop button is displayed if the game is active
                             ? <StopQuizButton
                                 game={game}
                                 setGameList={setGameList}
                                 handleShowStop={handleShowStop}
                                 id={game.active}
                               />
+                              // start button is displayed if the game is not active
                             : <StartQuizButton
                                 game={game}
                                 setGameList={setGameList}
                               />}
                         </Col>
                         <Col md={3} className="px-0 my-1">
+                          {/* redirects to edit page associated to the game */}
                           <Link to={`/edit/${game.id}`}>
                             <Button className='mx-0 w-100' variant="primary">Edit</Button>
                           </Link>
@@ -155,6 +175,7 @@ const Dashboard = () => {
                           />
                         </Col>
                         <Col md={12} className="px-0 my-1 w-100">
+                          {/* dropdown menu of past session with recorded results */}
                           <PreviousGamesButton
                             gameId={game.id}
                           />
@@ -167,6 +188,7 @@ const Dashboard = () => {
           ))}
         </Row>
       </Container>
+      {/* Pop up modal when user create a new game */}
       <CreateGameModal
         setShow={setShowCreate}
         show={showCreate}
@@ -175,6 +197,7 @@ const Dashboard = () => {
         gameList={gameList}
         setGameList={setGameList}
       />
+      {/* Control panel modal when user has started a game */}
       <StartGameModal
         show={showStart}
         handleClose={handleCloseStart}
@@ -183,6 +206,7 @@ const Dashboard = () => {
         handleShowStop={handleShowStop}
         setGameList={setGameList}
       />
+      {/* Stops the game and prompt the user to the result screen */}
       <StopGameModal
         show={showStop}
         handleClose={handleCloseStop}

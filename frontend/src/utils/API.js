@@ -51,38 +51,6 @@ export default class API {
   /** @param {String} path */
   /** @param {Object} query */
   /** @param {String} token */
-  getAPIRequestTokenQuery (path, query, token) {
-    return fetch(`${this.url}/${path}/?` + new URLSearchParams(query), {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-
-  // Gets user data from given token
-  /** @param {String} token */
-  getAPIUserData (token) {
-    return fetch(`${this.url}/user/`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
-        return responseData;
-      })
-      .catch((error) => console.warn(error));
-  }
-
-  /** @param {String} path */
-  /** @param {Object} query */
-  /** @param {String} token */
   putAPIRequestTokenQuery (path, query, token) {
     return fetch(`${this.url}/${path}/?` + new URLSearchParams(query), {
       method: 'PUT',
@@ -165,25 +133,26 @@ export default class API {
   }
 
   /** @param {String} path */
-  /** @param {String} token */
-  getAPIRequestQuizDetails (path, token) {
-    return fetch(`${this.url}/${path}`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  }
-
-  /** @param {String} path */
   getAPIRequest (path) {
     return fetch(`${this.url}/${path}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+      },
+    });
+  }
+
+  /** @param {String} path */
+  /** @param {Object} query */
+  /** @param {String} token */
+  getAPIRequestTokenQuery (path, query, token) {
+    return fetch(`${this.url}/${path}/?` + new URLSearchParams(query), {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     });
   }

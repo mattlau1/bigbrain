@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Container, Image, Row } from 'react-bootstrap'
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
 import RangeSlider from 'react-bootstrap-range-slider';
+import cat from '../assets/cat.gif'
 
 const LobbyContainer = styled(Container)`
   background-color: #44A3E5;
@@ -95,6 +96,12 @@ const Lobby = () => {
           </Row>
         </Col>
       </Container>
+      <div className="fixed-bottom">
+        <Image src={cat}></Image>
+      </div>
+      <div className="fixed-bottom d-flex justify-content-end">
+        <Image style={{ transform: 'scaleX(-1)' }} src={cat}></Image>
+      </div>
     </LobbyContainer>
   )
 }

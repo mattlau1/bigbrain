@@ -18,7 +18,7 @@ function App () {
         <Route path="/" exact component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/editq/:id/:qid" component={EditQuestion} />
+        <Route path="/editquestion/:id/:qid" component={EditQuestion} />
         <Route path="/edit/:quizId" component={Edit} />
         <Route path="/play" exact component={Join} />
         <Route path="/play/:sessionId" component={Play} />

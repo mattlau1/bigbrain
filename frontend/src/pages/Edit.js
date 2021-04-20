@@ -200,7 +200,7 @@ const Edit = () => {
                 <Col md={9}>{index + 1}. {question.text}</Col>
                 <Col md={3}>
                   <Link
-                    to={{ pathname: `/editq/${quizId}/${question.id}`, state: { qObj: question } }}
+                    to={{ pathname: `/editquestion/${quizId}/${question.id}`, state: { qObj: question } }}
                   >
                     <Button className='mx-1' variant="primary" onClick={quickSave}>Edit</Button>
                   </Link>

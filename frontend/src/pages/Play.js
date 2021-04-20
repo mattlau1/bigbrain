@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, Form } from 'react-bootstrap'
 import ReactPlayer from 'react-player';
 import Lobby from '../components/Lobby';
 import styled from 'styled-components';
+import { useHistory, useLocation } from 'react-router';
 
 const WhiteH1 = styled.h1`
   color: white;
@@ -64,7 +65,6 @@ const Play = () => {
     }
 
     setCurrentPoint(point);
-    (answerList.length === 0) && createAlert('ERROR', 'Make sure to select an answer');
 
     const body = {
       answerIds: answerList,
@@ -177,7 +177,6 @@ const Play = () => {
         const data = await res.json();
         if (res.ok) {
           if (over) {
-            console.log('this got touched!');
             setAnswerList([]);
             setCorrectAnswerList([]);
             displayVideo(data.question.video);
@@ -190,7 +189,6 @@ const Play = () => {
             setOver(false);
           }
         } else {
-          if (inLobby) console.log('This is a lobby!');
           setCurrentUser(playerName);
         }
       } catch (e) {

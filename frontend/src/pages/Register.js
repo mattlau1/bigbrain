@@ -63,7 +63,6 @@ const Register = () => {
         // redirect to the dashboard page when registered
         createAlert('SUCCESS', 'Registered & logged in successfully')
         localStorage.setItem('token', data.token);
-        console.log(`${name}'s token is `, data.token);
         history.push('/dashboard');
       } else {
         // register failed

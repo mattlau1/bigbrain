@@ -48,7 +48,6 @@ const Login = () => {
       const data = await res.json();
       if (res.ok) {
         createAlert('SUCCESS', 'Logged in successfully')
-        console.log(`${email} token is `, data.token);
         localStorage.setItem('token', data.token);
         history.push('/dashboard');
       } else {

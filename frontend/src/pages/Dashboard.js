@@ -96,7 +96,6 @@ const Dashboard = () => {
     <>
       <Navigation />
       <Container>
-      {console.log(gameList)}
         <Row md={12} className="justify-content-center align-items-center text-center">
           {/* Button to create a new game */}
           <Button

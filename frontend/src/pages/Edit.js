@@ -18,6 +18,7 @@ const Edit = () => {
 
   const dispatch = useAlert();
 
+  // pop up messages if errors got encountered
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -25,6 +26,7 @@ const Edit = () => {
     })
   }
 
+  // creating a new question for the game
   const addQuestion = () => {
     // set default question
     setQuestions(prevQuestion => {
@@ -35,6 +37,7 @@ const Edit = () => {
           time_limit: 10,
           type: 'single',
           point: 20,
+          // set default answers
           answers: [
             {
               id: -500,
@@ -54,24 +57,29 @@ const Edit = () => {
     })
   }
 
+  // remove the question off from the game
   const removeQuestion = (qId) => {
     setQuestions(questions.filter(question => question.id !== qId))
   }
 
+  // user uploaded the thumbnail for the game
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const ext = file.name.substring(file.name.lastIndexOf('.') + 1);
 
+      // the uploaded file must be in image
       if (ext === 'jpg' || ext === 'jpeg' || ext === 'png') {
         const base64 = await convertBase64(file);
         setBaseImage(base64);
       } else {
+        // if it is not an image, show popups
         createAlert('ERROR', 'This file format is not supported');
       }
     }
   };
 
+  // convert the uploaded image into base64 URL
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -87,11 +95,12 @@ const Edit = () => {
     });
   };
 
+  // remove the thumbnail from the game
   const removeImage = async () => {
     setBaseImage(defaultThumbnail);
-    console.log(baseImage);
   }
 
+  // save all the changes made into the game
   const confirmChanges = async () => {
     const token = localStorage.getItem('token');
     const api = new API();
@@ -101,21 +110,22 @@ const Edit = () => {
     };
 
     try {
+      // routing to update all changes associated with the game
       const res = await api.putAPIRequestTokenBody(`admin/quiz/${quizId}`, body, token);
-      const data = await res.json();
       if (res.ok) {
-        console.log('changed successully');
-        console.log(data);
+        // game has successfully been updated
         createAlert('SUCCESS', 'Changes have been made');
       } else {
-        console.log('changed UNsuccessully');
+        // changes can't be made if encounters any error
+        createAlert('ERROR', 'Changes has not been made');
       }
     } catch (e) {
-      console.log('error');
+      createAlert('ERROR', 'An unexpected error has occurred');
       console.warn(e);
     }
   }
 
+  // save the newly added questions before getting redirected to edit question
   const quickSave = async () => {
     const token = localStorage.getItem('token');
     const api = new API();
@@ -125,38 +135,39 @@ const Edit = () => {
     };
 
     try {
+      // routing to update all changes associated with the game
       const res = await api.putAPIRequestTokenBody(`admin/quiz/${quizId}`, body, token);
-      const data = await res.json();
-      if (res.ok) {
-        console.log(data);
-      } else {
-        console.log('UNsuccessful');
+      if (!res.ok) {
+        // saving changes was unsuccessful
+        createAlert('ERROR', 'Changes has not been made');
       }
     } catch (e) {
-      console.log('error');
+      createAlert('ERROR', 'An unexpected error has occurred');
       console.warn(e);
     }
   }
 
+  // display all questions associated to the game and thumbnail if it exists
   useEffect(() => {
     const token = localStorage.getItem('token');
     const api = new API();
 
+    // load questions and thumbnails
     const loadQuestion = async () => {
       try {
+        // retrieving details were successful
         const res = await api.getAPIRequestToken(`admin/quiz/${quizId}`, token);
         const data = await res.json();
         if (res.ok) {
-          console.log('load questions successully');
-          console.log(data);
           setQuestionDetail(data);
           setQuestions(data.questions);
           setBaseImage(data.thumbnail);
         } else {
-          console.log('load questions UNsuccessully');
+          // failed to retrieve question details
+          createAlert('ERROR', 'Questions could not be loaded');
         }
       } catch (e) {
-        console.log('error');
+        createAlert('ERROR', 'An unexpected error has occurred');
         console.warn(e);
       }
     }
@@ -168,13 +179,16 @@ const Edit = () => {
       <Navigation />
       <Container>
         <Row className="d-flex justify-content-center align-items-center text-center mt-2">
+          {/* Name of the quiz */}
           <h2>{questionDetail.name}</h2>
         </Row>
 
         <Col md={{ span: 4, offset: 4 }}>
-          <Card.Img src={baseImage || defaultThumbnail} />
+          {/* Game thumbnail */}
+          <Card.Img src={baseImage || defaultThumbnail} alt='Game Thumbnail'/>
         </Col>
         <Row className="d-flex justify-content-center align-items-center text-center mt-2">
+          {/* Button to upload thumbnail images */}
           <input className="mb-2 formContainer rounded border border-dark p-1"
             type="file"
             onChange={(e) => {
@@ -182,6 +196,7 @@ const Edit = () => {
             }}
             accept={'.png, .jpeg, .jpg'}
           />
+          {/* Button to remove the thumbnail images */}
           <Button
             className="ml-1 mr-0 mb-2"
             variant="danger"
@@ -193,18 +208,23 @@ const Edit = () => {
 
         <Col md={{ span: 8, offset: 2 }}>
           {questions &&
+            // display all questions
             questions.map((question, index) => (
             <Col className='m-2 p-1' key={index} md={12}>
               <Card>
               <Card.Body>
               <Row>
+                {/* question text */}
                 <Col md={9}>{index + 1}. {question.text}</Col>
                 <Col md={3}>
+                  {/* each question has its own edit button which redirects to edit question page */}
                   <Link
                     to={{ pathname: `/editquestion/${quizId}/${question.id}`, state: { qObj: question } }}
                   >
+                    {/* saves all adedd question before going to edit question page */}
                     <Button className='mx-1' variant="primary" onClick={quickSave}>Edit</Button>
                   </Link>
+                  {/* Button to remove the question */}
                   <Button
                     className='mx-1'
                     variant="danger"
@@ -222,6 +242,7 @@ const Edit = () => {
 
         <Row className="d-flex justify-content-center align-items-center text-center" md={12}>
           <Col>
+          {/* Button to add questinos */}
             <Button
               className='mx-1'
               variant="primary"
@@ -229,6 +250,7 @@ const Edit = () => {
             >
               Add New Question
             </Button>
+            {/* Button to save all the changes made in the game */}
             <Button
               className='mx-1'
               variant="success"

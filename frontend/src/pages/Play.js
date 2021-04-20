@@ -152,7 +152,7 @@ const Play = () => {
       maxQ: maxQ,
     });
     (timeLimit % 2) && setPoint(point - 0.5);
-    polling >= 0 && setTimeout(() => setPolling(polling + 1), 1000);
+    polling >= 0 && setTimeout(() => setPolling(polling + 1), 2000);
   }, [polling])
 
   useEffect(() => {

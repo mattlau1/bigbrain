@@ -96,12 +96,12 @@ const Lobby = () => {
           </Row>
         </Col>
       </Container>
-      <div className="fixed-bottom">
-        <Image src={cat}></Image>
-      </div>
-      <div className="fixed-bottom d-flex justify-content-end">
-        <Image style={{ transform: 'scaleX(-1)' }} src={cat}></Image>
-      </div>
+      <Row className="fixed-bottom">
+        <Image className="d-none d-md-block d-lg-block d-xl-block" src={cat}></Image>
+      </Row>
+      <Row className="fixed-bottom d-flex justify-content-end ">
+        <Image className="d-none d-md-block d-lg-block d-xl-block" style={{ transform: 'scaleX(-1)' }} src={cat}></Image>
+      </Row>
     </LobbyContainer>
   )
 }

@@ -67,14 +67,13 @@ const Register = () => {
   };
 
   return (
-    <Container md={12} className="rounded px-0 justify-content-center align-items-center">
+    <Container md={12} className="rounded justify-content-center align-items-center">
       <CenteredRow>
         <Row className="w-100 rounded">
-          <Col md={12} className="w-100 px-0 mx-0 py-2 rounded">
-            <Form className="formContainer rounded border border-dark p-4">
+          <Col md={12} className="w-100 px-0 py-2 rounded">
+            <Form className="rounded border border-dark p-4 mx-4">
               <Row className="justify-content-center" md={12}>
                 <h1 className="display-2 w-100 text-center mb-4">BigBrain</h1>
-                {/* <h2 className="formHeader w-100 text-center mt-4 mb-2">Register</h2> */}
               </Row>
               <Row className="justify-content-center" md={12}>
                 <Form.Group className="w-75 px-4" controlId="formBasicName">

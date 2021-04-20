@@ -59,11 +59,10 @@ const Login = () => {
     <Container md={12} className="justify-content-center align-items-center">
       <CenteredRow>
         <Row className="w-100 rounded justify-content-center">
-          <Col md={12} className="w-100 px-0 mx-0 rounded ">
-            <Form className="formContainer rounded border border-dark p-4">
+          <Col md={12} className="w-100 px-0 mx-0 rounded">
+            <Form className="formContainer rounded border border-dark p-4 mx-4">
               <Row className="justify-content-center" md={12}>
                 <h1 className="display-2 w-100 text-center mb-4">BigBrain</h1>
-                {/* <h2 className="formHeader w-100 text-center my-4">Log In</h2> */}
               </Row>
               <Row className="justify-content-center" md={12}>
                 <Form.Group className="w-75 px-4" controlId="formBasicemail">

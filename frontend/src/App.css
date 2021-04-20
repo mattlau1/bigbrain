@@ -63,3 +63,13 @@
 .session-id {
     font-size: 74pt;
 }
+
+.dropdown-toggle {
+    width: 100%;
+}
+
+#big-checkbox {
+    width: 40px;
+    height: 40px;
+    outline: 1px solid white;
+}

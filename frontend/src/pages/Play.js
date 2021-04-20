@@ -256,7 +256,7 @@ const Play = () => {
                           <Form.Check
                               className="d-inline my-0 py-0"
                               type="checkbox"
-                              id='checkboxSize'
+                              id="big-checkbox"
                               onChange={() => changeCorrectAnswer(option)}
                             />
                           </Col>

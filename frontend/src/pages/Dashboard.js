@@ -10,6 +10,7 @@ import StartQuizButton from '../components/StartQuizButton';
 import StartGameModal from '../components/StartGameModal';
 import StopQuizButton from '../components/StopQuizButton';
 import StopGameModal from '../components/StopGameModal';
+import DefaultThumbnail from '../assets/DefaultThumbnail.png';
 
 const Dashboard = () => {
   const [gameList, setGameList] = useState([]);
@@ -106,9 +107,7 @@ const Dashboard = () => {
                   </Row>
                 </Card.Header>
                 <Card.Img
-                  src={game.thumbnail ||
-                    'https://cdn.mos.cms.futurecdn.net/42E9as7NaTaAi4A6JcuFwG-1200-80.jpg'
-                  }
+                  src={game.thumbnail || DefaultThumbnail}
                 />
                   <Card.Body>
                     <Container>

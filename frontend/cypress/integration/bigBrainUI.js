@@ -1,125 +1,6 @@
 /// <reference types="cypress" />
 
 describe('BigBrain', () => {
-  it('should display errors when required', () => {
-    // empty email, password on login form
-    // valid email, empty password
-    // valid password, empty email
-    // fully empty registration form
-    // valid email, rest empty
-    // valid name & email, empty password
-    // non matching passwords
-    // one empty password field
-    // empty game name
-    // multiple choice question with single answer
-    // single choice question with multiple answers
-    // trying to add more than 6 questions
-
-    const generateUser = () => Cypress._.random(0, 1e7);
-    const id = generateUser();
-    cy.visit('/');
-
-    // empty email, password on login form
-    cy.get('#formBasicemail').click();
-    cy.get('.w-100 > .mt-2').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // valid email, empty password
-    cy.get('#formBasicemail').clear();
-    cy.get('#formBasicemail').type(id);
-    cy.get('.w-100 > .mt-2').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // valid password, empty email
-    cy.get('#formBasicPassword').clear();
-    cy.get('#formBasicPassword').type(id + id);
-    cy.get('#formBasicemail').clear();
-    cy.get('.w-100 > .mt-2').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // fully empty registration form
-    cy.get('#registerBtn').click();
-    cy.get('.w-75 > .mt-2').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // valid email, rest empty
-    cy.get('.px-0 > .rounded > :nth-child(1)').click();
-    cy.get('#formBasicEmail').clear();
-    cy.get('#formBasicEmail').type(`${id}@gmail.com`);
-    cy.get('.w-75 > .mt-2').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // valid name & email, empty password
-    cy.get('#formBasicName').clear();
-    cy.get('#formBasicName').type(id);
-    cy.get('.w-75 > .mt-2').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // non matching passwords
-    cy.get('#formBasicPassword').clear();
-    cy.get('#formBasicPassword').type('a');
-    cy.get('#formBasicConfirmPassword').clear();
-    cy.get('#formBasicConfirmPassword').type('bb');
-    cy.get('.w-75 > .mt-2').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // one empty password field
-    cy.get('#formBasicConfirmPassword').clear();
-    cy.get('.w-75 > .mt-2').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // valid sign up
-    cy.get('#formBasicPassword').clear();
-    cy.get('#formBasicPassword').type(id);
-    cy.get('#formBasicConfirmPassword').click();
-    cy.get('#formBasicConfirmPassword').clear();
-    cy.get('#formBasicConfirmPassword').type(id);
-    cy.get('.w-75 > .mt-2').click();
-
-    // empty game name
-    cy.get('#create-game-button').click();
-    cy.get('#create-button').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // valid game creation
-    cy.get('#game-title-input').clear();
-    cy.get('#game-title-input').type('javascript');
-    cy.get('#create-button').click();
-    cy.get('#edit-game-btn').click();
-    cy.get('.ml-1').click();
-    cy.get('#add-question-btn').click();
-    cy.get('a > .mx-1').click();
-
-    // multiple choice question with single answer
-    cy.get('.btn-group > :nth-child(2)').click();
-    cy.get('.my-5').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // single choice question with multiple answers
-    cy.get('.btn-group > :nth-child(1)').click();
-    cy.get(':nth-child(2) > .card > .card-body > .row > .col-md-10 > .d-inline > .form-check-input').check();
-    cy.get('.my-5').click();
-    cy.get('.btn-group > :nth-child(2)').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // trying to add more than 6 questions
-    for (let i = 0; i < 10; i++) {
-      cy.get('.justify-content-start.text-center > .col-md-2 > .btn').click();
-    }
-    cy.get('.alert-container > .error').should('exist');
-  });
-
   it('should work for the "happy path" of an admin', () => {
     // The happy path:
     // Registers successfully
@@ -247,5 +128,124 @@ describe('BigBrain', () => {
 
     // check if we are on dashboard screen
     cy.url().should('include', '/dashboard');
+  });
+
+  it('should display errors when required', () => {
+    // empty email, password on login form
+    // valid email, empty password
+    // valid password, empty email
+    // fully empty registration form
+    // valid email, rest empty
+    // valid name & email, empty password
+    // non matching passwords
+    // one empty password field
+    // empty game name
+    // multiple choice question with single answer
+    // single choice question with multiple answers
+    // trying to add more than 6 questions
+
+    const generateUser = () => Cypress._.random(0, 1e7);
+    const id = generateUser();
+    cy.visit('/');
+
+    // empty email, password on login form
+    cy.get('#formBasicemail').click();
+    cy.get('.w-100 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid email, empty password
+    cy.get('#formBasicemail').clear();
+    cy.get('#formBasicemail').type(id);
+    cy.get('.w-100 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid password, empty email
+    cy.get('#formBasicPassword').clear();
+    cy.get('#formBasicPassword').type(id + id);
+    cy.get('#formBasicemail').clear();
+    cy.get('.w-100 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // fully empty registration form
+    cy.get('#registerBtn').click();
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid email, rest empty
+    cy.get('.px-0 > .rounded > :nth-child(1)').click();
+    cy.get('#formBasicEmail').clear();
+    cy.get('#formBasicEmail').type(`${id}@gmail.com`);
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid name & email, empty password
+    cy.get('#formBasicName').clear();
+    cy.get('#formBasicName').type(id);
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // non matching passwords
+    cy.get('#formBasicPassword').clear();
+    cy.get('#formBasicPassword').type('a');
+    cy.get('#formBasicConfirmPassword').clear();
+    cy.get('#formBasicConfirmPassword').type('bb');
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // one empty password field
+    cy.get('#formBasicConfirmPassword').clear();
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid sign up
+    cy.get('#formBasicPassword').clear();
+    cy.get('#formBasicPassword').type(id);
+    cy.get('#formBasicConfirmPassword').click();
+    cy.get('#formBasicConfirmPassword').clear();
+    cy.get('#formBasicConfirmPassword').type(id);
+    cy.get('.w-75 > .mt-2').click();
+
+    // empty game name
+    cy.get('#create-game-button').click();
+    cy.get('#create-button').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid game creation
+    cy.get('#game-title-input').clear();
+    cy.get('#game-title-input').type('javascript');
+    cy.get('#create-button').click();
+    cy.get('#edit-game-btn').click();
+    cy.get('.ml-1').click();
+    cy.get('#add-question-btn').click();
+    cy.get('a > .mx-1').click();
+
+    // multiple choice question with single answer
+    cy.get('.btn-group > :nth-child(2)').click();
+    cy.get('.my-5').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // single choice question with multiple answers
+    cy.get('.btn-group > :nth-child(1)').click();
+    cy.get(':nth-child(2) > .card > .card-body > .row > .col-md-10 > .d-inline > .form-check-input').check();
+    cy.get('.my-5').click();
+    cy.get('.btn-group > :nth-child(2)').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // trying to add more than 6 questions
+    for (let i = 0; i < 10; i++) {
+      cy.get('.justify-content-start.text-center > .col-md-2 > .btn').click();
+    }
+    cy.get('.alert-container > .error').should('exist');
   });
 })

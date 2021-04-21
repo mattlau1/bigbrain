@@ -114,7 +114,7 @@ const Login = () => {
               <Row md={12} className="justify-content-center">
                 {/* Change to register screen */}
                 <div className="w-100 text-center">
-                  <Link to="/register" id="loginBtn" className="btn btn-primary">
+                  <Link to="/register" id="registerBtn" className="btn btn-primary">
                     Register
                   </Link>
                 </div>

@@ -155,6 +155,7 @@ const CreateGameModal = ({ show, handleClose, setGameList }) => {
         </Modal.Header>
         <Modal.Body>
           <Form.Control
+            id="game-title-input"
             className="inputBox my-2"
             type="text"
             placeholder="Game Title"
@@ -172,7 +173,12 @@ const CreateGameModal = ({ show, handleClose, setGameList }) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" type="submit" onClick={(e) => { createGame(e) } }>
+          <Button
+            id="create-button"
+            variant="primary"
+            type="submit"
+            onClick={(e) => { createGame(e) } }
+          >
             Create Game
           </Button>
         </Modal.Footer>

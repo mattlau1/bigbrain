@@ -56,7 +56,14 @@ const StopQuizButton = ({ game, gameList, setGameList, handleShowStop, id }) => 
     }
   }
   return (
-    <Button className='mx-0 w-100' variant="danger" onClick={() => { stopGame(); handleShowStop(id); }}>Stop</Button>
+    <Button
+      id="stopgame-btn"
+      className='mx-0 w-100'
+      variant="danger"
+      onClick={() => { stopGame(); handleShowStop(id); }}
+    >
+      Stop
+    </Button>
   )
 }
 

@@ -159,7 +159,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
                 {position > -1 && <p className="mb-1">Question {position}/{totalQuestions}</p>}
               </Row>
               <Row className="justify-content-center">
-                <Button variant="success" onClick={() => { handleAdvance() }}>
+                <Button id="start-advance-btn" variant="success" onClick={() => { handleAdvance() }}>
                   {position === -1 ? 'Start Game' : 'Next Question'}
                 </Button>
               </Row>

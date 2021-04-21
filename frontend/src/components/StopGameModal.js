@@ -15,7 +15,7 @@ const StopGameModal = ({ show, handleClose, id }) => {
         <Row>
           <Col md={6}>
             <Link to={`/results/${id}`}>
-              <Button className='mx-0 w-100 my-1'>Yes</Button>
+              <Button id="view-results-btn" className='mx-0 w-100 my-1'>Yes</Button>
             </Link>
           </Col>
           <Col md={6}>

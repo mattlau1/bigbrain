@@ -99,6 +99,7 @@ const Dashboard = () => {
         <Row md={12} className="justify-content-center align-items-center text-center">
           {/* Button to create a new game */}
           <Button
+            id="create-game-button"
             className="m-2"
             variant="primary"
             onClick={() => handleShowCreate()}
@@ -114,12 +115,15 @@ const Dashboard = () => {
                 <Card.Header>
                   <Row>
                     <Col xs={8} className="px-2">
-                      <h3>{game.name}</h3>
+                      <h3 id="game-name">{game.name}</h3>
                     </Col>
                     <Col xs={4} className="d-flex justify-content-end align-items-center px-1">
                       {/* display share button if the game is active */}
                       {game.active &&
-                        <Button onClick={() => { handleShowStart(game.id, game.active) }}>
+                        <Button
+                          id="share-btn"
+                          onClick={() => { handleShowStart(game.id, game.active) }}
+                        >
                           Share
                         </Button>
                       }
@@ -134,10 +138,10 @@ const Dashboard = () => {
                     <Container>
                       <Row className="justify-content-center align-items-center">
                         {/* number of questions the game contains */}
-                        <Col xs={6} className="text-left pl-0 py-2">
+                        <Col xs={6} id="num-questions" className="text-left pl-0 py-2">
                         {game.questions.length} questions
                         </Col>
-                        <Col xs={6} className="text-right pr-0 py-2">
+                        <Col xs={6} id="game-length" className="text-right pr-0 py-2">
                           {/* total length of the game */}
                           {getCompletionTime(game.questions)} seconds
                         </Col>

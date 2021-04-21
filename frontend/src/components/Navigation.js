@@ -67,6 +67,7 @@ const Navigation = () => {
             </Nav.Link>
             <Nav.Link
               as={NavLink}
+              id="logout-btn"
               className="mx-2 text-center"
               exact
               to="/"

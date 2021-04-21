@@ -62,7 +62,6 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
     const api = new API();
     try {
       const res = await api.postAPIRequestToken(`admin/quiz/${gameId}/advance`, token);
-      const data = await res.json()
 
       if (res.ok) {
         updatePosition();

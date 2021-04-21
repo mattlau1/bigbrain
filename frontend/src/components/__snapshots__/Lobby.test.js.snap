@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lobby should not render volume control 1`] = `
+<div
+  className="sc-bdvvaa eSxlee p-2 container-fluid"
+>
+  <div
+    style={
+      Object {
+        "height": 0,
+        "width": "640px",
+      }
+    }
+  />
+  <div
+    className="pb-4 container-fluid"
+    style={
+      Object {
+        "backgroundColor": "#5AADE7",
+      }
+    }
+  >
+    <div
+      className="d-flex justify-content-center pt-4 mb-0 px-4 mx-4 row row-cols-md-8"
+    >
+      <h2
+        className="sc-gsDJrp sc-hKwCoD ccXyhz lkUUbE p-2 bg-light overflow-visible"
+      >
+        Lobby ID
+      </h2>
+    </div>
+    <div
+      className="d-flex justify-content-center row row-cols-md-8"
+    >
+      <h2
+        className="sc-gsDJrp ccXyhz p-4 text-center bg-light overflow-visible"
+      />
+    </div>
+  </div>
+  <div
+    className="container"
+  >
+    <div
+      className="col"
+    >
+      <div
+        className="d-flex justify-content-center pt-4 mb-4 px-4 mx-4 row row-cols-md-12"
+      >
+        <h2
+          className="sc-gsDJrp sc-dkPtyc ccXyhz kvDAwL p-4 mx-4 text-center bg-light overflow-visible"
+        >
+          Waiting ...
+        </h2>
+      </div>
+      <div
+        className="d-flex justify-content-center row row-cols-md-4"
+      >
+        <div
+          className="px-0 col-md-4"
+        >
+          <div
+            className="d-flex justify-content-center pt-4 mb-0 row row-cols-md-12"
+          >
+            <h4
+              className="text-center"
+            >
+              Volume
+            </h4>
+          </div>
+          <div
+            className="d-flex justify-content-center pt-4 mb-0 px-4 row row-cols-md-12"
+          >
+            <span
+              className="range-slider__wrap"
+            >
+              <input
+                className="range-slider range-slider--primary"
+                disabled={false}
+                max={100}
+                min={0}
+                onChange={[Function]}
+                onMouseUp={[Function]}
+                onTouchEnd={[Function]}
+                step={1}
+                type="range"
+                value={10}
+              />
+              <div
+                className="range-slider__tooltip range-slider__tooltip--auto range-slider__tooltip--bottom"
+                style={
+                  Object {
+                    "left": "calc(10% + 8px)",
+                  }
+                }
+              >
+                <div
+                  className="range-slider__tooltip__label"
+                >
+                  10
+                </div>
+                <div
+                  className="range-slider__tooltip__arrow"
+                />
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="fixed-bottom row"
+  >
+    <img
+      className="d-none d-md-block d-lg-block d-xl-block"
+      src="cat.gif"
+    />
+  </div>
+  <div
+    className="fixed-bottom d-flex justify-content-end  row"
+  >
+    <img
+      className="d-none d-md-block d-lg-block d-xl-block"
+      src="cat.gif"
+      style={
+        Object {
+          "transform": "scaleX(-1)",
+        }
+      }
+    />
+  </div>
+</div>
+`;

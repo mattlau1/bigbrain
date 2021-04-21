@@ -1,7 +1,95 @@
 /// <reference types="cypress" />
 
 describe('BigBrain', () => {
+  it('should display errors when required', () => {
+    const generateUser = () => Cypress._.random(0, 1e7);
+    const id = generateUser();
+    cy.visit('/');
+
+    // empty email, password on login form
+    cy.get('#formBasicemail').click();
+    cy.get('.w-100 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid email, empty password
+    cy.get('#formBasicemail').clear();
+    cy.get('#formBasicemail').type(id);
+    cy.get('.w-100 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid password, empty email
+    cy.get('#formBasicPassword').clear();
+    cy.get('#formBasicPassword').type(id + id);
+    cy.get('#formBasicemail').clear();
+    cy.get('.w-100 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // fully empty registration form
+    cy.get('#registerBtn').click();
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid email, rest empty
+    cy.get('.px-0 > .rounded > :nth-child(1)').click();
+    cy.get('#formBasicEmail').clear();
+    cy.get('#formBasicEmail').type(`${id}@gmail.com`);
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid name & email, empty password
+    cy.get('#formBasicName').clear();
+    cy.get('#formBasicName').type(id);
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // non matching passwords
+    cy.get('#formBasicPassword').clear();
+    cy.get('#formBasicPassword').type('a');
+    cy.get('#formBasicConfirmPassword').clear();
+    cy.get('#formBasicConfirmPassword').type('bb');
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // one empty password field
+    cy.get('#formBasicConfirmPassword').clear();
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    cy.get('#formBasicConfirmPassword').clear();
+    cy.get('#formBasicConfirmPassword').type('a');
+    cy.get('#formBasicPassword').click();
+    cy.get('.w-75 > .mt-2').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // valid sign up
+    cy.get('#formBasicConfirmPassword').click();
+    cy.get('#formBasicPassword').clear();
+    cy.get('#formBasicPassword').type('a');
+    cy.get('#formBasicConfirmPassword').clear();
+    cy.get('#formBasicConfirmPassword').type('a');
+    cy.get('.w-75 > .mt-2').click();
+    cy.url().should('include', '/dashboard');
+  });
+
   it('should work for the "happy path" of an admin', () => {
+    // Registers successfully
+    // Creates a new game successfully
+    // (Not required) Updates the thumbnail and name of the game successfully (yes, it will have no questions)
+    // Starts a game successfully
+    // Ends a game successfully (yes, no one will have played it)
+    // Loads the results page successfully
+    // Logs out of the application successfully
+    // Logs back into the application successfully
+
     const generateUser = () => Cypress._.random(0, 1e7);
     const id = generateUser();
 

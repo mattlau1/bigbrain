@@ -62,7 +62,7 @@ const Navigation = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav variant="pills" className="ml-auto" defaultActiveKey="/creategame">
-            <Nav.Link as={NavLink} to="/dashboard" className="mx-2 text-center">
+            <Nav.Link id="dashboard-btn" as={NavLink} to="/dashboard" className="mx-2 text-center">
               Dashboard
             </Nav.Link>
             <Nav.Link

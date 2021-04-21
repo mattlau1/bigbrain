@@ -167,7 +167,7 @@ const Dashboard = () => {
                         <Col md={3} className="px-0 my-1">
                           {/* redirects to edit page associated to the game */}
                           <Link to={`/edit/${game.id}`}>
-                            <Button className='mx-0 w-100' variant="primary">Edit</Button>
+                            <Button id="edit-game-btn" className='mx-0 w-100' variant="primary">Edit</Button>
                           </Link>
                         </Col>
                         <Col md={4} className="px-0 my-1">

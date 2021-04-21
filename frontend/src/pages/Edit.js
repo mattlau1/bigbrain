@@ -247,6 +247,7 @@ const Edit = () => {
               className='mx-1'
               variant="primary"
               onClick={addQuestion}
+              id="add-question-btn"
             >
               Add New Question
             </Button>
@@ -254,6 +255,7 @@ const Edit = () => {
             <Button
               className='mx-1'
               variant="success"
+              id="confirm-changes-btn"
               onClick={confirmChanges}
             >
               Confirm Changes

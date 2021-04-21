@@ -2,6 +2,19 @@
 
 describe('BigBrain', () => {
   it('should display errors when required', () => {
+    // empty email, password on login form
+    // valid email, empty password
+    // valid password, empty email
+    // fully empty registration form
+    // valid email, rest empty
+    // valid name & email, empty password
+    // non matching passwords
+    // one empty password field
+    // empty game name
+    // multiple choice question with single answer
+    // single choice question with multiple answers
+    // trying to add more than 6 questions
+
     const generateUser = () => Cypress._.random(0, 1e7);
     const id = generateUser();
     cy.visit('/');
@@ -108,6 +121,7 @@ describe('BigBrain', () => {
   });
 
   it('should work for the "happy path" of an admin', () => {
+    // The happy path:
     // Registers successfully
     // Creates a new game successfully
     // Starts a game successfully

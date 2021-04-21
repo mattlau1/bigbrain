@@ -23,7 +23,6 @@ const PreviousGamesButton = ({ gameId }) => {
       const res = await api.getAPIRequestToken('admin/quiz', token);
       const data = await res.json();
       if (res.ok) {
-        console.log(data)
         const currQuiz = data.quizzes.filter((quiz) => {
           return quiz.id === gameId;
         })

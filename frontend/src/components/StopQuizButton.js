@@ -4,7 +4,7 @@ import { useAlert } from '../contexts/AlertProvider';
 import API from '../utils/API';
 import PropTypes from 'prop-types'
 
-const StopQuizButton = ({ game, gameList, setGameList, handleShowStop, id }) => {
+const StopQuizButton = ({ game, setGameList, handleShowStop, id }) => {
   const dispatch = useAlert();
   const createAlert = (type, message) => {
     dispatch({
@@ -69,7 +69,6 @@ const StopQuizButton = ({ game, gameList, setGameList, handleShowStop, id }) => 
 
 StopQuizButton.propTypes = {
   game: PropTypes.object,
-  gameList: PropTypes.array,
   setGameList: PropTypes.func,
   handleShowStop: PropTypes.func,
   id: PropTypes.number

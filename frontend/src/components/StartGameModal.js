@@ -38,7 +38,6 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
     const api = new API();
 
     try {
-      console.log(gameId)
       const res = await api.getAPIRequestToken(`admin/session/${sessionId}/status`, token);
       const data = await res.json();
       if (res.ok) {
@@ -103,8 +102,6 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
         handleShowStop(sessionId);
       } else {
         createAlert('ERROR', 'There was a problem advancing to the next question');
-
-        console.log(data)
       }
     } catch (e) {
       createAlert('ERROR', 'An unexpected error has occurred');

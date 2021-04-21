@@ -56,10 +56,10 @@ const Navigation = () => {
             src={logo}
             className="d-inline-block align-top mr-2"
           />
-          <Brand>BigBrain</Brand>
+          <Brand id="brand-name">BigBrain</Brand>
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" id="nav-button"/>
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav variant="pills" className="ml-auto" defaultActiveKey="/creategame">
             <Nav.Link id="dashboard-btn" as={NavLink} to="/dashboard" className="mx-2 text-center">

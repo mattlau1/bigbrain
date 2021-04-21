@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alert should show a successful alert 1`] = `
+<div
+  className="alert-item d-none d-md-block d-lg-block d-xl-block error "
+>
+  <p
+    className="m-0 p-2"
+  />
+  <div
+    className="bar"
+    style={
+      Object {
+        "width": "0%",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Alert should show a successful alert with the right message 1`] = `
+<div
+  className="alert-item d-none d-md-block d-lg-block d-xl-block error "
+>
+  <p
+    className="m-0 p-2"
+  />
+  <div
+    className="bar"
+    style={
+      Object {
+        "width": "0%",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Alert should show an unsuccessful alert 1`] = `
+<div
+  className="alert-item d-none d-md-block d-lg-block d-xl-block error "
+>
+  <p
+    className="m-0 p-2"
+  />
+  <div
+    className="bar"
+    style={
+      Object {
+        "width": "0%",
+      }
+    }
+  />
+</div>
+`;
+
+exports[`Alert should show an unsuccessful alert with the right message 1`] = `
+<div
+  className="alert-item d-none d-md-block d-lg-block d-xl-block error "
+>
+  <p
+    className="m-0 p-2"
+  />
+  <div
+    className="bar"
+    style={
+      Object {
+        "width": "0%",
+      }
+    }
+  />
+</div>
+`;

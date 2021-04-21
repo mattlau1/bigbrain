@@ -170,7 +170,7 @@ const CreateGameModal = ({ show, handleClose, setGameList }) => {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button id="close-button" variant="secondary" onClick={handleClose}>
             Close
           </Button>
           <Button

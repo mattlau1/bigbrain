@@ -139,7 +139,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
           <p className="mb-1">Your Session ID is...</p>
           <SessionIDText className="text-center session-id">{sessionId}</SessionIDText>
           <div className="d-flex justify-content-center">
-            <Button className="my-1" onClick={() => { handleCopy(sessionId) }}>
+            <Button className="my-1" onClick={() => { handleCopy(sessionId) }} id="copy-button">
               Copy Session ID
             </Button>
           </div>
@@ -147,6 +147,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
             <Button
               className="my-1"
               onClick={() => openInNewTab(`${window.location.origin}/join?game=${sessionId}`)}
+              id="join-button"
             >
               Join Game
             </Button>
@@ -176,7 +177,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
           </Container>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose} id="close-button">
             Close
           </Button>
         </Modal.Footer>

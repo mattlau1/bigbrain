@@ -23,6 +23,7 @@ const StopGameModal = ({ show, handleClose, id }) => {
               variant="danger"
               className="mx-0 w-100 my-1"
               onClick={() => { handleClose() }}
+              id="no-click"
             >
               No
             </Button>
@@ -31,7 +32,7 @@ const StopGameModal = ({ show, handleClose, id }) => {
       </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleClose} id="close-button">
           Close
         </Button>
       </Modal.Footer>

@@ -1,43 +1,48 @@
 import Enzyme, { shallow } from 'enzyme';
 import React from 'react';
-// import renderer from 'react-test-renderer';
 import Alert from './Alert.js';
 import Adapter from 'enzyme-adapter-react-16';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('Alert', () => {
-  // making success alert
-  it('Standard success alert', () => {
+  it('should show a successful alert with the right message', () => {
     const wrapper = shallow(<Alert type='SUCCESS' message='This is a success'/>);
     const text = wrapper.find('div p');
     expect(text.text()).toBe('This is a success');
   })
 
-  // making error alert
-  it('Standard error alert', () => {
+  it('should show an unsuccessful alert with the right message', () => {
     const wrapper = shallow(<Alert type='ERROR' message='This is an error'/>);
     const text = wrapper.find('div p');
     expect(text.text()).toBe('This is an error');
   })
 
-  // customiszed text with success
-  it('custom text success', () => {
+  it('should show a successful alert', () => {
     const wrapper = shallow(<Alert type='SUCCESS' message='Cat says meow'/>);
-    const text = wrapper.find('div p');
-    expect(text.text()).toBe('Cat says meow');
+    expect(wrapper.hasClass('success')).toBe(true);
+    expect(wrapper.hasClass('error')).toBe(false);
   })
 
-  // customised text with error
-  it('custom text error', () => {
+  it('should show an unsuccessful alert', () => {
     const wrapper = shallow(<Alert type='ERROR' message='Dog says woof'/>);
-    const text = wrapper.find('div p');
-    expect(text.text()).toBe('Dog says woof');
+    expect(wrapper.hasClass('success')).toBe(false);
+    expect(wrapper.hasClass('error')).toBe(true);
   })
 
-  // passing in random type
-  it('custom type error', () => {
-    const wrapper = shallow(<Alert type='randomtype' message='becomes an error'/>);
-    const text = wrapper.find('div p');
-    expect(text.text()).toBe('becomes an error');
+  it('should try to exit after 4 seconds', () => {
+    const wrapper = shallow(<Alert type='SUCCESS' message='Hello world'/>);
+
+    // alert should apply a class 'exit' to itself and remove itself from
+    // the dom after 4 seconds have passed
+    setTimeout(() => {
+      expect(wrapper.hasClass('exit')).toEqual(true);
+    }, 4000);
+  })
+
+  it('should be closed after 4 seconds', () => {
+    const wrapper = shallow(<Alert type='SUCCESS' message='Hello'/>);
+    setTimeout(() => {
+      expect(wrapper.exists()).toBeFalsy();
+    }, 5001);
   })
 });

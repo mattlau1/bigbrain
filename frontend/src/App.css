@@ -37,7 +37,7 @@
     }
 }
 
-.alert-item.exit {
+.alert-item .exit {
     animation: SlideRight 0.4s;
     animation-fill-mode: forwards;
 }

@@ -1,18 +1,43 @@
-import Enzyme, { mount, shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import React from 'react';
-import Navigation from './Navigation'
-import Adapter from 'enzyme-adapter-react-16';
-Enzyme.configure({ adapter: new Adapter() });
+import Navigation from './Navigation';
+import renderer from 'react-test-renderer';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 describe('Navigation', () => {
-  // get the title of the app
-  it('render navbar components', () => {
-    shallow(<Navigation />);
+  it('should display BigBrain as the brand', () => {
+    const tree = renderer.create(<Router><Navigation /></Router>).toJSON();
+    const wrapper = shallow(<Navigation />);
+
+    expect(wrapper).toHaveLength(1);
+
+    // console.log(wrapper.find('.brand-name').debug())
+
+    const text = wrapper.find('#brand-name');
+    expect(text).toHaveLength(1);
+
+    expect(text.text()).toBe('BigBrain');
+
+    expect(tree).toMatchSnapshot();
   })
 
-  it('Get brand title', () => {
-    const wrapper = mount(<Navigation />);
-    const text = wrapper.find('Brand').debug();
-    expect(text.text()).toBe('Big Brain');
+  it('should display BigBrain as the brand', () => {
+    const tree = renderer.create(<Router><Navigation /></Router>).toJSON();
+    const wrapper = shallow(<Navigation />);
+
+    expect(wrapper).toHaveLength(1);
+
+    // console.log(wrapper.find('.brand-name').debug())
+
+    const button = wrapper.find('#dashboard-link');
+    expect(button).toHaveLength(1);
+
+    expect(button.hasClass('active')).toBeFalsy();
+
+    button.simulate('click');
+
+    expect(button.hasClass('active')).toBeTruthy();
+
+    expect(tree).toMatchSnapshot();
   })
 })

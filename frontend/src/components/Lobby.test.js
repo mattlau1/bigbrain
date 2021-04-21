@@ -1,13 +1,15 @@
-import Enzyme from 'enzyme';
-// import React from "react";
-// import Lobby from "./Lobby"
-import Adapter from 'enzyme-adapter-react-16';
-Enzyme.configure({ adapter: new Adapter() });
+import { shallow } from 'enzyme';
+import React from 'react';
+import Lobby from './Lobby';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 describe('Lobby', () => {
-  // passing params with generic id
-  it('Render lobby components', () => {
-    const foo = true;
-    expect(foo).toBe(true);
+  it('should not render volume control', () => {
+    const wrapper = shallow(<Router><Lobby /></Router>);
+    expect(wrapper.find('#volume-slider')).toHaveLength(0);
+  })
+
+  it('should render the lobby page', () => {
+    expect(shallow(<Router><Lobby /></Router>)).toEqual({});
   })
 })

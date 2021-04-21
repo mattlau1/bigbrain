@@ -15,7 +15,7 @@ const StopGameModal = ({ show, handleClose, id }) => {
         <Row>
           <Col md={6}>
             <Link to={`/results/${id}`}>
-              <Button className='mx-0 w-100 my-1'>Yes</Button>
+              <Button className='mx-0 w-100 my-1' id='yesClick'>Yes</Button>
             </Link>
           </Col>
           <Col md={6}>
@@ -23,6 +23,7 @@ const StopGameModal = ({ show, handleClose, id }) => {
               variant="danger"
               className="mx-0 w-100 my-1"
               onClick={() => { handleClose() }}
+              id='noClick'
             >
               No
             </Button>
@@ -31,7 +32,7 @@ const StopGameModal = ({ show, handleClose, id }) => {
       </Container>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="secondary" onClick={handleClose} id='closeButton'>
           Close
         </Button>
       </Modal.Footer>

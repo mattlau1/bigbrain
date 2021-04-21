@@ -30,6 +30,7 @@ exports[`Navigation should display BigBrain as the brand 1`] = `
     aria-controls="responsive-navbar-nav"
     aria-label="Toggle navigation"
     className="navbar-toggler collapsed"
+    id="navButton"
     onClick={[Function]}
     type="button"
   >
@@ -63,6 +64,232 @@ exports[`Navigation should display BigBrain as the brand 1`] = `
         data-rb-event-key={null}
         disabled={false}
         href="/"
+        id="signout-link"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Sign Out
+      </a>
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`Navigation should have dashboard button 1`] = `
+<nav
+  className="navbar navbar-expand-lg navbar-dark bg-dark"
+>
+  <a
+    className="d-flex align-items-center mx-2 navbar-brand"
+    href="/dashboard"
+    onClick={[Function]}
+  >
+    <img
+      className="d-inline-block align-top mr-2"
+      src="Logo.png"
+      style={
+        Object {
+          "height": 60,
+          "width": 60,
+        }
+      }
+    />
+    <span
+      className="sc-bdvvaa kgoOxA"
+      id="brand-name"
+    >
+      BigBrain
+    </span>
+  </a>
+  <button
+    aria-controls="responsive-navbar-nav"
+    aria-label="Toggle navigation"
+    className="navbar-toggler collapsed"
+    id="navButton"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="navbar-toggler-icon"
+    />
+  </button>
+  <div
+    aria-expanded={null}
+    className="navbar-collapse collapse"
+    id="responsive-navbar-nav"
+  >
+    <div
+      className="ml-auto navbar-nav nav-pills"
+      onKeyDown={[Function]}
+    >
+      <a
+        aria-current={null}
+        className="mx-2 text-center nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/dashboard"
+        id="dashboard-link"
+        onClick={[Function]}
+      >
+        Dashboard
+      </a>
+      <a
+        aria-current="page"
+        className="mx-2 text-center nav-link active"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/"
+        id="signout-link"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Sign Out
+      </a>
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`Navigation should have signout button 1`] = `
+<nav
+  className="navbar navbar-expand-lg navbar-dark bg-dark"
+>
+  <a
+    className="d-flex align-items-center mx-2 navbar-brand"
+    href="/dashboard"
+    onClick={[Function]}
+  >
+    <img
+      className="d-inline-block align-top mr-2"
+      src="Logo.png"
+      style={
+        Object {
+          "height": 60,
+          "width": 60,
+        }
+      }
+    />
+    <span
+      className="sc-bdvvaa kgoOxA"
+      id="brand-name"
+    >
+      BigBrain
+    </span>
+  </a>
+  <button
+    aria-controls="responsive-navbar-nav"
+    aria-label="Toggle navigation"
+    className="navbar-toggler collapsed"
+    id="navButton"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="navbar-toggler-icon"
+    />
+  </button>
+  <div
+    aria-expanded={null}
+    className="navbar-collapse collapse"
+    id="responsive-navbar-nav"
+  >
+    <div
+      className="ml-auto navbar-nav nav-pills"
+      onKeyDown={[Function]}
+    >
+      <a
+        aria-current={null}
+        className="mx-2 text-center nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/dashboard"
+        id="dashboard-link"
+        onClick={[Function]}
+      >
+        Dashboard
+      </a>
+      <a
+        aria-current="page"
+        className="mx-2 text-center nav-link active"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/"
+        id="signout-link"
+        onClick={[Function]}
+        style={Object {}}
+      >
+        Sign Out
+      </a>
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`Navigation should not have a collapsed navbar button 1`] = `
+<nav
+  className="navbar navbar-expand-lg navbar-dark bg-dark"
+>
+  <a
+    className="d-flex align-items-center mx-2 navbar-brand"
+    href="/dashboard"
+    onClick={[Function]}
+  >
+    <img
+      className="d-inline-block align-top mr-2"
+      src="Logo.png"
+      style={
+        Object {
+          "height": 60,
+          "width": 60,
+        }
+      }
+    />
+    <span
+      className="sc-bdvvaa kgoOxA"
+      id="brand-name"
+    >
+      BigBrain
+    </span>
+  </a>
+  <button
+    aria-controls="responsive-navbar-nav"
+    aria-label="Toggle navigation"
+    className="navbar-toggler collapsed"
+    id="navButton"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      className="navbar-toggler-icon"
+    />
+  </button>
+  <div
+    aria-expanded={null}
+    className="navbar-collapse collapse"
+    id="responsive-navbar-nav"
+  >
+    <div
+      className="ml-auto navbar-nav nav-pills"
+      onKeyDown={[Function]}
+    >
+      <a
+        aria-current={null}
+        className="mx-2 text-center nav-link"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/dashboard"
+        id="dashboard-link"
+        onClick={[Function]}
+      >
+        Dashboard
+      </a>
+      <a
+        aria-current="page"
+        className="mx-2 text-center nav-link active"
+        data-rb-event-key={null}
+        disabled={false}
+        href="/"
+        id="signout-link"
         onClick={[Function]}
         style={Object {}}
       >

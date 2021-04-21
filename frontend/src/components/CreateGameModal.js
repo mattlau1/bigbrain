@@ -78,13 +78,14 @@ const CreateGameModal = ({ setShow, show, handleClose, handleShow, gameList, set
                 type="text"
                 placeholder="Game Title"
                 onChange={(e) => setNewGameName(e.target.value)}
+                id='textInput'
             />
             </Modal.Body>
             <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button id='closeButton' variant="secondary" onClick={handleClose}>
                 Close
             </Button>
-            <Button variant="primary" type="submit" onClick={(e) => { createGame(e) } }>
+            <Button id='createButton' variant="primary" type="submit" onClick={(e) => { createGame(e) } }>
                 Create Game
             </Button>
             </Modal.Footer>

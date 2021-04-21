@@ -59,7 +59,7 @@ const Navigation = () => {
           <Brand id="brand-name">BigBrain</Brand>
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" id='navButton'/>
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav variant="pills" className="ml-auto" defaultActiveKey="/creategame">
             <Nav.Link as={NavLink} to="/dashboard" id="dashboard-link" className="mx-2 text-center">
@@ -73,6 +73,7 @@ const Navigation = () => {
               onClick={() => {
                 logOut();
               }}
+              id='signout-link'
             >
               Sign Out
             </Nav.Link>

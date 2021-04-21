@@ -1,4 +1,4 @@
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
 import Navigation from './Navigation';
 import renderer from 'react-test-renderer';
@@ -8,36 +8,35 @@ describe('Navigation', () => {
   it('should display BigBrain as the brand', () => {
     const tree = renderer.create(<Router><Navigation /></Router>).toJSON();
     const wrapper = shallow(<Navigation />);
-
     expect(wrapper).toHaveLength(1);
-
-    // console.log(wrapper.find('.brand-name').debug())
-
     const text = wrapper.find('#brand-name');
     expect(text).toHaveLength(1);
-
     expect(text.text()).toBe('BigBrain');
-
     expect(tree).toMatchSnapshot();
   })
 
-  it('should display BigBrain as the brand', () => {
+  it('should not have a collapsed navbar button', () => {
     const tree = renderer.create(<Router><Navigation /></Router>).toJSON();
     const wrapper = shallow(<Navigation />);
+    const navbar = wrapper.find('#navButton');
+    expect(navbar.hasClass('navbar-toggler collapsed')).toBeFalsy();
+    expect(wrapper.find('.show')).toHaveLength(0);
+    expect(tree).toMatchSnapshot();
+  })
 
-    expect(wrapper).toHaveLength(1);
+  it('should have dashboard button', () => {
+    const tree = renderer.create(<Router><Navigation /></Router>).toJSON();
+    const wrapper = shallow(<Navigation />);
+    const text = wrapper.find('#dashboard-link');
+    expect(text.text()).toBe('Dashboard');
+    expect(tree).toMatchSnapshot();
+  })
 
-    // console.log(wrapper.find('.brand-name').debug())
-
-    const button = wrapper.find('#dashboard-link');
-    expect(button).toHaveLength(1);
-
-    expect(button.hasClass('active')).toBeFalsy();
-
-    button.simulate('click');
-
-    expect(button.hasClass('active')).toBeTruthy();
-
+  it('should have signout button', () => {
+    const tree = renderer.create(<Router><Navigation /></Router>).toJSON();
+    const wrapper = shallow(<Navigation />);
+    const text = wrapper.find('#signout-link');
+    expect(text.text()).toBe('Sign Out');
     expect(tree).toMatchSnapshot();
   })
 })

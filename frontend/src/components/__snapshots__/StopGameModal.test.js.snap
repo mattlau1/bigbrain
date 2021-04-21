@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Stop Game Modal should have the close button 1`] = `null`;
+
+exports[`Stop Game Modal should have the no button 1`] = `null`;
+
+exports[`Stop Game Modal should have the question text 1`] = `null`;
+
+exports[`Stop Game Modal should have the yes button 1`] = `null`;
+
+exports[`Stop Game Modal should not appear without props 1`] = `null`;
+
+exports[`Stop Game Modal should render stop game modal 1`] = `null`;

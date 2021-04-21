@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create Game Modal should have any text if modal is not on display 1`] = `null`;
+
+exports[`Create Game Modal should have the close button 1`] = `null`;
+
+exports[`Create Game Modal should have the create game button 1`] = `null`;
+
+exports[`Create Game Modal should have the text input box 1`] = `null`;
+
+exports[`Create Game Modal should render create game modal component 1`] = `null`;

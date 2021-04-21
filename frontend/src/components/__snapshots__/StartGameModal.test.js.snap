@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Start Game Modal should have texts on the modal 1`] = `null`;
+
+exports[`Start Game Modal should have the close modal button 1`] = `null`;
+
+exports[`Start Game Modal should have the copy button 1`] = `null`;
+
+exports[`Start Game Modal should have the join game button 1`] = `null`;
+
+exports[`Start Game Modal should not appear without props 1`] = `null`;
+
+exports[`Start Game Modal should render start game modal 1`] = `null`;

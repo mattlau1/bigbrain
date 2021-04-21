@@ -63,27 +63,53 @@ describe('BigBrain', () => {
     cy.get('.alert-container > .error').should('exist');
     cy.wait(4100)
 
+    // valid sign up
+    cy.get('#formBasicPassword').clear();
+    cy.get('#formBasicPassword').type(id);
+    cy.get('#formBasicConfirmPassword').click();
     cy.get('#formBasicConfirmPassword').clear();
-    cy.get('#formBasicConfirmPassword').type('a');
-    cy.get('#formBasicPassword').click();
+    cy.get('#formBasicConfirmPassword').type(id);
     cy.get('.w-75 > .mt-2').click();
+
+    // empty game name
+    cy.get('#create-game-button').click();
+    cy.get('#create-button').click();
     cy.get('.alert-container > .error').should('exist');
     cy.wait(4100)
 
-    // valid sign up
-    cy.get('#formBasicConfirmPassword').click();
-    cy.get('#formBasicPassword').clear();
-    cy.get('#formBasicPassword').type('a');
-    cy.get('#formBasicConfirmPassword').clear();
-    cy.get('#formBasicConfirmPassword').type('a');
-    cy.get('.w-75 > .mt-2').click();
-    cy.url().should('include', '/dashboard');
+    // valid game creation
+    cy.get('#game-title-input').clear();
+    cy.get('#game-title-input').type('javascript');
+    cy.get('#create-button').click();
+    cy.get('#edit-game-btn').click();
+    cy.get('.ml-1').click();
+    cy.get('#add-question-btn').click();
+    cy.get('a > .mx-1').click();
+
+    // multiple choice question with single answer
+    cy.get('.btn-group > :nth-child(2)').click();
+    cy.get('.my-5').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // single choice question with multiple answers
+    cy.get('.btn-group > :nth-child(1)').click();
+    cy.get(':nth-child(2) > .card > .card-body > .row > .col-md-10 > .d-inline > .form-check-input').check();
+    cy.get('.my-5').click();
+    cy.get('.btn-group > :nth-child(2)').click();
+    cy.get('.alert-container > .error').should('exist');
+    cy.wait(4100)
+
+    // trying to add more than 6 questions
+    for (let i = 0; i < 10; i++) {
+      cy.get('.justify-content-start.text-center > .col-md-2 > .btn').click();
+    }
+    cy.get('.alert-container > .error').should('exist');
   });
 
   it('should work for the "happy path" of an admin', () => {
     // Registers successfully
     // Creates a new game successfully
-    // (Not required) Updates the thumbnail and name of the game successfully (yes, it will have no questions)
     // Starts a game successfully
     // Ends a game successfully (yes, no one will have played it)
     // Loads the results page successfully

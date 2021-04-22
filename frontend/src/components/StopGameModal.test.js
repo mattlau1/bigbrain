@@ -8,6 +8,9 @@ describe('Stop Game Modal', () => {
     const tree = renderer.create(<StopGameModal />).toJSON();
     const wrapper = shallow(<StopGameModal />);
     expect(wrapper).toHaveLength(1);
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 
@@ -16,6 +19,9 @@ describe('Stop Game Modal', () => {
     const wrapper = shallow(<StopGameModal />);
     const text = wrapper.find('h4');
     expect(text.text()).toBe('Would you like to view the results?');
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 
@@ -24,6 +30,9 @@ describe('Stop Game Modal', () => {
     const wrapper = shallow(<StopGameModal />);
     const text = wrapper.find('#view-results-btn');
     expect(text.text()).toBe('Yes');
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 
@@ -32,6 +41,9 @@ describe('Stop Game Modal', () => {
     const wrapper = shallow(<StopGameModal />);
     const text = wrapper.find('#no-click');
     expect(text.text()).toBe('No');
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 
@@ -40,6 +52,9 @@ describe('Stop Game Modal', () => {
     const wrapper = shallow(<StopGameModal />);
     const text = wrapper.find('#close-button');
     expect(text.text()).toBe('Close');
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 
@@ -47,9 +62,14 @@ describe('Stop Game Modal', () => {
     const tree = renderer.create(<StopGameModal />).toJSON();
     const wrapper = shallow(<StopGameModal />);
     const button = wrapper.find('#close-button');
+
+    // click close button
     button.simulate('click');
     const modal = shallow(<StopGameModal />);
     expect(modal).toHaveLength(1);
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 })

@@ -12,6 +12,9 @@ describe('Navigation', () => {
     const text = wrapper.find('#brand-name');
     expect(text).toHaveLength(1);
     expect(text.text()).toBe('BigBrain');
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 
@@ -21,6 +24,9 @@ describe('Navigation', () => {
     const navbar = wrapper.find('#nav-button');
     expect(navbar.hasClass('navbar-toggler collapsed')).toBeFalsy();
     expect(wrapper.find('.show')).toHaveLength(0);
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 
@@ -29,6 +35,9 @@ describe('Navigation', () => {
     const wrapper = shallow(<Navigation />);
     const text = wrapper.find('#dashboard-btn');
     expect(text.text()).toBe('Dashboard');
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 
@@ -37,6 +46,9 @@ describe('Navigation', () => {
     const wrapper = shallow(<Navigation />);
     const text = wrapper.find('#logout-btn');
     expect(text.text()).toBe('Sign Out');
+
+    // ensure that there are no changes to the component after test
+    // (before/after is the same)
     expect(tree).toMatchSnapshot();
   })
 })

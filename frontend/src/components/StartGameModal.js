@@ -21,6 +21,10 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
   const [playerList, setPlayerList] = useState([]);
 
   const dispatch = useAlert();
+
+  // creates and displays an alert
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -28,11 +32,14 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
     })
   }
 
+  // copies text to clipboard
+  /** @param {String} text */
   const handleCopy = (text) => {
     navigator.clipboard.writeText(text);
     createAlert('SUCCESS', 'Session ID copied to clipboard');
   }
 
+  // updates position of quiz
   const updatePosition = async () => {
     const token = localStorage.getItem('token');
     const api = new API();
@@ -57,6 +64,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
     }
   }
 
+  // advances to the next question in a quiz
   const handleAdvance = async () => {
     const token = localStorage.getItem('token');
     const api = new API();
@@ -129,7 +137,7 @@ const StartGameModal = ({ show, handleClose, sessionId, gameId, handleShowStop, 
     <Modal show={show} onHide={handleClose} size="lg">
       <Form>
         <Modal.Header closeButton>
-        <Modal.Title>Share Game</Modal.Title>
+          <Modal.Title>Share Game</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p className="mb-1">Your Session ID is...</p>

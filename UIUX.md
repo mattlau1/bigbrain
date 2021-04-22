@@ -11,5 +11,5 @@
 - Consistent colour scheme across the entire web app
 - Good amount of contrast between background and font colour for every element
 - Links and buttons are easily identifiable
-- Buttons and input fields have labels and/or placeholders
+- Buttons and input fields have labels and/or placeholder text
 - All images have an alt text

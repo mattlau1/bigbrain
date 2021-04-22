@@ -5,7 +5,7 @@
 - Admins are easily able to navigate back to the dashboard from any admin page through the navbar
 - Admin dashboard is completely usable without a mouse
 - App is mobile friendly
-- App uses grid system to ensure that content is near the center of the screen
+- App uses grid system to ensure that content is near the center of the screen and is properly aligned
 
 ## Accessibility
 - Consistent colour scheme across the entire web app

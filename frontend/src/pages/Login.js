@@ -10,10 +10,10 @@ import { useAlert } from '../contexts/AlertProvider';
 import styled from 'styled-components';
 
 const CenteredLoginRow = styled(Row)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 `
 
 const Login = () => {
@@ -35,17 +35,19 @@ const Login = () => {
 
   // collects user details from input and get authorised
   const postLoginInfo = async () => {
+    // user submitted with empty email
     if (!email) {
-      // user submitted with empty email
       createAlert('ERROR', 'Your email cannot be empty')
       return;
     }
+
+    // user submitted empty password
     if (!password) {
-      // user submitted empty password
       createAlert('ERROR', 'Your password cannot be empty')
       return;
     }
 
+    // http request body
     const body = {
       email: email,
       password: password,

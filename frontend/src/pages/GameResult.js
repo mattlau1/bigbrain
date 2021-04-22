@@ -36,7 +36,6 @@ const SmallText = styled(MediumText)`
   }
 `
 
-// display game result to show user's performances
 const GameResult = () => {
   // get props from the previous components using locations
   const location = useLocation();

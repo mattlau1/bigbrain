@@ -77,7 +77,7 @@ const EditQuestion = () => {
   }
 
   // user deselects correct option to the question
-  /** @param {Integer} aId */
+  /** @param {Number} aId */
   const removeAnswer = (aId) => {
     if (correctAnswers.includes(aId)) {
       // removing correct option from the list

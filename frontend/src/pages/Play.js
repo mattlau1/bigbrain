@@ -6,7 +6,6 @@ import Lobby from '../components/Lobby';
 import styled from 'styled-components';
 import { useHistory, useLocation } from 'react-router';
 
-// premade style for this component
 const WhiteH1 = styled.h1`
   color: white;
   font-family: 'Montserrat', sans-serif;
@@ -27,7 +26,7 @@ const QuestionText = styled.p`
   font-family: 'Montserrat', sans-serif;
   color: white;
 `
-// main code for the component
+
 const Play = () => {
   const location = useLocation();
   const [questionText, setQuestionText] = useState('');
@@ -72,6 +71,7 @@ const Play = () => {
     // update the user's point based on the countdown
     setCurrentPoint(point);
 
+    // http request body
     const body = {
       answerIds: answerList,
     }

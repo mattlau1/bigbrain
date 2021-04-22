@@ -47,24 +47,25 @@ const Join = () => {
 
   // User submit details to join the game session
   const joinSession = async () => {
+    // user submitted with empty name
     if (!user) {
-      // user submitted with empty name
       createAlert('ERROR', 'Your name cannot be empty')
       return;
     }
 
+    // user cannot have very long names
     if (user.length >= maxNameLength) {
-      // user cannot have very long names
       createAlert('ERROR', `Your name cannot longer than ${maxNameLength} characters`)
       return;
     }
 
+    // user submitted with empty session id
     if (!sessionId) {
-      // user submitted with empty session id
       createAlert('ERROR', 'Your session ID cannot be empty')
       return;
     }
 
+    // http request body
     const body = {
       name: user
     };
@@ -86,8 +87,8 @@ const Join = () => {
     }
   }
 
+  // load session id from query string if it exists
   useEffect(() => {
-    // load session id from query string if it exists
     const parsed = queryString.parse(location.search);
     parsed.game && setSessionId(parsed.game)
   }, [])

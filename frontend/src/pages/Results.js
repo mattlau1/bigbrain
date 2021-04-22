@@ -25,7 +25,6 @@ const Results = () => {
   const { sessionId } = useParams();
   const [results, setResults] = useState([])
   const [chartData, setChartData] = useState([]);
-  // display top 5 users in the game
   const maxWinners = 5;
 
   useEffect(() => {
@@ -126,9 +125,6 @@ const Results = () => {
               </BarChart>
             </ResponsiveContainer>
           </Col>
-        </Row>
-        <Row>
-          <Col></Col>
         </Row>
       </Container>
     </>

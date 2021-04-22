@@ -60,7 +60,7 @@ const Edit = () => {
   }
 
   // remove the question off from the game
-  /** @param {Integer} qId */
+  /** @param {Number} qId */
   const removeQuestion = (qId) => {
     setQuestions(questions.filter(question => question.id !== qId))
   }

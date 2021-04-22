@@ -10,10 +10,10 @@ import { useAlert } from '../contexts/AlertProvider';
 import styled from 'styled-components';
 
 const CenteredRegisteredRow = styled(Row)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 `;
 
 const Register = () => {

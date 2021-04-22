@@ -37,7 +37,7 @@ const Dashboard = () => {
   const handleShowCreate = () => setShowCreate(true);
 
   // display stop button after starting a game
-  /** @param {Integer} id */
+  /** @param {Number} id */
   const handleShowStop = (id) => {
     setCurrSessionId(id);
     setShowStop(true);
@@ -48,8 +48,8 @@ const Dashboard = () => {
   const handleCloseStart = () => setShowStart(false);
 
   // display start modal
-  /** @param {Integer} gameId */
-  /** @param {Integer} sessionId */
+  /** @param {Number} gameId */
+  /** @param {Number} sessionId */
   const handleShowStart = (gameId, sessionId) => {
     setCurrSessionId(sessionId);
     setCurrGameId(gameId)

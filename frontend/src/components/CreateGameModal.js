@@ -8,6 +8,9 @@ const CreateGameModal = ({ show, handleClose, setGameList }) => {
   const [newGameName, setNewGameName] = useState('');
   const dispatch = useAlert();
 
+  // creates and displays an alert
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,

@@ -206,7 +206,7 @@ describe('BigBrain', () => {
     cy.get('.alert-container > .error').should('exist');
     cy.wait(4100)
 
-    // valid game creation
+    // valid game creation, move to edit question
     cy.get('#game-title-input').clear();
     cy.get('#game-title-input').type('javascript');
     cy.get('#create-button').click();
@@ -214,20 +214,6 @@ describe('BigBrain', () => {
     cy.get('.ml-1').click();
     cy.get('#add-question-btn').click();
     cy.get('a > .mx-1').click();
-
-    // multiple choice question with single answer
-    cy.get('.btn-group > :nth-child(2)').click();
-    cy.get('.my-5').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
-
-    // single choice question with multiple answers
-    cy.get('.btn-group > :nth-child(1)').click();
-    cy.get(':nth-child(2) > .card > .card-body > .row > .col-md-10 > .d-inline > .form-check-input').check();
-    cy.get('.my-5').click();
-    cy.get('.btn-group > :nth-child(2)').click();
-    cy.get('.alert-container > .error').should('exist');
-    cy.wait(4100)
 
     // trying to add more than 6 questions
     for (let i = 0; i < 10; i++) {

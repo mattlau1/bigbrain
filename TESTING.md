@@ -25,7 +25,6 @@
 8. Click on edit button for newly created game
 9. Add a new question
 10. Edit newly added question
-11. Attempt to edit question that is multiple choice with a single answer or a question that is single choice with multiple answers
-12. Try to add more than 6 questions total
+11. Try to add more than 6 questions total
 
-- note: steps 2,4,6,11,12 should check for the existence of an error alert after execution of step
+- note: steps 2,4,6,11 should check for the existence of an error alert after execution of step

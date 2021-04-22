@@ -9,6 +9,10 @@ const PreviousGamesButton = ({ gameId }) => {
   const [previousGames, setPreviousGames] = useState([]);
 
   const dispatch = useAlert();
+
+  // creates and displays an alert
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -16,6 +20,7 @@ const PreviousGamesButton = ({ gameId }) => {
     })
   }
 
+  // get the previous session associated to theg ame
   const getPreviousGames = async () => {
     const token = localStorage.getItem('token');
     const api = new API();

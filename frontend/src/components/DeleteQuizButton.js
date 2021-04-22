@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
 
 const DeleteQuizButton = ({ gameList, setGameList, gameId }) => {
   const dispatch = useAlert();
+
+  // pop up messages if errors got encountered
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -13,6 +17,8 @@ const DeleteQuizButton = ({ gameList, setGameList, gameId }) => {
     })
   }
 
+  // remove the game off from the dashboard
+  /** @param {Number} id */
   const deleteGame = async (id) => {
     const token = localStorage.getItem('token');
     const api = new API();

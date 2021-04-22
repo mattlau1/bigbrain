@@ -17,6 +17,9 @@ const Navigation = () => {
   const dispatch = useAlert();
   const api = new API();
 
+  // pop up messages if errors got encountered
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -24,6 +27,7 @@ const Navigation = () => {
     })
   }
 
+  // log the user out of the dashboard
   const logOut = async () => {
     try {
       // we want users to be logged out on the client side

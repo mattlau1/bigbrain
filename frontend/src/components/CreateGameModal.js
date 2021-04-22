@@ -18,6 +18,8 @@ const CreateGameModal = ({ show, handleClose, setGameList }) => {
     })
   }
 
+  // create a game by uploading a game file
+  /** @param {Object} quiz */
   const uploadGame = async (quiz) => {
     try {
       const token = localStorage.getItem('token');

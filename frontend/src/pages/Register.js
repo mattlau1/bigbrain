@@ -6,8 +6,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link, useHistory } from 'react-router-dom';
-import CenteredRow from '../components/CenteredRow';
 import { useAlert } from '../contexts/AlertProvider';
+import styled from 'styled-components';
+
+const CenteredRegisteredRow = styled(Row)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+`;
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -76,7 +83,7 @@ const Register = () => {
 
   return (
     <Container md={12} className="rounded justify-content-center align-items-center">
-      <CenteredRow>
+      <CenteredRegisteredRow>
         <Row className="w-100 rounded">
           <Col md={12} className="w-100 px-0 py-2 rounded">
             <Form className="rounded border border-dark p-4 mx-4">
@@ -157,7 +164,7 @@ const Register = () => {
             </Form>
           </Col>
         </Row>
-      </CenteredRow>
+      </CenteredRegisteredRow>
     </Container>
   );
 }

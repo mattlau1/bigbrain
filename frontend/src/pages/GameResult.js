@@ -4,7 +4,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import CenteredRow from '../components/CenteredRow';
 import { Button, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
@@ -20,6 +19,13 @@ const MediumText = styled.h2`
   }
 `
 
+const CenteredGameResultRow = styled(Row)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+`
+
 const SmallText = styled(MediumText)`
   font-size: 24pt;
   margin-bottom: 20px;
@@ -29,6 +35,7 @@ const SmallText = styled(MediumText)`
     font-size: 20pt;
   }
 `
+
 // display game result to show user's performances
 const GameResult = () => {
   // get props from the previous components using locations
@@ -41,7 +48,7 @@ const GameResult = () => {
   return (
     <Container style={{ backgroundColor: '#44A3E5' }} fluid>
       <Container>
-        <CenteredRow md={12}>
+        <CenteredGameResultRow md={12}>
           <Col>
             <Card>
               <Card.Header>
@@ -67,7 +74,7 @@ const GameResult = () => {
               </Card.Body>
             </Card>
           </Col>
-        </CenteredRow>
+        </CenteredGameResultRow>
       </Container>
 
       <Modal show={show} onHide={handleClose}>

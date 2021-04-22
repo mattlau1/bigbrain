@@ -5,7 +5,6 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import CenteredRow from '../components/CenteredRow';
 import { useAlert } from '../contexts/AlertProvider';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -19,6 +18,13 @@ const JoinFormContainer = styled(Container)`
 
 const HeadingText = styled.h1`
   font-weight: 700;
+`
+
+const CenteredJoinRow = styled(Row)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 `
 
 const Join = () => {
@@ -86,7 +92,7 @@ const Join = () => {
 
   return (
     <JoinFormContainer md={12} className="justify-content-center align-items-center" fluid>
-      <CenteredRow>
+      <CenteredJoinRow>
         <Row className="w-100 rounded justify-content-center">
           <Col md={12} className="w-100 px-0 mx-0 rounded ">
             <Form className="formContainer rounded p-4">
@@ -140,7 +146,7 @@ const Join = () => {
             </Form>
           </Col>
         </Row>
-      </CenteredRow>
+      </CenteredJoinRow>
     </JoinFormContainer>
   )
 }

@@ -6,8 +6,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link, useHistory } from 'react-router-dom';
-import CenteredRow from '../components/CenteredRow';
 import { useAlert } from '../contexts/AlertProvider';
+import styled from 'styled-components';
+
+const CenteredLoginRow = styled(Row)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+`
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -62,7 +69,7 @@ const Login = () => {
 
   return (
     <Container md={12} className="justify-content-center align-items-center">
-      <CenteredRow>
+      <CenteredLoginRow>
         <Row className="w-100 rounded justify-content-center">
           <Col md={12} className="w-100 px-0 mx-0 rounded">
             <Form className="formContainer rounded border border-dark p-4 mx-4">
@@ -122,7 +129,7 @@ const Login = () => {
             </Form>
           </Col>
         </Row>
-      </CenteredRow>
+      </CenteredLoginRow>
     </Container>
   );
 }

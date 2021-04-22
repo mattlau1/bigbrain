@@ -8,6 +8,7 @@ const Alert = props => {
   const tickSpeed = 20
   const maxTime = 400
 
+  // starts the timer for alert
   const handleStartTimer = () => {
     const id = setInterval(() => {
       setProgress(prev => {

@@ -19,6 +19,8 @@ const Edit = () => {
   const dispatch = useAlert();
 
   // pop up messages if errors got encountered
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -58,11 +60,13 @@ const Edit = () => {
   }
 
   // remove the question off from the game
+  /** @param {Integer} qId */
   const removeQuestion = (qId) => {
     setQuestions(questions.filter(question => question.id !== qId))
   }
 
   // user uploaded the thumbnail for the game
+  /** @param {Object} e */
   const uploadImage = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -80,6 +84,7 @@ const Edit = () => {
   };
 
   // convert the uploaded image into base64 URL
+  /** @param {Object} file */
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();

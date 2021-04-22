@@ -30,6 +30,8 @@ const EditQuestion = () => {
   const dispatch = useAlert();
 
   // pop up messages if errors got encountered
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -75,6 +77,7 @@ const EditQuestion = () => {
   }
 
   // user deselects correct option to the question
+  /** @param {Integer} aId */
   const removeAnswer = (aId) => {
     if (correctAnswers.includes(aId)) {
       // removing correct option from the list
@@ -87,6 +90,7 @@ const EditQuestion = () => {
   }
 
   // user either uploads a video or an image
+  /** @param {Object} e */
   const uploadFile = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -111,6 +115,7 @@ const EditQuestion = () => {
   };
 
   // after uploading video, make it visible
+  /** @param {String} src */
   const displayVideo = (src) => {
     if (!src) return;
     setHeight(360);
@@ -118,6 +123,7 @@ const EditQuestion = () => {
   }
 
   // convert the question thumbnail to base 64 URL
+  /** @param {Object} file */
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -135,6 +141,7 @@ const EditQuestion = () => {
   };
 
   // user select or deselect options
+  /** @param {Object} option */
   const changeCorrectAnswer = (option) => {
     if (!correctAnswers.includes(option.id)) {
       correctAnswers.push(option.id)
@@ -220,6 +227,7 @@ const EditQuestion = () => {
   }
 
   // update the details of the question
+  /** @param {Object} newBody */
   const saveChanges = async (newBody) => {
     const token = localStorage.getItem('token');
     const api = new API();

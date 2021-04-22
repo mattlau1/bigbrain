@@ -58,6 +58,7 @@ const Play = () => {
   const api = new API();
 
   // automatically update user's answer when they select an option
+  /** @param {Object} option */
   const changeCorrectAnswer = async (option) => {
     if (!answerList.includes(option.id)) {
       // user may have multiple correct answers
@@ -84,6 +85,7 @@ const Play = () => {
   }
 
   // question contains a video otherwise show picture or none
+  /** @param {String} src */
   const displayVideo = (src) => {
     if (!src) {
       setHeight(0);

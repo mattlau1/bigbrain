@@ -24,6 +24,8 @@ const Login = () => {
   const api = new API();
 
   // pop up messages if errors got encountered
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,

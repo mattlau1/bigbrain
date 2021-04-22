@@ -18,11 +18,13 @@ const Dashboard = () => {
   const [showCreate, setShowCreate] = useState(false);
   const [showStart, setShowStart] = useState(false);
   const [showStop, setShowStop] = useState(false);
-  const [currSessionId, setCurrSessionId] = useState(0)
-  const [currGameId, setCurrGameId] = useState(0)
+  const [currSessionId, setCurrSessionId] = useState(0);
+  const [currGameId, setCurrGameId] = useState(0);
+  const dispatch = useAlert();
 
   // pop up messages if errors got encountered
-  const dispatch = useAlert();
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -33,8 +35,10 @@ const Dashboard = () => {
   // create game modal pops up if user clicks on create new game
   const handleCloseCreate = () => setShowCreate(false);
   const handleShowCreate = () => setShowCreate(true);
+
+  // display stop button after starting a game
+  /** @param {Integer} id */
   const handleShowStop = (id) => {
-    // display stop button after starting a game
     setCurrSessionId(id);
     setShowStop(true);
   };
@@ -42,6 +46,10 @@ const Dashboard = () => {
   // display various button based on user's action with hooks
   const handleCloseStop = () => setShowStop(false);
   const handleCloseStart = () => setShowStart(false);
+
+  // display start modal
+  /** @param {Integer} gameId */
+  /** @param {Integer} sessionId */
   const handleShowStart = (gameId, sessionId) => {
     setCurrSessionId(sessionId);
     setCurrGameId(gameId)
@@ -49,6 +57,7 @@ const Dashboard = () => {
   }
 
   // calculate total length of time to complete the game
+  /** @param {Object} questions */
   const getCompletionTime = (questions) => {
     return questions.reduce((prev, current) => {
       return prev + current.time_limit;

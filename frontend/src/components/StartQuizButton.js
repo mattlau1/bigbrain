@@ -6,6 +6,10 @@ import PropTypes from 'prop-types'
 
 const StartQuizButton = ({ game, setGameList }) => {
   const dispatch = useAlert();
+
+  // creates and displays an alert
+  /** @param {String} type */
+  /** @param {String} message */
   const createAlert = (type, message) => {
     dispatch({
       type: type,
@@ -13,6 +17,7 @@ const StartQuizButton = ({ game, setGameList }) => {
     })
   }
 
+  // starts a game and refreshes game list
   const startGame = async () => {
     const token = localStorage.getItem('token');
     const api = new API();
@@ -55,6 +60,7 @@ const StartQuizButton = ({ game, setGameList }) => {
       console.warn(e);
     }
   }
+
   return (
     <Button className='mx-0 w-100' variant="primary" onClick={() => startGame()}>Start</Button>
   )
